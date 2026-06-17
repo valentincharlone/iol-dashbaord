@@ -1,0 +1,3671 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InvertirOnLine API v2 — Documentación</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f1117; color: #e2e8f0; }
+    a { color: #63b3ed; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .sidebar { position: fixed; top: 0; left: 0; width: 240px; height: 100vh; background: #1a1d2e; overflow-y: auto; padding: 20px 0; border-right: 1px solid #2d3148; z-index: 100; }
+    .sidebar-logo { padding: 0 20px 20px; border-bottom: 1px solid #2d3148; margin-bottom: 16px; }
+    .sidebar-logo h1 { font-size: 16px; color: #fff; }
+    .sidebar-logo span { font-size: 12px; color: #718096; }
+    .sidebar ul { list-style: none; }
+    .sidebar ul li a { display: block; padding: 8px 20px; color: #a0aec0; font-size: 14px; transition: all 0.2s; }
+    .sidebar ul li a:hover { background: #2d3148; color: #fff; text-decoration: none; }
+
+    .main { margin-left: 240px; padding: 40px; max-width: 1100px; }
+    
+    .hero { background: linear-gradient(135deg, #1e3a5f, #1a2744); border-radius: 12px; padding: 40px; margin-bottom: 40px; border: 1px solid #2d4a7a; }
+    .hero h1 { font-size: 32px; color: #fff; margin-bottom: 8px; }
+    .hero p { color: #90cdf4; margin-bottom: 6px; }
+    .badge { display: inline-block; background: #2b6cb0; color: #bee3f8; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-right: 8px; }
+    .badge.warn { background: #744210; color: #fefcbf; }
+
+    section { margin-bottom: 48px; }
+    section h2 { font-size: 22px; color: #fff; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #2d3148; }
+
+    .endpoint { background: #1a1d2e; border: 1px solid #2d3148; border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+    .endpoint-header { display: flex; align-items: center; padding: 14px 20px; gap: 12px; cursor: pointer; flex-wrap: wrap; }
+    .endpoint-header:hover { background: #20243a; }
+    .method-badge { padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: 700; color: #fff; min-width: 70px; text-align: center; }
+    .endpoint-path { font-family: 'Courier New', monospace; font-size: 15px; color: #e2e8f0; flex: 1; }
+    .operation-id { font-size: 12px; color: #718096; }
+    .endpoint-body { padding: 20px; border-top: 1px solid #2d3148; }
+
+    h5 { color: #90cdf4; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin: 16px 0 8px; }
+    .no-params { color: #718096; font-style: italic; font-size: 14px; }
+
+    .params-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 12px; }
+    .params-table th { text-align: left; padding: 8px 12px; background: #0f1117; color: #718096; font-weight: 600; font-size: 12px; text-transform: uppercase; }
+    .params-table td { padding: 8px 12px; border-bottom: 1px solid #2d3148; vertical-align: top; }
+    .params-table tr:last-child td { border-bottom: none; }
+    .prop-name { font-family: monospace; color: #e2e8f0; }
+    .prop-type { color: #68d391; font-family: monospace; font-size: 13px; }
+    .required { color: #fc8181; font-weight: bold; }
+    .param-in { background: #2d3748; padding: 2px 8px; border-radius: 4px; font-size: 11px; color: #a0aec0; }
+    .enum-val { background: #2d3748; color: #fbd38d; padding: 1px 6px; border-radius: 3px; font-size: 11px; margin: 2px; display: inline-block; }
+    .model-link { color: #68d391; font-family: monospace; }
+    .inline-fields { margin-top: 8px; padding-left: 16px; list-style: none; font-size: 12px; color: #a0aec0; }
+    .inline-fields li { margin-bottom: 3px; }
+    .enum-cell { max-width: 300px; }
+
+    .curl-example { background: #0f1117; border: 1px solid #2d3148; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 12px; color: #68d391; white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+
+    .model { background: #1a1d2e; border: 1px solid #2d3148; border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+    .model h4 { color: #fff; margin-bottom: 12px; font-size: 16px; }
+
+    .auth-box { background: #1a2744; border: 1px solid #2d4a7a; border-radius: 10px; padding: 20px; margin-bottom: 32px; }
+    .auth-box h3 { color: #90cdf4; margin-bottom: 10px; }
+    .auth-box code { background: #0f1117; padding: 10px 16px; display: block; border-radius: 6px; font-family: monospace; color: #68d391; margin-top: 10px; }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <h1>🏦 IOL API v2</h1>
+    <span>InvertirOnLine</span>
+  </div>
+  <ul>
+    <li><a href="#auth">🔐 Autenticación</a></li>
+    <li><a href="#section-Asesores">Asesores</a></li><li><a href="#section-AsesoresOperar">AsesoresOperar</a></li><li><a href="#section-AsesoresTestInversor">AsesoresTestInversor</a></li><li><a href="#section-MiCuenta">MiCuenta</a></li><li><a href="#section-Notificacion">Notificacion</a></li><li><a href="#section-Operar">Operar</a></li><li><a href="#section-OperatoriaSimplificada">OperatoriaSimplificada</a></li><li><a href="#section-Perfil">Perfil</a></li><li><a href="#section-Titulos">Titulos</a></li>
+    <li><a href="#models">📦 Modelos</a></li>
+  </ul>
+</nav>
+
+<main class="main">
+  <div class="hero">
+    <h1>InvertirOnLine API</h1>
+    <p><span class="badge">v2</span><span class="badge">REST</span><span class="badge warn">⚠ Entorno REAL</span></p>
+    <p style="margin-top:12px;color:#a0aec0">Base URL: <code style="color:#68d391">https://api.invertironline.com</code></p>
+    <p style="color:#a0aec0;margin-top:6px;font-size:14px">Documentación completa de todos los endpoints disponibles en la API pública de InvertirOnLine. Todas las operaciones afectan el entorno real de inversión.</p>
+  </div>
+
+  <div class="auth-box" id="auth">
+    <h3>🔐 Autenticación</h3>
+    <p>Todos los endpoints requieren un <strong>Bearer Token</strong> enviado en el header HTTP. El token tiene una validez de <strong>15 minutos</strong> y se renueva con el refresh token.</p>
+    <code>Authorization: Bearer {tu_access_token}</code>
+    <p style="margin-top:12px;font-size:13px;color:#718096">Para activar el acceso: <strong>Mi Cuenta → Personalización → APIs</strong></p>
+  </div>
+
+  <section id="section-Asesores">
+    <h2>📂 Asesores</h2>
+    <div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#49cc90">POST</span>
+        <span class="endpoint-path">/api/v2/Asesor/Movimientos</span>
+        <span class="operation-id">Asesores_MovimientosHistoricos</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>📝 Body Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>requestModel</code> <span class="required">*</span></td>
+        <td><span class="param-in">body</span></td>
+        <td><a href="#model-MovementBindingModel" class="model-link">MovementBindingModel</a><ul class="inline-fields"><li><code>clientes</code>: array</li><li><code>from</code> <span class="required">*</span>: string</li><li><code>to</code> <span class="required">*</span>: string</li><li><code>dateType</code> <span class="required">*</span>: string</li><li><code>status</code> <span class="required">*</span>: string</li><li><code>type</code>: string</li><li><code>country</code> <span class="required">*</span>: string</li><li><code>currency</code>: string</li><li><code>cuentaComitente</code>: string</li></ul></td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X POST "https://api.invertironline.com/api/v2/Asesor/Movimientos" \
+  -H "Authorization: Bearer {tu_token}" \
+  -H "Content-Type: application/json" \
+  -d '{"clientes":[],"from":"string","to":"string","dateType":"string","status":"string","type":"string","country":"string","currency":"string","cuentaComitente":"string"}'</pre>
+      </div>
+    </div>
+  </section><section id="section-AsesoresOperar">
+    <h2>📂 AsesoresOperar</h2>
+    <div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#49cc90">POST</span>
+        <span class="endpoint-path">/api/v2/asesores/operar/VenderEspecieD</span>
+        <span class="operation-id">AsesoresOperar_VenderD</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>📝 Body Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>vm</code> <span class="required">*</span></td>
+        <td><span class="param-in">body</span></td>
+        <td><a href="#model-AsesorVenderEspecieDBindingModel" class="model-link">AsesorVenderEspecieDBindingModel</a><ul class="inline-fields"><li><code>idClienteAsesorado</code>: integer</li><li><code>fondosParaOperacion</code>: number</li><li><code>mercado</code> <span class="required">*</span>: string <em>(bCBA|nYSE|nASDAQ...)</em></li><li><code>simbolo</code> <span class="required">*</span>: string</li><li><code>cantidad</code> <span class="required">*</span>: number</li><li><code>precio</code> <span class="required">*</span>: number</li><li><code>validez</code> <span class="required">*</span>: string</li><li><code>idCuentaBancaria</code> <span class="required">*</span>: integer</li><li><code>tipoOrden</code>: string <em>(precioLimite|precioMercado)</em></li><li><code>plazo</code>: string <em>(t0|t1|t2...)</em></li><li><code>idFuente</code>: integer</li></ul></td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X POST "https://api.invertironline.com/api/v2/asesores/operar/VenderEspecieD" \
+  -H "Authorization: Bearer {tu_token}" \
+  -H "Content-Type: application/json" \
+  -d '{"idClienteAsesorado":0,"fondosParaOperacion":0,"mercado":"bCBA","simbolo":"string","cantidad":0,"precio":0,"validez":"string","idCuentaBancaria":0,"tipoOrden":"precioLimite","plazo":"t0","idFuente":0}'</pre>
+      </div>
+    </div>
+  </section><section id="section-AsesoresTestInversor">
+    <h2>📂 AsesoresTestInversor</h2>
+    <div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/asesores/test-inversor</span>
+        <span class="operation-id">AsesoresTestInversor_TestInversor</span>
+      </div>
+      <div class="endpoint-body">
+        <p class="no-params">Sin parámetros</p>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/asesores/test-inversor" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#49cc90">POST</span>
+        <span class="endpoint-path">/api/v2/asesores/test-inversor</span>
+        <span class="operation-id">AsesoresTestInversor_CalcularPerfilSinGuardar</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>📝 Body Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>respuestaInversor</code> <span class="required">*</span></td>
+        <td><span class="param-in">body</span></td>
+        <td><a href="#model-RespuestasAsesorTestInversorBindingModel" class="model-link">RespuestasAsesorTestInversorBindingModel</a><ul class="inline-fields"><li><code>enviarEmailCliente</code>: boolean</li><li><code>instrumentosInvertidosAnteriormente</code>: array</li><li><code>nivelesConocimientoInstrumentos</code>: array</li><li><code>idPlazoElegido</code> <span class="required">*</span>: integer</li><li><code>idEdadElegida</code> <span class="required">*</span>: integer</li><li><code>idObjetivoInversionElegida</code> <span class="required">*</span>: integer</li><li><code>idPolizaElegida</code> <span class="required">*</span>: integer</li><li><code>idCapacidadAhorroElegida</code> <span class="required">*</span>: integer</li><li><code>idPorcentajePatrimonioDedicado</code> <span class="required">*</span>: integer</li></ul></td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X POST "https://api.invertironline.com/api/v2/asesores/test-inversor" \
+  -H "Authorization: Bearer {tu_token}" \
+  -H "Content-Type: application/json" \
+  -d '{"enviarEmailCliente":true,"instrumentosInvertidosAnteriormente":[],"nivelesConocimientoInstrumentos":[],"idPlazoElegido":0,"idEdadElegida":0,"idObjetivoInversionElegida":0,"idPolizaElegida":0,"idCapacidadAhorroElegida":0,"idPorcentajePatrimonioDedicado":0}'</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#49cc90">POST</span>
+        <span class="endpoint-path">/api/v2/asesores/test-inversor/{idClienteAsesorado}</span>
+        <span class="operation-id">AsesoresTestInversor_CalcularPerfil</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>idClienteAsesorado</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>integer</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table><h5>📝 Body Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>respuestaInversor</code> <span class="required">*</span></td>
+        <td><span class="param-in">body</span></td>
+        <td><a href="#model-RespuestasAsesorTestInversorBindingModel" class="model-link">RespuestasAsesorTestInversorBindingModel</a><ul class="inline-fields"><li><code>enviarEmailCliente</code>: boolean</li><li><code>instrumentosInvertidosAnteriormente</code>: array</li><li><code>nivelesConocimientoInstrumentos</code>: array</li><li><code>idPlazoElegido</code> <span class="required">*</span>: integer</li><li><code>idEdadElegida</code> <span class="required">*</span>: integer</li><li><code>idObjetivoInversionElegida</code> <span class="required">*</span>: integer</li><li><code>idPolizaElegida</code> <span class="required">*</span>: integer</li><li><code>idCapacidadAhorroElegida</code> <span class="required">*</span>: integer</li><li><code>idPorcentajePatrimonioDedicado</code> <span class="required">*</span>: integer</li></ul></td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X POST "https://api.invertironline.com/api/v2/asesores/test-inversor/VALOR" \
+  -H "Authorization: Bearer {tu_token}" \
+  -H "Content-Type: application/json" \
+  -d '{"enviarEmailCliente":true,"instrumentosInvertidosAnteriormente":[],"nivelesConocimientoInstrumentos":[],"idPlazoElegido":0,"idEdadElegida":0,"idObjetivoInversionElegida":0,"idPolizaElegida":0,"idCapacidadAhorroElegida":0,"idPorcentajePatrimonioDedicado":0}'</pre>
+      </div>
+    </div>
+  </section><section id="section-MiCuenta">
+    <h2>📂 MiCuenta</h2>
+    <div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/estadocuenta</span>
+        <span class="operation-id">MiCuenta_EstadoCuenta</span>
+      </div>
+      <div class="endpoint-body">
+        <p class="no-params">Sin parámetros</p>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/estadocuenta" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/portafolio/{pais}</span>
+        <span class="operation-id">MiCuenta_Portafolio</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>pais</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/portafolio/argentina" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/operaciones/{numero}</span>
+        <span class="operation-id">MiCuenta_Operaciones</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>numero</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>integer</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/operaciones/12345" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#f93e3e">DELETE</span>
+        <span class="endpoint-path">/api/v2/operaciones/{numero}</span>
+        <span class="operation-id">MiCuenta_Cancelar</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>numero</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>integer</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X DELETE "https://api.invertironline.com/api/v2/operaciones/12345" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/operaciones</span>
+        <span class="operation-id">MiCuenta_Operaciones</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔍 Query Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>filtro.numero</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>integer</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>filtro.estado</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">todas</code> <code class="enum-val">pendientes</code> <code class="enum-val">terminadas</code> <code class="enum-val">canceladas</code></td>
+      </tr><tr>
+        <td><code>filtro.fechaDesde</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>filtro.fechaHasta</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>filtro.pais</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/operaciones" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div>
+  </section><section id="section-Notificacion">
+    <h2>📂 Notificacion</h2>
+    <div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/Notificacion</span>
+        <span class="operation-id">Notificacion_Index</span>
+      </div>
+      <div class="endpoint-body">
+        <p class="no-params">Sin parámetros</p>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/Notificacion" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div>
+  </section><section id="section-Operar">
+    <h2>📂 Operar</h2>
+    <div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/operar/CPD/PuedeOperar</span>
+        <span class="operation-id">Operar_GetCPuedeOperar</span>
+      </div>
+      <div class="endpoint-body">
+        <p class="no-params">Sin parámetros</p>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/operar/CPD/PuedeOperar" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/operar/CPD/{estado}/{segmento}</span>
+        <span class="operation-id">Operar_GetChequePagoDiferido</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>estado</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>segmento</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/operar/CPD/VALOR/VALOR" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/operar/CPD/Comisiones/{importe}/{plazo}/{tasa}</span>
+        <span class="operation-id">Operar_CalcularComisionesChpd</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>importe</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>number</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>plazo</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>integer</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>tasa</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>number</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/operar/CPD/Comisiones/VALOR/t2/VALOR" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#49cc90">POST</span>
+        <span class="endpoint-path">/api/v2/operar/CPD</span>
+        <span class="operation-id">Operar_PostChequePagoDiferido</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>📝 Body Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>model</code> <span class="required">*</span></td>
+        <td><span class="param-in">body</span></td>
+        <td><a href="#model-CPDBindingModel" class="model-link">CPDBindingModel</a><ul class="inline-fields"><li><code>idSubasta</code> <span class="required">*</span>: integer</li><li><code>tasa</code> <span class="required">*</span>: number</li><li><code>fuente</code> <span class="required">*</span>: string <em>(compra_Venta_Por_Web|compra_Venta_Por_Celular|venta_De_Opciones_Por_Web_Lanzamiento...)</em></li></ul></td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X POST "https://api.invertironline.com/api/v2/operar/CPD" \
+  -H "Authorization: Bearer {tu_token}" \
+  -H "Content-Type: application/json" \
+  -d '{"idSubasta":0,"tasa":0,"fuente":"compra_Venta_Por_Web"}'</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#49cc90">POST</span>
+        <span class="endpoint-path">/api/v2/operar/Token</span>
+        <span class="operation-id">Operar_TokenGenerate</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>📝 Body Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>requestTokenDDJJ</code> <span class="required">*</span></td>
+        <td><span class="param-in">body</span></td>
+        <td><a href="#model-RequestTokenDDJJDTO" class="model-link">RequestTokenDDJJDTO</a><ul class="inline-fields"><li><code>mercado</code>: string <em>(bCBA|nYSE|nASDAQ...)</em></li><li><code>simbolo</code>: string</li><li><code>cantidad</code>: number</li><li><code>monto</code>: number</li></ul></td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X POST "https://api.invertironline.com/api/v2/operar/Token" \
+  -H "Authorization: Bearer {tu_token}" \
+  -H "Content-Type: application/json" \
+  -d '{"mercado":"bCBA","simbolo":"string","cantidad":0,"monto":0}'</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#49cc90">POST</span>
+        <span class="endpoint-path">/api/v2/operar/Vender</span>
+        <span class="operation-id">Operar_Vender</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>📝 Body Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>vm</code> <span class="required">*</span></td>
+        <td><span class="param-in">body</span></td>
+        <td><a href="#model-VenderBindingModel" class="model-link">VenderBindingModel</a><ul class="inline-fields"><li><code>mercado</code> <span class="required">*</span>: string <em>(bCBA|nYSE|nASDAQ...)</em></li><li><code>simbolo</code> <span class="required">*</span>: string</li><li><code>cantidad</code> <span class="required">*</span>: number</li><li><code>precio</code> <span class="required">*</span>: number</li><li><code>validez</code> <span class="required">*</span>: string</li><li><code>tipoOrden</code>: string <em>(precioLimite|precioMercado)</em></li><li><code>plazo</code>: string <em>(t0|t1|t2...)</em></li><li><code>idFuente</code>: integer</li></ul></td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X POST "https://api.invertironline.com/api/v2/operar/Vender" \
+  -H "Authorization: Bearer {tu_token}" \
+  -H "Content-Type: application/json" \
+  -d '{"mercado":"bCBA","simbolo":"string","cantidad":0,"precio":0,"validez":"string","tipoOrden":"precioLimite","plazo":"t0","idFuente":0}'</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#49cc90">POST</span>
+        <span class="endpoint-path">/api/v2/operar/Comprar</span>
+        <span class="operation-id">Operar_Comprar</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>📝 Body Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>vm</code> <span class="required">*</span></td>
+        <td><span class="param-in">body</span></td>
+        <td><a href="#model-ComprarBindingModel" class="model-link">ComprarBindingModel</a><ul class="inline-fields"><li><code>mercado</code> <span class="required">*</span>: string <em>(bCBA|nYSE|nASDAQ...)</em></li><li><code>simbolo</code> <span class="required">*</span>: string</li><li><code>cantidad</code>: number</li><li><code>precio</code> <span class="required">*</span>: number</li><li><code>plazo</code> <span class="required">*</span>: string <em>(t0|t1|t2...)</em></li><li><code>validez</code> <span class="required">*</span>: string</li><li><code>tipoOrden</code>: string <em>(precioLimite|precioMercado)</em></li><li><code>monto</code>: number</li><li><code>idFuente</code>: integer</li></ul></td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X POST "https://api.invertironline.com/api/v2/operar/Comprar" \
+  -H "Authorization: Bearer {tu_token}" \
+  -H "Content-Type: application/json" \
+  -d '{"mercado":"bCBA","simbolo":"string","cantidad":0,"precio":0,"plazo":"t0","validez":"string","tipoOrden":"precioLimite","monto":0,"idFuente":0}'</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#49cc90">POST</span>
+        <span class="endpoint-path">/api/v2/operar/rescate/fci</span>
+        <span class="operation-id">Operar_RescateFCI</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>📝 Body Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>vm</code> <span class="required">*</span></td>
+        <td><span class="param-in">body</span></td>
+        <td><a href="#model-RescateFCIBindingModel" class="model-link">RescateFCIBindingModel</a><ul class="inline-fields"><li><code>simbolo</code>: string</li><li><code>cantidad</code>: number</li><li><code>soloValidar</code>: boolean</li></ul></td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X POST "https://api.invertironline.com/api/v2/operar/rescate/fci" \
+  -H "Authorization: Bearer {tu_token}" \
+  -H "Content-Type: application/json" \
+  -d '{"simbolo":"string","cantidad":0,"soloValidar":true}'</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#49cc90">POST</span>
+        <span class="endpoint-path">/api/v2/operar/VenderEspecieD</span>
+        <span class="operation-id">Operar_VenderD</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>📝 Body Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>vm</code> <span class="required">*</span></td>
+        <td><span class="param-in">body</span></td>
+        <td><a href="#model-VenderDBindingModel" class="model-link">VenderDBindingModel</a><ul class="inline-fields"><li><code>mercado</code> <span class="required">*</span>: string <em>(bCBA|nYSE|nASDAQ...)</em></li><li><code>simbolo</code> <span class="required">*</span>: string</li><li><code>cantidad</code> <span class="required">*</span>: number</li><li><code>precio</code> <span class="required">*</span>: number</li><li><code>validez</code> <span class="required">*</span>: string</li><li><code>idCuentaBancaria</code> <span class="required">*</span>: integer</li><li><code>tipoOrden</code>: string <em>(precioLimite|precioMercado)</em></li><li><code>plazo</code>: string <em>(t0|t1|t2...)</em></li><li><code>idFuente</code>: integer</li></ul></td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X POST "https://api.invertironline.com/api/v2/operar/VenderEspecieD" \
+  -H "Authorization: Bearer {tu_token}" \
+  -H "Content-Type: application/json" \
+  -d '{"mercado":"bCBA","simbolo":"string","cantidad":0,"precio":0,"validez":"string","idCuentaBancaria":0,"tipoOrden":"precioLimite","plazo":"t0","idFuente":0}'</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#49cc90">POST</span>
+        <span class="endpoint-path">/api/v2/operar/ComprarEspecieD</span>
+        <span class="operation-id">Operar_ComprarD</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>📝 Body Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>vm</code> <span class="required">*</span></td>
+        <td><span class="param-in">body</span></td>
+        <td><a href="#model-ComprarBindingModel" class="model-link">ComprarBindingModel</a><ul class="inline-fields"><li><code>mercado</code> <span class="required">*</span>: string <em>(bCBA|nYSE|nASDAQ...)</em></li><li><code>simbolo</code> <span class="required">*</span>: string</li><li><code>cantidad</code>: number</li><li><code>precio</code> <span class="required">*</span>: number</li><li><code>plazo</code> <span class="required">*</span>: string <em>(t0|t1|t2...)</em></li><li><code>validez</code> <span class="required">*</span>: string</li><li><code>tipoOrden</code>: string <em>(precioLimite|precioMercado)</em></li><li><code>monto</code>: number</li><li><code>idFuente</code>: integer</li></ul></td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X POST "https://api.invertironline.com/api/v2/operar/ComprarEspecieD" \
+  -H "Authorization: Bearer {tu_token}" \
+  -H "Content-Type: application/json" \
+  -d '{"mercado":"bCBA","simbolo":"string","cantidad":0,"precio":0,"plazo":"t0","validez":"string","tipoOrden":"precioLimite","monto":0,"idFuente":0}'</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#49cc90">POST</span>
+        <span class="endpoint-path">/api/v2/operar/suscripcion/fci</span>
+        <span class="operation-id">Operar_SuscripcionFci</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>📝 Body Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>vm</code> <span class="required">*</span></td>
+        <td><span class="param-in">body</span></td>
+        <td><a href="#model-SuscripcionFCIBindingModel" class="model-link">SuscripcionFCIBindingModel</a><ul class="inline-fields"><li><code>simbolo</code>: string</li><li><code>monto</code>: number</li><li><code>soloValidar</code>: boolean</li></ul></td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X POST "https://api.invertironline.com/api/v2/operar/suscripcion/fci" \
+  -H "Authorization: Bearer {tu_token}" \
+  -H "Content-Type: application/json" \
+  -d '{"simbolo":"string","monto":0,"soloValidar":true}'</pre>
+      </div>
+    </div>
+  </section><section id="section-OperatoriaSimplificada">
+    <h2>📂 OperatoriaSimplificada</h2>
+    <div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/OperatoriaSimplificada/MontosEstimados/{monto}</span>
+        <span class="operation-id">OperatoriaSimplificada_ObtenerMontosEstimados</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>monto</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>number</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/OperatoriaSimplificada/MontosEstimados/100000" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/OperatoriaSimplificada/{idTipoOperatoria}/Parametros</span>
+        <span class="operation-id">OperatoriaSimplificada_ObtenerParametrosOperatoriaSimplificada</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>idTipoOperatoria</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>integer</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/OperatoriaSimplificada/VALOR/Parametros" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/OperatoriaSimplificada/Validar/{monto}/{idTipoOperatoria}</span>
+        <span class="operation-id">OperatoriaSimplificada_ValidarOperatoriaSimplificada</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>monto</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>number</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>idTipoOperatoria</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>integer</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/OperatoriaSimplificada/Validar/100000/VALOR" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/OperatoriaSimplificada/VentaMepSimple/MontosEstimados/{monto}</span>
+        <span class="operation-id">OperatoriaSimplificada_ObtenerMontosEstimadosVentaMepSimple</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>monto</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>number</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/OperatoriaSimplificada/VentaMepSimple/MontosEstimados/100000" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#49cc90">POST</span>
+        <span class="endpoint-path">/api/v2/Cotizaciones/MEP</span>
+        <span class="operation-id">OperatoriaSimplificada_ObtenerValorDeReferencia</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>📝 Body Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>cotizacionModel</code> <span class="required">*</span></td>
+        <td><span class="param-in">body</span></td>
+        <td><a href="#model-CotizacionMepOperatoriaSimplificadaModel" class="model-link">CotizacionMepOperatoriaSimplificadaModel</a><ul class="inline-fields"><li><code>simbolo</code>: string</li><li><code>idPlazoOperatoriaCompra</code>: integer</li><li><code>idPlazoOperatoriaVenta</code>: integer</li></ul></td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X POST "https://api.invertironline.com/api/v2/Cotizaciones/MEP" \
+  -H "Authorization: Bearer {tu_token}" \
+  -H "Content-Type: application/json" \
+  -d '{"simbolo":"string","idPlazoOperatoriaCompra":0,"idPlazoOperatoriaVenta":0}'</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#49cc90">POST</span>
+        <span class="endpoint-path">/api/v2/OperatoriaSimplificada/Comprar</span>
+        <span class="operation-id">OperatoriaSimplificada_CrearCompraOperatoriaSimplificada</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>📝 Body Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>model</code> <span class="required">*</span></td>
+        <td><span class="param-in">body</span></td>
+        <td><a href="#model-CompraOperatoriaSimplificadModel" class="model-link">CompraOperatoriaSimplificadModel</a><ul class="inline-fields"><li><code>monto</code>: number</li><li><code>idTipoOperatoriaSimplificada</code>: integer</li><li><code>idCuentaBancaria</code>: integer</li></ul></td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X POST "https://api.invertironline.com/api/v2/OperatoriaSimplificada/Comprar" \
+  -H "Authorization: Bearer {tu_token}" \
+  -H "Content-Type: application/json" \
+  -d '{"monto":0,"idTipoOperatoriaSimplificada":0,"idCuentaBancaria":0}'</pre>
+      </div>
+    </div>
+  </section><section id="section-Perfil">
+    <h2>📂 Perfil</h2>
+    <div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/datos-perfil</span>
+        <span class="operation-id">Perfil_DatosPerfil</span>
+      </div>
+      <div class="endpoint-body">
+        <p class="no-params">Sin parámetros</p>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/datos-perfil" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div>
+  </section><section id="section-Titulos">
+    <h2>📂 Titulos</h2>
+    <div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/Titulos/FCI</span>
+        <span class="operation-id">Titulos_ListadoFCI</span>
+      </div>
+      <div class="endpoint-body">
+        <p class="no-params">Sin parámetros</p>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/Titulos/FCI" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/Titulos/FCI/{simbolo}</span>
+        <span class="operation-id">Titulos_FCI</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>simbolo</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/Titulos/FCI/GGAL" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/Titulos/FCI/TipoFondos</span>
+        <span class="operation-id">Titulos_TipoFondos</span>
+      </div>
+      <div class="endpoint-body">
+        <p class="no-params">Sin parámetros</p>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/Titulos/FCI/TipoFondos" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/Cotizaciones/MEP/{simbolo}</span>
+        <span class="operation-id">Titulos_ObtenerValorDeReferencia</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>simbolo</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/Cotizaciones/MEP/GGAL" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/Titulos/FCI/Administradoras</span>
+        <span class="operation-id">Titulos_AdministradorasFCI</span>
+      </div>
+      <div class="endpoint-body">
+        <p class="no-params">Sin parámetros</p>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/Titulos/FCI/Administradoras" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/{mercado}/Titulos/{simbolo}</span>
+        <span class="operation-id">Titulos_Titulos</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>mercado</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+      </tr><tr>
+        <td><code>simbolo</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/bCBA/Titulos/GGAL" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/{mercado}/Titulos/{simbolo}/Opciones</span>
+        <span class="operation-id">Titulos_Opciones</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>mercado</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+      </tr><tr>
+        <td><code>simbolo</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/bCBA/Titulos/GGAL/Opciones" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/{pais}/Titulos/Cotizacion/Instrumentos</span>
+        <span class="operation-id">Titulos_InstrumentoCotizacionPorPais</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>pais</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/argentina/Titulos/Cotizacion/Instrumentos" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/Cotizaciones/{Instrumento}/{Pais}/Todos</span>
+        <span class="operation-id">Titulos_CotizacionesXInstrumento</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>Instrumento</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>Pais</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table><h5>🔍 Query Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>cotizacionInstrumentoModel.instrumento</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">opciones</code> <code class="enum-val">cedears</code> <code class="enum-val">acciones</code> <code class="enum-val">aDRs</code> <code class="enum-val">titulosPublicos</code> <code class="enum-val">cauciones</code> <code class="enum-val">cHPD</code> <code class="enum-val">futuros</code> <code class="enum-val">obligacionesNegociables</code> <code class="enum-val">letras</code></td>
+      </tr><tr>
+        <td><code>cotizacionInstrumentoModel.pais</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/Cotizaciones/aCCIONES/argentina/Todos" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/Cotizaciones/{Instrumento}/{Panel}/{Pais}</span>
+        <span class="operation-id">Titulos_PanelCotizaciones</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>Instrumento</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>Panel</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>Pais</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table><h5>🔍 Query Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>panelCotizacion.instrumento</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">acciones</code> <code class="enum-val">bonos</code> <code class="enum-val">opciones</code> <code class="enum-val">monedas</code> <code class="enum-val">cauciones</code> <code class="enum-val">cHPD</code> <code class="enum-val">futuros</code> <code class="enum-val">aDRs</code> <code class="enum-val">obligacionesNegociables</code> <code class="enum-val">letras</code></td>
+      </tr><tr>
+        <td><code>panelCotizacion.panel</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>panelCotizacion.pais</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/Cotizaciones/aCCIONES/VALOR/argentina" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/{mercado}/Titulos/{simbolo}/CotizacionDetalle</span>
+        <span class="operation-id">Titulos_CotizacionConSimbolo</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>mercado</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+      </tr><tr>
+        <td><code>simbolo</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/bCBA/Titulos/GGAL/CotizacionDetalle" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/cotizaciones-orleans/{Instrumento}/{Pais}/Todos</span>
+        <span class="operation-id">Titulos_CotizacionesXInstrumento_Orleans</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>Instrumento</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>Pais</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table><h5>🔍 Query Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>cotizacionInstrumentoModel.instrumento</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">opciones</code> <code class="enum-val">cedears</code> <code class="enum-val">acciones</code> <code class="enum-val">aDRs</code> <code class="enum-val">titulosPublicos</code> <code class="enum-val">cauciones</code> <code class="enum-val">cHPD</code> <code class="enum-val">futuros</code> <code class="enum-val">obligacionesNegociables</code> <code class="enum-val">letras</code></td>
+      </tr><tr>
+        <td><code>cotizacionInstrumentoModel.pais</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/cotizaciones-orleans/aCCIONES/argentina/Todos" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/{pais}/Titulos/Cotizacion/Paneles/{instrumento}</span>
+        <span class="operation-id">Titulos_InstrumentoCotizacionPorPais</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>pais</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+      </tr><tr>
+        <td><code>instrumento</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/argentina/Titulos/Cotizacion/Paneles/aCCIONES" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/cotizaciones-orleans/{Instrumento}/{Pais}/Operables</span>
+        <span class="operation-id">Titulos_CotizacionesXInstrumentoOperables</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>Instrumento</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>Pais</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table><h5>🔍 Query Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>cotizacionInstrumentoModel.instrumento</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">opciones</code> <code class="enum-val">cedears</code> <code class="enum-val">acciones</code> <code class="enum-val">aDRs</code> <code class="enum-val">titulosPublicos</code> <code class="enum-val">cauciones</code> <code class="enum-val">cHPD</code> <code class="enum-val">futuros</code> <code class="enum-val">obligacionesNegociables</code> <code class="enum-val">letras</code></td>
+      </tr><tr>
+        <td><code>cotizacionInstrumentoModel.pais</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/cotizaciones-orleans/aCCIONES/argentina/Operables" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/{Mercado}/Titulos/{Simbolo}/Cotizacion</span>
+        <span class="operation-id">Titulos_Cotizacion</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔍 Query Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>mercado</code> <span class="required">*</span></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>simbolo</code> <span class="required">*</span></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>model.simbolo</code> <span class="required">*</span></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>model.mercado</code> <span class="required">*</span></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+      </tr><tr>
+        <td><code>model.plazo</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">t0</code> <code class="enum-val">t1</code> <code class="enum-val">t2</code> <code class="enum-val">t3</code></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/bCBA/Titulos/GGAL/Cotizacion" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/cotizaciones-orleans-panel/{Instrumento}/{Pais}/Todos</span>
+        <span class="operation-id">Titulos_CotizacionesXInstrumento_OrleansPanel</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>Instrumento</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>Pais</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table><h5>🔍 Query Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>cotizacionInstrumentoModel.instrumento</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">opciones</code> <code class="enum-val">cedears</code> <code class="enum-val">acciones</code> <code class="enum-val">aDRs</code> <code class="enum-val">titulosPublicos</code> <code class="enum-val">cauciones</code> <code class="enum-val">cHPD</code> <code class="enum-val">futuros</code> <code class="enum-val">obligacionesNegociables</code> <code class="enum-val">letras</code></td>
+      </tr><tr>
+        <td><code>cotizacionInstrumentoModel.pais</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/cotizaciones-orleans-panel/aCCIONES/argentina/Todos" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/Titulos/FCI/Administradoras/{administradora}/TipoFondos</span>
+        <span class="operation-id">Titulos_AdministradorasTipoFondoFCI</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>administradora</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/Titulos/FCI/Administradoras/VALOR/TipoFondos" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/cotizaciones-orleans-panel/{Instrumento}/{Pais}/Operables</span>
+        <span class="operation-id">Titulos_CotizacionesXInstrumentoOperablesPanel</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>Instrumento</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>Pais</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr></tbody>
+    </table><h5>🔍 Query Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>cotizacionInstrumentoModel.instrumento</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">opciones</code> <code class="enum-val">cedears</code> <code class="enum-val">acciones</code> <code class="enum-val">aDRs</code> <code class="enum-val">titulosPublicos</code> <code class="enum-val">cauciones</code> <code class="enum-val">cHPD</code> <code class="enum-val">futuros</code> <code class="enum-val">obligacionesNegociables</code> <code class="enum-val">letras</code></td>
+      </tr><tr>
+        <td><code>cotizacionInstrumentoModel.pais</code></td>
+        <td><span class="param-in">query</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/cotizaciones-orleans-panel/aCCIONES/argentina/Operables" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/{mercado}/Titulos/{simbolo}/CotizacionDetalleMobile/{plazo}</span>
+        <span class="operation-id">Titulos_CotizacionConSimboloMobile</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>mercado</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+      </tr><tr>
+        <td><code>simbolo</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>plazo</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">t0</code> <code class="enum-val">t1</code> <code class="enum-val">t2</code> <code class="enum-val">t3</code></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/bCBA/Titulos/GGAL/CotizacionDetalleMobile/t2" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/Titulos/FCI/Administradoras/{administradora}/TipoFondos/{tipoFondo}</span>
+        <span class="operation-id">Titulos_AdministradorasTipoFondoFCI</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>administradora</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">cONVEXITY</code> <code class="enum-val">sUPERVIELLE</code></td>
+      </tr><tr>
+        <td><code>tipoFondo</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">plazo_fijo_pesos</code> <code class="enum-val">plazo_fijo_dolares</code> <code class="enum-val">renta_fija_pesos</code> <code class="enum-val">renta_fija_dolares</code> <code class="enum-val">renta_mixta_pesos</code> <code class="enum-val">renta_mixta_dolares</code> <code class="enum-val">renta_variable_pesos</code> <code class="enum-val">renta_variable_dolares</code></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/Titulos/FCI/Administradoras/VALOR/TipoFondos/VALOR" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div><div class="endpoint">
+      <div class="endpoint-header">
+        <span class="method-badge" style="background:#61affe">GET</span>
+        <span class="endpoint-path">/api/v2/{mercado}/Titulos/{simbolo}/Cotizacion/seriehistorica/{fechaDesde}/{fechaHasta}/{ajustada}</span>
+        <span class="operation-id">Titulos_CotizacionSerieHistorica</span>
+      </div>
+      <div class="endpoint-body">
+        <h5>🔗 Path Parameters</h5>
+    <table class="params-table">
+      <thead><tr><th>Nombre</th><th>Origen</th><th>Tipo / Modelo</th><th>Enum</th></tr></thead>
+      <tbody><tr>
+        <td><code>mercado</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+      </tr><tr>
+        <td><code>simbolo</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>fechaDesde</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>fechaHasta</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"></td>
+      </tr><tr>
+        <td><code>ajustada</code> <span class="required">*</span></td>
+        <td><span class="param-in">path</span></td>
+        <td>string</td>
+        <td class="enum-cell"><code class="enum-val">ajustada</code> <code class="enum-val">sinAjustar</code></td>
+      </tr></tbody>
+    </table>
+        <h5>🔧 Ejemplo cURL</h5>
+        <pre class="curl-example">curl -X GET "https://api.invertironline.com/api/v2/bCBA/Titulos/GGAL/Cotizacion/seriehistorica/VALOR/VALOR/VALOR" \
+  -H "Authorization: Bearer {tu_token}"</pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="models">
+    <h2>📦 Modelos de Datos</h2>
+    <div class="model" id="model-MovementBindingModel">
+    <h4>📦 MovementBindingModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">clientes</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">from <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">to <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">dateType <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">status <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">type</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">country <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">currency</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cuentaComitente</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-AsesorVenderEspecieDBindingModel">
+    <h4>📦 AsesorVenderEspecieDBindingModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">idClienteAsesorado</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fondosParaOperacion</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">mercado <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+    </tr><tr>
+      <td class="prop-name">simbolo <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidad <span class="required">*</span></td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">precio <span class="required">*</span></td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">validez <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idCuentaBancaria <span class="required">*</span></td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tipoOrden</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">precioLimite</code> <code class="enum-val">precioMercado</code></td>
+    </tr><tr>
+      <td class="prop-name">plazo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">t0</code> <code class="enum-val">t1</code> <code class="enum-val">t2</code> <code class="enum-val">t3</code></td>
+    </tr><tr>
+      <td class="prop-name">idFuente</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-ResponseModel">
+    <h4>📦 ResponseModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">ok</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">messages</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-DetalleMensaje">
+    <h4>📦 DetalleMensaje</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">title</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">description</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PreguntasAsesoresTestInversorResponseModel">
+    <h4>📦 PreguntasAsesoresTestInversorResponseModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">instrumentosInvertidosAnteriormente</td>
+      <td class="prop-type">InstrumentosInvertidosAnteriormenteDTO</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">nivelesConocimientoInstrumentos</td>
+      <td class="prop-type">NivelesConocimientoInstrumentosDTO</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">plazosInversion</td>
+      <td class="prop-type">PlazosInversionDTO</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">edadesPosibles</td>
+      <td class="prop-type">EdadesPosiblesDTO</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">objetivosInversion</td>
+      <td class="prop-type">ObjetivosInversionDTO</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">polizasSeguro</td>
+      <td class="prop-type">PolizasSeguroDTO</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">capacidadesAhorro</td>
+      <td class="prop-type">CapacidadesAhorroDTO</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">porcentajesPatrimonioDedicado</td>
+      <td class="prop-type">PorcentajesPatrimonioDedicadoDTO</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-InstrumentosInvertidosAnteriormenteDTO">
+    <h4>📦 InstrumentosInvertidosAnteriormenteDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">instrumentos</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pregunta</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">order</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-NivelesConocimientoInstrumentosDTO">
+    <h4>📦 NivelesConocimientoInstrumentosDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">niveles</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pregunta</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">order</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PlazosInversionDTO">
+    <h4>📦 PlazosInversionDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">plazos</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pregunta</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">order</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-EdadesPosiblesDTO">
+    <h4>📦 EdadesPosiblesDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">edades</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pregunta</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">order</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-ObjetivosInversionDTO">
+    <h4>📦 ObjetivosInversionDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">objetivos</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pregunta</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">order</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PolizasSeguroDTO">
+    <h4>📦 PolizasSeguroDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">polizas</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pregunta</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">order</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-CapacidadesAhorroDTO">
+    <h4>📦 CapacidadesAhorroDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">capacidadesAhorro</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pregunta</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">order</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PorcentajesPatrimonioDedicadoDTO">
+    <h4>📦 PorcentajesPatrimonioDedicadoDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">porcentajesPatrimonioDedicado</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pregunta</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">order</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-CheckBoxItemDTO">
+    <h4>📦 CheckBoxItemDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">id</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">nombre</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PreguntaOpcionMultipleDTO">
+    <h4>📦 PreguntaOpcionMultipleDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">id</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">nombre</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">opcionElegida</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">opciones</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-OpcionDTO">
+    <h4>📦 OpcionDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">id</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">nombre</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-RespuestasAsesorTestInversorBindingModel">
+    <h4>📦 RespuestasAsesorTestInversorBindingModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">enviarEmailCliente</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">instrumentosInvertidosAnteriormente</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">nivelesConocimientoInstrumentos</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idPlazoElegido <span class="required">*</span></td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idEdadElegida <span class="required">*</span></td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idObjetivoInversionElegida <span class="required">*</span></td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idPolizaElegida <span class="required">*</span></td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idCapacidadAhorroElegida <span class="required">*</span></td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idPorcentajePatrimonioDedicado <span class="required">*</span></td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PerfilCalculadoResponseModel">
+    <h4>📦 PerfilCalculadoResponseModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">perfilSugerido</td>
+      <td class="prop-type">PerfilInversorSugeridoModel</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">ok</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">messages</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PerfilInversorSugeridoModel">
+    <h4>📦 PerfilInversorSugeridoModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">nombre</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">detalle</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">perfilComposiciones</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PerfilComposicionModel">
+    <h4>📦 PerfilComposicionModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">nombre</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">porcentaje</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-EstadoCuentaModel">
+    <h4>📦 EstadoCuentaModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">cuentas</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">estadisticas</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">totalEnPesos</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-CuentaModel">
+    <h4>📦 CuentaModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">numero</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tipo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">inversion_Argentina_Pesos</code> <code class="enum-val">inversion_Argentina_Dolares</code> <code class="enum-val">inversion_Estados_Unidos_Dolares</code> <code class="enum-val">administrada_Argentina_Pesos</code> <code class="enum-val">administrada_Argentina_Dolares</code> <code class="enum-val">administrada_Estados_Unidos_Dolares</code></td>
+    </tr><tr>
+      <td class="prop-name">moneda</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">peso_Argentino</code> <code class="enum-val">dolar_Estadounidense</code> <code class="enum-val">real</code> <code class="enum-val">peso_Mexicano</code> <code class="enum-val">peso_Chileno</code> <code class="enum-val">yen</code> <code class="enum-val">libra</code> <code class="enum-val">euro</code> <code class="enum-val">peso_Peruano</code> <code class="enum-val">peso_Colombiano</code> <code class="enum-val">peso_Uruguayo</code></td>
+    </tr><tr>
+      <td class="prop-name">disponible</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">comprometido</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">saldo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">titulosValorizados</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">total</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">margenDescubierto</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">saldos</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">estado</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">operable</code> <code class="enum-val">cerrada</code> <code class="enum-val">bloqueada</code></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-EstadisticaModel">
+    <h4>📦 EstadisticaModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">descripcion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidad</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">volumen</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-SaldoModel">
+    <h4>📦 SaldoModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">liquidacion</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">inmediato</code> <code class="enum-val">hrs24</code> <code class="enum-val">hrs48</code> <code class="enum-val">hrs72</code> <code class="enum-val">otro</code> <code class="enum-val">masHrs72</code></td>
+    </tr><tr>
+      <td class="prop-name">saldo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">comprometido</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">disponible</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">disponibleOperar</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PortafolioModel">
+    <h4>📦 PortafolioModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">pais</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+    </tr><tr>
+      <td class="prop-name">activos</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PosicionModel">
+    <h4>📦 PosicionModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">cantidad</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">comprometido</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">puntosVariacion</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">variacionDiaria</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">ultimoPrecio</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">ppc</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">gananciaPorcentaje</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">gananciaDinero</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">valorizado</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">titulo</td>
+      <td class="prop-type">TituloModel</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">parking</td>
+      <td class="prop-type">ParkingModel</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-TituloModel">
+    <h4>📦 TituloModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">simbolo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">descripcion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pais</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+    </tr><tr>
+      <td class="prop-name">mercado</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+    </tr><tr>
+      <td class="prop-name">tipo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">oPCIONES</code> <code class="enum-val">cEDEARS</code> <code class="enum-val">titulosPublicos</code> <code class="enum-val">aCCIONES</code> <code class="enum-val">cUPONESPRIVADOS</code> <code class="enum-val">fONDOSDEINVERSION</code> <code class="enum-val">aDR</code> <code class="enum-val">iNDICES</code> <code class="enum-val">bOCON</code> <code class="enum-val">bONEX</code> <code class="enum-val">cERTIFICADOSPAR</code> <code class="enum-val">oBLIGACIONESNEGOCIABLES</code> <code class="enum-val">oBLIGACIONESPYME</code> <code class="enum-val">cUPONESOBL</code> <code class="enum-val">lETRASDEPRECADO</code> <code class="enum-val">lETES</code> <code class="enum-val">tITULOSDEUDA</code> <code class="enum-val">cUPONESEXTRANJEROS</code> <code class="enum-val">cUPONESTPI</code> <code class="enum-val">bONOS</code> <code class="enum-val">dIVISAS</code> <code class="enum-val">fONDOSCOTIZANTES</code> <code class="enum-val">cAUCIONESPESOS</code> <code class="enum-val">cAUCIONESDOLARES</code> <code class="enum-val">cERTIFICADOSCREDITOFISCAL</code> <code class="enum-val">cEDRO</code> <code class="enum-val">bODEN</code> <code class="enum-val">fONDOSRENTAFIJA</code> <code class="enum-val">fideicomiso</code> <code class="enum-val">rENTAFIJA</code> <code class="enum-val">cHEQUEPAGODIFERIDO</code> <code class="enum-val">componenteDEEtf</code> <code class="enum-val">componenteDEEtf_Viejo</code> <code class="enum-val">futuros</code> <code class="enum-val">soja</code> <code class="enum-val">maiz</code> <code class="enum-val">trigo</code> <code class="enum-val">oro</code> <code class="enum-val">petroleo</code> <code class="enum-val">fideicomisoFinanciero</code> <code class="enum-val">obligacionesNegociables</code> <code class="enum-val">letraNota</code> <code class="enum-val">fondoComundeInversion</code> <code class="enum-val">titulosPublicosSuscribibles</code> <code class="enum-val">accionesSuscribibles</code> <code class="enum-val">incrementoCapital</code> <code class="enum-val">letesSuscribibles</code> <code class="enum-val">letras</code> <code class="enum-val">fondosMutuosUSA</code></td>
+    </tr><tr>
+      <td class="prop-name">plazo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">t0</code> <code class="enum-val">t1</code> <code class="enum-val">t2</code> <code class="enum-val">t3</code></td>
+    </tr><tr>
+      <td class="prop-name">moneda</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">peso_Argentino</code> <code class="enum-val">dolar_Estadounidense</code> <code class="enum-val">real</code> <code class="enum-val">peso_Mexicano</code> <code class="enum-val">peso_Chileno</code> <code class="enum-val">yen</code> <code class="enum-val">libra</code> <code class="enum-val">euro</code> <code class="enum-val">peso_Peruano</code> <code class="enum-val">peso_Colombiano</code> <code class="enum-val">peso_Uruguayo</code></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-ParkingModel">
+    <h4>📦 ParkingModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">disponibleInmediato</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-OperacionDetalleModel">
+    <h4>📦 OperacionDetalleModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">numero</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">mercado</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+    </tr><tr>
+      <td class="prop-name">simbolo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">moneda</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">peso_Argentino</code> <code class="enum-val">dolar_Estadounidense</code> <code class="enum-val">real</code> <code class="enum-val">peso_Mexicano</code> <code class="enum-val">peso_Chileno</code> <code class="enum-val">yen</code> <code class="enum-val">libra</code> <code class="enum-val">euro</code> <code class="enum-val">peso_Peruano</code> <code class="enum-val">peso_Colombiano</code> <code class="enum-val">peso_Uruguayo</code> <code class="enum-val">dolar_BNA</code> <code class="enum-val">dolar_Bolsa</code></td>
+    </tr><tr>
+      <td class="prop-name">tipo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">compra</code> <code class="enum-val">venta</code> <code class="enum-val">caucion</code> <code class="enum-val">suscripcion</code> <code class="enum-val">rescate</code> <code class="enum-val">suscripcionPrimaria</code> <code class="enum-val">suscripcionFCI</code> <code class="enum-val">rescateFCI</code></td>
+    </tr><tr>
+      <td class="prop-name">fechaAlta</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">validez</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fechaOperado</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">estadoActual</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">iniciada</code> <code class="enum-val">en_Proceso</code> <code class="enum-val">parcialmente_Terminada</code> <code class="enum-val">terminada</code> <code class="enum-val">cancelada</code> <code class="enum-val">pendiente_Cancelacion</code> <code class="enum-val">cancelada_Por_Vencimiento_Validez</code> <code class="enum-val">parcialmente_Terminada_Con_Pedido_Cancelacion</code> <code class="enum-val">en_Modificacion</code></td>
+    </tr><tr>
+      <td class="prop-name">estados</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">aranceles</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">operaciones</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">precio</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidad</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">monto</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fondosParaOperacion</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoOperacion</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">modalidad</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">precio_Limite</code> <code class="enum-val">precio_Mercado</code></td>
+    </tr><tr>
+      <td class="prop-name">arancelesARS</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">arancelesUSD</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">plazo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">sinValor</code> <code class="enum-val">a72horas</code> <code class="enum-val">a24horas</code> <code class="enum-val">inmediata</code> <code class="enum-val">a48horas</code></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-Estado">
+    <h4>📦 Estado</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">detalle</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fecha</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-Arancel">
+    <h4>📦 Arancel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">tipo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">neto</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">iva</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">moneda</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-Operacion">
+    <h4>📦 Operacion</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">fecha</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidad</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">precio</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-OperacionBindingModel">
+    <h4>📦 OperacionBindingModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">numero</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">estado</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">todas</code> <code class="enum-val">pendientes</code> <code class="enum-val">terminadas</code> <code class="enum-val">canceladas</code></td>
+    </tr><tr>
+      <td class="prop-name">fechaDesde</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fechaHasta</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pais</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-OperacionModel">
+    <h4>📦 OperacionModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">numero</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fechaOrden</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tipo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">estado</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">iniciada</code> <code class="enum-val">en_Proceso</code> <code class="enum-val">parcialmente_Terminada</code> <code class="enum-val">terminada</code> <code class="enum-val">cancelada</code> <code class="enum-val">pendiente_Cancelacion</code> <code class="enum-val">cancelada_Por_Vencimiento_Validez</code> <code class="enum-val">parcialmente_Terminada_Con_Pedido_Cancelacion</code> <code class="enum-val">en_Modificacion</code></td>
+    </tr><tr>
+      <td class="prop-name">mercado</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">simbolo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidad</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">monto</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">modalidad</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">precio_Limite</code> <code class="enum-val">precio_Mercado</code></td>
+    </tr><tr>
+      <td class="prop-name">precio</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fechaOperada</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidadOperada</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">precioOperado</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoOperado</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">plazo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">sinValor</code> <code class="enum-val">a72horas</code> <code class="enum-val">a24horas</code> <code class="enum-val">inmediata</code> <code class="enum-val">a48horas</code></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-NotificacionModel">
+    <h4>📦 NotificacionModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">titulo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">mensaje</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">link</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-CPDPuedeOperarModel">
+    <h4>📦 CPDPuedeOperarModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">operatoriaHabilitada</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-CPDModel">
+    <h4>📦 CPDModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">fechaActualizacion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">subasta</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-SubastaResponse">
+    <h4>📦 SubastaResponse</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">subasta</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">segmento</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">inicio</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cierre</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fechaPago</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">duracion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tasaCompra</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tasaVenta</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">monto</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cheques</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">concertacion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">estado</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">sgr</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">librador</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">almacenadora</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoInvertir</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-ComisionCPDDTO">
+    <h4>📦 ComisionCPDDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">moneda</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoInversion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">comision</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">derechoMercado</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">ivaComision</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">ivaDerechoMercado</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoTotalInversion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-CPDBindingModel">
+    <h4>📦 CPDBindingModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">idSubasta <span class="required">*</span></td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tasa <span class="required">*</span></td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fuente <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">compra_Venta_Por_Web</code> <code class="enum-val">compra_Venta_Por_Celular</code> <code class="enum-val">venta_De_Opciones_Por_Web_Lanzamiento</code> <code class="enum-val">asesores_IOL</code> <code class="enum-val">compra_Venta_Por_Web_V6</code> <code class="enum-val">venta_De_Opciones_Por_Asesores_IOL_Lanzamiento</code> <code class="enum-val">suscripcion_Cuenta_Facil</code> <code class="enum-val">compra_Venta_Por_Mobile</code> <code class="enum-val">asesores_IOL_Mobile</code> <code class="enum-val">quick_Trade_Dock</code> <code class="enum-val">asesores_Quick_Trade_Dock</code> <code class="enum-val">aPI</code> <code class="enum-val">cARGA_CHEQUE_IOLNET_Manual</code> <code class="enum-val">cARGA_CHEQUE_IOLNET_EXCEL</code> <code class="enum-val">cARGA_CHEQUE_IOLV6</code> <code class="enum-val">cARGA_CHEQUE_IOLNET_TTR</code> <code class="enum-val">operatoria_Android</code> <code class="enum-val">operatoria_iOS</code> <code class="enum-val">generada_Completadas_Manualmente_SENEBI</code> <code class="enum-val">dolar_Bolsa</code> <code class="enum-val">contado_Con_Liqui</code> <code class="enum-val">asesores_IOL_API</code> <code class="enum-val">aPP_MOBILE_ANDROID</code> <code class="enum-val">aPP_MOBILE_IOS</code> <code class="enum-val">b2B_GATEWAY</code> <code class="enum-val">nUEVA_WEB</code></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-CPDTransaccionFinalModel">
+    <h4>📦 CPDTransaccionFinalModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">idTransaccion</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-RequestTokenDDJJDTO">
+    <h4>📦 RequestTokenDDJJDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">mercado</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+    </tr><tr>
+      <td class="prop-name">simbolo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidad</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">monto</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-JWTResultDTO">
+    <h4>📦 JWTResultDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">token</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">expiration</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-VenderBindingModel">
+    <h4>📦 VenderBindingModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">mercado <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+    </tr><tr>
+      <td class="prop-name">simbolo <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidad <span class="required">*</span></td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">precio <span class="required">*</span></td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">validez <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tipoOrden</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">precioLimite</code> <code class="enum-val">precioMercado</code></td>
+    </tr><tr>
+      <td class="prop-name">plazo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">t0</code> <code class="enum-val">t1</code> <code class="enum-val">t2</code> <code class="enum-val">t3</code></td>
+    </tr><tr>
+      <td class="prop-name">idFuente</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-ComprarBindingModel">
+    <h4>📦 ComprarBindingModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">mercado <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+    </tr><tr>
+      <td class="prop-name">simbolo <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidad</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">precio <span class="required">*</span></td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">plazo <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">t0</code> <code class="enum-val">t1</code> <code class="enum-val">t2</code> <code class="enum-val">t3</code></td>
+    </tr><tr>
+      <td class="prop-name">validez <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tipoOrden</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">precioLimite</code> <code class="enum-val">precioMercado</code></td>
+    </tr><tr>
+      <td class="prop-name">monto</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idFuente</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-RescateFCIBindingModel">
+    <h4>📦 RescateFCIBindingModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">simbolo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidad</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">soloValidar</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-VenderDBindingModel">
+    <h4>📦 VenderDBindingModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">mercado <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+    </tr><tr>
+      <td class="prop-name">simbolo <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidad <span class="required">*</span></td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">precio <span class="required">*</span></td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">validez <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idCuentaBancaria <span class="required">*</span></td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tipoOrden</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">precioLimite</code> <code class="enum-val">precioMercado</code></td>
+    </tr><tr>
+      <td class="prop-name">plazo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">t0</code> <code class="enum-val">t1</code> <code class="enum-val">t2</code> <code class="enum-val">t3</code></td>
+    </tr><tr>
+      <td class="prop-name">idFuente</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-SuscripcionFCIBindingModel">
+    <h4>📦 SuscripcionFCIBindingModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">simbolo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">monto</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">soloValidar</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-MontosEstimadosDTO">
+    <h4>📦 MontosEstimadosDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">montoDolar</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoBrutoPesos</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoNetoPesos</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">comisionCompra</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">comisionVenta</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">comisionCompraIVA</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">comisionVentaIVA</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">derechoMercadoCompra</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">derechoMercadoVenta</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-ParametrosMepSimpleDTO">
+    <h4>📦 ParametrosMepSimpleDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">horarioApertura</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">horarioCierre</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">esHorarioValido</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idTipoOperacion</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">mEP</code> <code class="enum-val">cCL</code> <code class="enum-val">mEP_Inverso</code> <code class="enum-val">cCL_USD</code> <code class="enum-val">venta_D</code> <code class="enum-val">cCL_Inverso</code></td>
+    </tr><tr>
+      <td class="prop-name">idProducto</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">sin_Producto</code> <code class="enum-val">lanzamiento_Opciones_Cubiertas_Opciones</code> <code class="enum-val">venta_Acciones_Cubiertas_Efectivo</code> <code class="enum-val">lanzamiento_Opciones_Cubiertas_Efectivo</code> <code class="enum-val">lanzamiento_Opciones_Cubiertas_Acciones</code> <code class="enum-val">compra_Opciones</code> <code class="enum-val">compra_APBR</code> <code class="enum-val">suscripcion_ITTF</code> <code class="enum-val">visualizacion_Puntas</code> <code class="enum-val">suscripcion_IDEA</code> <code class="enum-val">compra_Descubierto_Arg_EEUU</code> <code class="enum-val">venta_Argentina_Descubierto</code> <code class="enum-val">venta_EEUU_Descubierto</code> <code class="enum-val">operatoria_Margen_Apalancamiento_Merval</code> <code class="enum-val">cOMPRA_CHPD</code> <code class="enum-val">vENTA_CHPD</code> <code class="enum-val">money_Market</code> <code class="enum-val">automatizacion_Estados_Unidos</code> <code class="enum-val">caución_Descubierto</code> <code class="enum-val">menu_Flotante</code> <code class="enum-val">cuenta_Margen_3</code> <code class="enum-val">puntas_Profundidad</code> <code class="enum-val">automatizacion_Argentina_2</code> <code class="enum-val">operatoria_Contado_Inmediato</code> <code class="enum-val">streaming_Quotes</code> <code class="enum-val">iOL_Trade_Dock</code> <code class="enum-val">suscripcion_Titulo_Publico</code> <code class="enum-val">lanzamiento_Opciones_inmediato</code> <code class="enum-val">aPIs</code> <code class="enum-val">chequeBBVA</code> <code class="enum-val">suscripcion_Acciones</code> <code class="enum-val">app</code> <code class="enum-val">incremento_Capital</code> <code class="enum-val">operatoria</code> <code class="enum-val">plan_Inversion</code> <code class="enum-val">venta_Inmediato</code> <code class="enum-val">compra_Venta_Divisas</code> <code class="enum-val">impuesto_Cedular</code> <code class="enum-val">cuenta_Bursatil</code> <code class="enum-val">extraccion_Automatica</code> <code class="enum-val">remuneracion_Pesos</code> <code class="enum-val">remuneracion_Dolares</code> <code class="enum-val">mep_Automatico</code> <code class="enum-val">venta_Especie_C</code> <code class="enum-val">cCL_Automatico</code> <code class="enum-val">parking</code> <code class="enum-val">informe_Deposito</code> <code class="enum-val">mep_Automatico_Inverso</code> <code class="enum-val">cCL_Automatico_Inverso</code> <code class="enum-val">compra_Especie_C</code> <code class="enum-val">caucion_Tomadora</code> <code class="enum-val">eCheq</code> <code class="enum-val">fondos_Mutuos</code> <code class="enum-val">deposito_ECheq</code> <code class="enum-val">dDJJ_Venta_Bono_Extranjero</code> <code class="enum-val">nuevo_Modulo_Ayuda</code> <code class="enum-val">portafolio_Simple</code> <code class="enum-val">cCL_Automatico_Inverso_USD</code> <code class="enum-val">cCL_Automatico_USD</code> <code class="enum-val">portafolio_Valorizado</code> <code class="enum-val">caucion_Colocadora_USD</code></td>
+    </tr><tr>
+      <td class="prop-name">nombre</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">descripcion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">simboloTituloCompra</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">simboloTituloVenta</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoLimiteMinimo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoLimiteMaximo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">monedaMontoLimite</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tiempoExpiracionPreOrden</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idPlazoOperatoriaCompra</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idPlazoOperatoriaVenta</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fechaConcertacionDolarMep</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-MontosEstimadosVentaMepDTO">
+    <h4>📦 MontosEstimadosVentaMepDTO</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">montoPesos</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoBrutoDolar</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoNetoDolar</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">comisionCompra</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">comisionVenta</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">comisionCompraIVA</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">comisionVentaIVA</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">derechoMercadoCompra</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">derechoMercadoVenta</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-CotizacionMepOperatoriaSimplificadaModel">
+    <h4>📦 CotizacionMepOperatoriaSimplificadaModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">simbolo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idPlazoOperatoriaCompra</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idPlazoOperatoriaVenta</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-CompraOperatoriaSimplificadModel">
+    <h4>📦 CompraOperatoriaSimplificadModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">monto</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idTipoOperatoriaSimplificada</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">idCuentaBancaria</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PerfilClienteModel">
+    <h4>📦 PerfilClienteModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">nombre</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">apellido</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">numeroCuenta</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">dni</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cuitCuil</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">sexo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">perfilInversor</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">actualizarDDJJ</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">actualizarTestInversor</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">esBajaArrepentimiento</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">email</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cuentaAbierta</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">actualizarTyC</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">actualizarTyCApp</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-TituloFCIModel">
+    <h4>📦 TituloFCIModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">variacion</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">ultimoOperado</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">horizonteInversion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">rescate</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">t0</code> <code class="enum-val">t1</code> <code class="enum-val">t2</code> <code class="enum-val">t3</code></td>
+    </tr><tr>
+      <td class="prop-name">invierte</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tipoFondo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">plazo_fijo_pesos</code> <code class="enum-val">plazo_fijo_dolares</code> <code class="enum-val">renta_fija_pesos</code> <code class="enum-val">renta_fija_dolares</code> <code class="enum-val">renta_mixta_pesos</code> <code class="enum-val">renta_mixta_dolares</code> <code class="enum-val">renta_variable_pesos</code> <code class="enum-val">renta_variable_dolares</code></td>
+    </tr><tr>
+      <td class="prop-name">avisoHorarioEjecucion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tipoAdministradoraTituloFCI</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">cONVEXITY</code> <code class="enum-val">sUPERVIELLE</code> <code class="enum-val">aLLARIA</code> <code class="enum-val">aLLIANCE_BERNSTEIN</code> <code class="enum-val">dRACMA</code> <code class="enum-val">bULLMARKET</code> <code class="enum-val">bAVSA</code></td>
+    </tr><tr>
+      <td class="prop-name">fechaCorte</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">codigoBloomberg</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">perfilInversor</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">informeMensual</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">reglamentoGestion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">variacionMensual</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">variacionAnual</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoMinimo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">simbolo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">descripcion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pais</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+    </tr><tr>
+      <td class="prop-name">mercado</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+    </tr><tr>
+      <td class="prop-name">tipo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">oPCIONES</code> <code class="enum-val">cEDEARS</code> <code class="enum-val">titulosPublicos</code> <code class="enum-val">aCCIONES</code> <code class="enum-val">cUPONESPRIVADOS</code> <code class="enum-val">fONDOSDEINVERSION</code> <code class="enum-val">aDR</code> <code class="enum-val">iNDICES</code> <code class="enum-val">bOCON</code> <code class="enum-val">bONEX</code> <code class="enum-val">cERTIFICADOSPAR</code> <code class="enum-val">oBLIGACIONESNEGOCIABLES</code> <code class="enum-val">oBLIGACIONESPYME</code> <code class="enum-val">cUPONESOBL</code> <code class="enum-val">lETRASDEPRECADO</code> <code class="enum-val">lETES</code> <code class="enum-val">tITULOSDEUDA</code> <code class="enum-val">cUPONESEXTRANJEROS</code> <code class="enum-val">cUPONESTPI</code> <code class="enum-val">bONOS</code> <code class="enum-val">dIVISAS</code> <code class="enum-val">fONDOSCOTIZANTES</code> <code class="enum-val">cAUCIONESPESOS</code> <code class="enum-val">cAUCIONESDOLARES</code> <code class="enum-val">cERTIFICADOSCREDITOFISCAL</code> <code class="enum-val">cEDRO</code> <code class="enum-val">bODEN</code> <code class="enum-val">fONDOSRENTAFIJA</code> <code class="enum-val">fideicomiso</code> <code class="enum-val">rENTAFIJA</code> <code class="enum-val">cHEQUEPAGODIFERIDO</code> <code class="enum-val">componenteDEEtf</code> <code class="enum-val">componenteDEEtf_Viejo</code> <code class="enum-val">futuros</code> <code class="enum-val">soja</code> <code class="enum-val">maiz</code> <code class="enum-val">trigo</code> <code class="enum-val">oro</code> <code class="enum-val">petroleo</code> <code class="enum-val">fideicomisoFinanciero</code> <code class="enum-val">obligacionesNegociables</code> <code class="enum-val">letraNota</code> <code class="enum-val">fondoComundeInversion</code> <code class="enum-val">titulosPublicosSuscribibles</code> <code class="enum-val">accionesSuscribibles</code> <code class="enum-val">incrementoCapital</code> <code class="enum-val">letesSuscribibles</code> <code class="enum-val">letras</code> <code class="enum-val">fondosMutuosUSA</code></td>
+    </tr><tr>
+      <td class="prop-name">plazo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">t0</code> <code class="enum-val">t1</code> <code class="enum-val">t2</code> <code class="enum-val">t3</code></td>
+    </tr><tr>
+      <td class="prop-name">moneda</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">peso_Argentino</code> <code class="enum-val">dolar_Estadounidense</code> <code class="enum-val">real</code> <code class="enum-val">peso_Mexicano</code> <code class="enum-val">peso_Chileno</code> <code class="enum-val">yen</code> <code class="enum-val">libra</code> <code class="enum-val">euro</code> <code class="enum-val">peso_Peruano</code> <code class="enum-val">peso_Colombiano</code> <code class="enum-val">peso_Uruguayo</code></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-TipoFondoFCIModel">
+    <h4>📦 TipoFondoFCIModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">identificador</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">plazo_fijo_pesos</code> <code class="enum-val">plazo_fijo_dolares</code> <code class="enum-val">renta_fija_pesos</code> <code class="enum-val">renta_fija_dolares</code> <code class="enum-val">renta_mixta_pesos</code> <code class="enum-val">renta_mixta_dolares</code> <code class="enum-val">renta_variable_pesos</code> <code class="enum-val">renta_variable_dolares</code></td>
+    </tr><tr>
+      <td class="prop-name">nombre</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-OpcionModel">
+    <h4>📦 OpcionModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">simboloSubyacente</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fechaVencimiento</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tipoOpcion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">simbolo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">descripcion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pais</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+    </tr><tr>
+      <td class="prop-name">mercado</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+    </tr><tr>
+      <td class="prop-name">tipo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">oPCIONES</code> <code class="enum-val">cEDEARS</code> <code class="enum-val">titulosPublicos</code> <code class="enum-val">aCCIONES</code> <code class="enum-val">cUPONESPRIVADOS</code> <code class="enum-val">fONDOSDEINVERSION</code> <code class="enum-val">aDR</code> <code class="enum-val">iNDICES</code> <code class="enum-val">bOCON</code> <code class="enum-val">bONEX</code> <code class="enum-val">cERTIFICADOSPAR</code> <code class="enum-val">oBLIGACIONESNEGOCIABLES</code> <code class="enum-val">oBLIGACIONESPYME</code> <code class="enum-val">cUPONESOBL</code> <code class="enum-val">lETRASDEPRECADO</code> <code class="enum-val">lETES</code> <code class="enum-val">tITULOSDEUDA</code> <code class="enum-val">cUPONESEXTRANJEROS</code> <code class="enum-val">cUPONESTPI</code> <code class="enum-val">bONOS</code> <code class="enum-val">dIVISAS</code> <code class="enum-val">fONDOSCOTIZANTES</code> <code class="enum-val">cAUCIONESPESOS</code> <code class="enum-val">cAUCIONESDOLARES</code> <code class="enum-val">cERTIFICADOSCREDITOFISCAL</code> <code class="enum-val">cEDRO</code> <code class="enum-val">bODEN</code> <code class="enum-val">fONDOSRENTAFIJA</code> <code class="enum-val">fideicomiso</code> <code class="enum-val">rENTAFIJA</code> <code class="enum-val">cHEQUEPAGODIFERIDO</code> <code class="enum-val">componenteDEEtf</code> <code class="enum-val">componenteDEEtf_Viejo</code> <code class="enum-val">futuros</code> <code class="enum-val">soja</code> <code class="enum-val">maiz</code> <code class="enum-val">trigo</code> <code class="enum-val">oro</code> <code class="enum-val">petroleo</code> <code class="enum-val">fideicomisoFinanciero</code> <code class="enum-val">obligacionesNegociables</code> <code class="enum-val">letraNota</code> <code class="enum-val">fondoComundeInversion</code> <code class="enum-val">titulosPublicosSuscribibles</code> <code class="enum-val">accionesSuscribibles</code> <code class="enum-val">incrementoCapital</code> <code class="enum-val">letesSuscribibles</code> <code class="enum-val">letras</code> <code class="enum-val">fondosMutuosUSA</code></td>
+    </tr><tr>
+      <td class="prop-name">plazo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">t0</code> <code class="enum-val">t1</code> <code class="enum-val">t2</code> <code class="enum-val">t3</code></td>
+    </tr><tr>
+      <td class="prop-name">moneda</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">peso_Argentino</code> <code class="enum-val">dolar_Estadounidense</code> <code class="enum-val">real</code> <code class="enum-val">peso_Mexicano</code> <code class="enum-val">peso_Chileno</code> <code class="enum-val">yen</code> <code class="enum-val">libra</code> <code class="enum-val">euro</code> <code class="enum-val">peso_Peruano</code> <code class="enum-val">peso_Colombiano</code> <code class="enum-val">peso_Uruguayo</code></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-InstrumentoCotizacionModel">
+    <h4>📦 InstrumentoCotizacionModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">instrumento</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pais</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-CotizacionInstrumentoModel">
+    <h4>📦 CotizacionInstrumentoModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">instrumento</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">opciones</code> <code class="enum-val">cedears</code> <code class="enum-val">acciones</code> <code class="enum-val">aDRs</code> <code class="enum-val">titulosPublicos</code> <code class="enum-val">cauciones</code> <code class="enum-val">cHPD</code> <code class="enum-val">futuros</code> <code class="enum-val">obligacionesNegociables</code> <code class="enum-val">letras</code></td>
+    </tr><tr>
+      <td class="prop-name">pais</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-InstrumentoModel">
+    <h4>📦 InstrumentoModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">titulos</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-InstrumentoTituloModel">
+    <h4>📦 InstrumentoTituloModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">simbolo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">puntas</td>
+      <td class="prop-type">PuntasModel</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">ultimoPrecio</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">variacionPorcentual</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">apertura</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">maximo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">minimo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">ultimoCierre</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">volumen</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidadOperaciones</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fecha</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tipoOpcion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">precioEjercicio</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fechaVencimiento</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">mercado</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">moneda</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">descripcion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">plazo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">laminaMinima</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">lote</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PuntasModel">
+    <h4>📦 PuntasModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">cantidadCompra</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">precioCompra</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">precioVenta</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidadVenta</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PanelCotizacionBindingModel">
+    <h4>📦 PanelCotizacionBindingModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">instrumento</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">acciones</code> <code class="enum-val">bonos</code> <code class="enum-val">opciones</code> <code class="enum-val">monedas</code> <code class="enum-val">cauciones</code> <code class="enum-val">cHPD</code> <code class="enum-val">futuros</code> <code class="enum-val">aDRs</code> <code class="enum-val">obligacionesNegociables</code> <code class="enum-val">letras</code></td>
+    </tr><tr>
+      <td class="prop-name">panel</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pais</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PanelModel">
+    <h4>📦 PanelModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">titulos</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-PanelTituloModel">
+    <h4>📦 PanelTituloModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">simbolo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">descripcion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">puntas</td>
+      <td class="prop-type">PuntasModel</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">ultimoPrecio</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">variacionPorcentual</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">apertura</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">maximo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">minimo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">ultimoCierre</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">volumen</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidadOperaciones</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fecha</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tipoOpcion</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">precioEjercicio</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fechaVencimiento</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">mercado</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">moneda</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-CotizacionDetalleModel">
+    <h4>📦 CotizacionDetalleModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">ultimoPrecio</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">variacion</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">apertura</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">maximo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">minimo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fechaHora</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tendencia</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">sube</code> <code class="enum-val">baja</code> <code class="enum-val">mantiene</code></td>
+    </tr><tr>
+      <td class="prop-name">cierreAnterior</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoOperado</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">volumenNominal</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">precioPromedio</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">moneda</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">peso_Argentino</code> <code class="enum-val">dolar_Estadounidense</code> <code class="enum-val">real</code> <code class="enum-val">peso_Mexicano</code> <code class="enum-val">peso_Chileno</code> <code class="enum-val">yen</code> <code class="enum-val">libra</code> <code class="enum-val">euro</code> <code class="enum-val">peso_Peruano</code> <code class="enum-val">peso_Colombiano</code> <code class="enum-val">peso_Uruguayo</code></td>
+    </tr><tr>
+      <td class="prop-name">precioAjuste</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">interesesAbiertos</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">puntas</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidadOperaciones</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">simbolo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pais</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+    </tr><tr>
+      <td class="prop-name">mercado</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+    </tr><tr>
+      <td class="prop-name">tipo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">oPCIONES</code> <code class="enum-val">cEDEARS</code> <code class="enum-val">titulosPublicos</code> <code class="enum-val">aCCIONES</code> <code class="enum-val">cUPONESPRIVADOS</code> <code class="enum-val">fONDOSDEINVERSION</code> <code class="enum-val">aDR</code> <code class="enum-val">iNDICES</code> <code class="enum-val">bOCON</code> <code class="enum-val">bONEX</code> <code class="enum-val">cERTIFICADOSPAR</code> <code class="enum-val">oBLIGACIONESNEGOCIABLES</code> <code class="enum-val">oBLIGACIONESPYME</code> <code class="enum-val">cUPONESOBL</code> <code class="enum-val">lETRASDEPRECADO</code> <code class="enum-val">lETES</code> <code class="enum-val">tITULOSDEUDA</code> <code class="enum-val">cUPONESEXTRANJEROS</code> <code class="enum-val">cUPONESTPI</code> <code class="enum-val">bONOS</code> <code class="enum-val">dIVISAS</code> <code class="enum-val">fONDOSCOTIZANTES</code> <code class="enum-val">cAUCIONESPESOS</code> <code class="enum-val">cAUCIONESDOLARES</code> <code class="enum-val">cERTIFICADOSCREDITOFISCAL</code> <code class="enum-val">cEDRO</code> <code class="enum-val">bODEN</code> <code class="enum-val">fONDOSRENTAFIJA</code> <code class="enum-val">fideicomiso</code> <code class="enum-val">rENTAFIJA</code> <code class="enum-val">cHEQUEPAGODIFERIDO</code> <code class="enum-val">componenteDEEtf</code> <code class="enum-val">componenteDEEtf_Viejo</code> <code class="enum-val">futuros</code> <code class="enum-val">soja</code> <code class="enum-val">maiz</code> <code class="enum-val">trigo</code> <code class="enum-val">oro</code> <code class="enum-val">petroleo</code> <code class="enum-val">fideicomisoFinanciero</code> <code class="enum-val">obligacionesNegociables</code> <code class="enum-val">letraNota</code> <code class="enum-val">fondoComundeInversion</code> <code class="enum-val">titulosPublicosSuscribibles</code> <code class="enum-val">accionesSuscribibles</code> <code class="enum-val">incrementoCapital</code> <code class="enum-val">letesSuscribibles</code> <code class="enum-val">letras</code> <code class="enum-val">fondosMutuosUSA</code></td>
+    </tr><tr>
+      <td class="prop-name">descripcionTitulo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">plazo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">t0</code> <code class="enum-val">t1</code> <code class="enum-val">t2</code> <code class="enum-val">t3</code></td>
+    </tr><tr>
+      <td class="prop-name">laminaMinima</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">lote</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidadMinima</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">puntosVariacion</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-TituloCotizacionBindingModel">
+    <h4>📦 TituloCotizacionBindingModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">simbolo <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">mercado <span class="required">*</span></td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+    </tr><tr>
+      <td class="prop-name">plazo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">t0</code> <code class="enum-val">t1</code> <code class="enum-val">t2</code> <code class="enum-val">t3</code></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-CotizacionModel">
+    <h4>📦 CotizacionModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">ultimoPrecio</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">variacion</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">apertura</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">maximo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">minimo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fechaHora</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tendencia</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">sube</code> <code class="enum-val">baja</code> <code class="enum-val">mantiene</code></td>
+    </tr><tr>
+      <td class="prop-name">cierreAnterior</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoOperado</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">volumenNominal</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">precioPromedio</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">moneda</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">peso_Argentino</code> <code class="enum-val">dolar_Estadounidense</code> <code class="enum-val">real</code> <code class="enum-val">peso_Mexicano</code> <code class="enum-val">peso_Chileno</code> <code class="enum-val">yen</code> <code class="enum-val">libra</code> <code class="enum-val">euro</code> <code class="enum-val">peso_Peruano</code> <code class="enum-val">peso_Colombiano</code> <code class="enum-val">peso_Uruguayo</code></td>
+    </tr><tr>
+      <td class="prop-name">precioAjuste</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">interesesAbiertos</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">puntas</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidadOperaciones</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">descripcionTitulo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">plazo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">laminaMinima</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">lote</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-AdministradoraTipoFondoFCI">
+    <h4>📦 AdministradoraTipoFondoFCI</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">administradora</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">identificadorTipoFondoFCI</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">plazo_fijo_pesos</code> <code class="enum-val">plazo_fijo_dolares</code> <code class="enum-val">renta_fija_pesos</code> <code class="enum-val">renta_fija_dolares</code> <code class="enum-val">renta_mixta_pesos</code> <code class="enum-val">renta_mixta_dolares</code> <code class="enum-val">renta_variable_pesos</code> <code class="enum-val">renta_variable_dolares</code></td>
+    </tr><tr>
+      <td class="prop-name">nombreTipoFondoFCI</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div><div class="model" id="model-CotizacionDetalleMobileModel">
+    <h4>📦 CotizacionDetalleMobileModel</h4>
+    <table class="params-table">
+      <thead><tr><th>Campo</th><th>Tipo</th><th>Valores enum</th></tr></thead>
+      <tbody><tr>
+      <td class="prop-name">operableCompra</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">operableVenta</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">visible</td>
+      <td class="prop-type">boolean</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">ultimoPrecio</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">variacion</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">apertura</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">maximo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">minimo</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">fechaHora</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">tendencia</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">sube</code> <code class="enum-val">baja</code> <code class="enum-val">mantiene</code></td>
+    </tr><tr>
+      <td class="prop-name">cierreAnterior</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">montoOperado</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">volumenNominal</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">precioPromedio</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">moneda</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">peso_Argentino</code> <code class="enum-val">dolar_Estadounidense</code> <code class="enum-val">real</code> <code class="enum-val">peso_Mexicano</code> <code class="enum-val">peso_Chileno</code> <code class="enum-val">yen</code> <code class="enum-val">libra</code> <code class="enum-val">euro</code> <code class="enum-val">peso_Peruano</code> <code class="enum-val">peso_Colombiano</code> <code class="enum-val">peso_Uruguayo</code></td>
+    </tr><tr>
+      <td class="prop-name">precioAjuste</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">interesesAbiertos</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">puntas</td>
+      <td class="prop-type">array</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidadOperaciones</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">simbolo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">pais</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">estados_Unidos</code> <code class="enum-val">argentina</code></td>
+    </tr><tr>
+      <td class="prop-name">mercado</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">bCBA</code> <code class="enum-val">nYSE</code> <code class="enum-val">nASDAQ</code> <code class="enum-val">aMEX</code> <code class="enum-val">bCS</code> <code class="enum-val">rOFX</code></td>
+    </tr><tr>
+      <td class="prop-name">tipo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">oPCIONES</code> <code class="enum-val">cEDEARS</code> <code class="enum-val">titulosPublicos</code> <code class="enum-val">aCCIONES</code> <code class="enum-val">cUPONESPRIVADOS</code> <code class="enum-val">fONDOSDEINVERSION</code> <code class="enum-val">aDR</code> <code class="enum-val">iNDICES</code> <code class="enum-val">bOCON</code> <code class="enum-val">bONEX</code> <code class="enum-val">cERTIFICADOSPAR</code> <code class="enum-val">oBLIGACIONESNEGOCIABLES</code> <code class="enum-val">oBLIGACIONESPYME</code> <code class="enum-val">cUPONESOBL</code> <code class="enum-val">lETRASDEPRECADO</code> <code class="enum-val">lETES</code> <code class="enum-val">tITULOSDEUDA</code> <code class="enum-val">cUPONESEXTRANJEROS</code> <code class="enum-val">cUPONESTPI</code> <code class="enum-val">bONOS</code> <code class="enum-val">dIVISAS</code> <code class="enum-val">fONDOSCOTIZANTES</code> <code class="enum-val">cAUCIONESPESOS</code> <code class="enum-val">cAUCIONESDOLARES</code> <code class="enum-val">cERTIFICADOSCREDITOFISCAL</code> <code class="enum-val">cEDRO</code> <code class="enum-val">bODEN</code> <code class="enum-val">fONDOSRENTAFIJA</code> <code class="enum-val">fideicomiso</code> <code class="enum-val">rENTAFIJA</code> <code class="enum-val">cHEQUEPAGODIFERIDO</code> <code class="enum-val">componenteDEEtf</code> <code class="enum-val">componenteDEEtf_Viejo</code> <code class="enum-val">futuros</code> <code class="enum-val">soja</code> <code class="enum-val">maiz</code> <code class="enum-val">trigo</code> <code class="enum-val">oro</code> <code class="enum-val">petroleo</code> <code class="enum-val">fideicomisoFinanciero</code> <code class="enum-val">obligacionesNegociables</code> <code class="enum-val">letraNota</code> <code class="enum-val">fondoComundeInversion</code> <code class="enum-val">titulosPublicosSuscribibles</code> <code class="enum-val">accionesSuscribibles</code> <code class="enum-val">incrementoCapital</code> <code class="enum-val">letesSuscribibles</code> <code class="enum-val">letras</code> <code class="enum-val">fondosMutuosUSA</code></td>
+    </tr><tr>
+      <td class="prop-name">descripcionTitulo</td>
+      <td class="prop-type">string</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">plazo</td>
+      <td class="prop-type">string</td>
+      <td><code class="enum-val">t0</code> <code class="enum-val">t1</code> <code class="enum-val">t2</code> <code class="enum-val">t3</code></td>
+    </tr><tr>
+      <td class="prop-name">laminaMinima</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">lote</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">cantidadMinima</td>
+      <td class="prop-type">integer</td>
+      <td></td>
+    </tr><tr>
+      <td class="prop-name">puntosVariacion</td>
+      <td class="prop-type">number</td>
+      <td></td>
+    </tr></tbody>
+    </table>
+  </div>
+  </section>
+
+</main>
+</body>
+</html>
