@@ -44,7 +44,7 @@ export default async function PerfilPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
         {/* Datos personales */}
-        <div className="bg-white rounded-card border border-border-light shadow-card p-7">
+        <div className="bg-white rounded-card shadow-card p-7">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand to-brand-light flex items-center justify-center text-white font-bold text-xl tracking-tight shrink-0">
               {initials || "?"}
@@ -84,7 +84,7 @@ export default async function PerfilPage() {
 
           {/* Efectivo */}
           {estadoCuenta && (
-            <div className="bg-white rounded-card border border-border-light shadow-card p-5 md:p-6">
+            <div className="bg-white rounded-card shadow-card p-5 md:p-6">
               <div className="text-[11px] font-semibold text-text3 uppercase tracking-wide mb-4">Efectivo disponible</div>
               <div className="flex flex-col gap-3">
                 {[

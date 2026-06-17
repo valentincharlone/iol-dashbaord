@@ -8,7 +8,7 @@ export default function MovimientosLoading() {
         <div className="shimmer h-3.5 w-60" />
       </div>
 
-      <div className="bg-white rounded-card border border-border-light shadow-card overflow-clip">
+      <div className="bg-white rounded-card shadow-card overflow-clip">
         <div className="px-5 py-4 border-b border-border-light flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <div className="shimmer h-[18px] w-28" />

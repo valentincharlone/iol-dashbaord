@@ -2,7 +2,7 @@ function Sk({ w, h = 13, className = "" }: { w: number | string; h?: number; cla
   return <div className={`shimmer ${className}`} style={{ height: h, width: w }} />;
 }
 
-const card = "bg-white rounded-card border border-border-light shadow-card";
+const card = "bg-white rounded-card shadow-card";
 
 export default function DashboardLoading() {
   return (

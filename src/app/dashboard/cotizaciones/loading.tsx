@@ -8,7 +8,7 @@ export default function CotizacionesLoading() {
         <div className="shimmer h-3.5 w-56" />
       </div>
 
-      <div className="bg-white rounded-card border border-border-light shadow-card overflow-clip">
+      <div className="bg-white rounded-card shadow-card overflow-clip">
         <div className="px-5 py-4 border-b border-border-light flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="shimmer h-[18px] w-[120px]" />
