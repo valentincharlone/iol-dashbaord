@@ -19,25 +19,16 @@ Stack: Next.js 15 App Router, TypeScript, Tailwind, inline styles.
 | Holdings table completa | `GET /api/v2/portafolio/argentina` |
 | Distribución donut (CEDEARs / Acciones / Bonos / FCI) | Calculado desde `portafolio` |
 
-### ⚠️ Datos mock (pendiente conectar con API real)
+### ❌ Gráfico de evolución del portafolio (descartado por ahora)
 
-#### Gráfico de evolución del portafolio (`src/components/EvolutionChart.tsx`)
+`src/components/EvolutionChart.tsx` y `src/app/api/portfolio-history/route.ts` existen pero el chart está comentado en `dashboard/page.tsx`.
 
-Actualmente genera una curva **falsa** hacia atrás usando ratios fijos definidos en `PERIOD_CONFIG`.
-Solo recibe el `totalValuacion` actual y simula cómo pudo haber llegado hasta ese valor.
+**Problema**: `seriehistorica` devuelve precios históricos por ticker, pero usamos cantidades de HOY para todo el período. Esto genera artefactos cuando:
+- Hubo cambios de ratio en CEDEARs (sinAjustar no los corrige)
+- Posiciones abiertas/cerradas durante el período
+- Bonos con convenciones de precio incompatibles con `cantidad × precio`
 
-**Cómo conectarlo con datos reales:**
-1. Llamar `GET /api/v2/operaciones` para saber desde cuándo está cada posición
-2. Por cada ticker, llamar:
-   ```
-   GET /api/v2/{mercado}/Titulos/{simbolo}/Cotizacion/seriehistorica/{fechaDesde}/{fechaHasta}/{ajustada}
-   ```
-   - `mercado`: `bCBA`
-   - `ajustada`: usar `ajustada` (especialmente importante para CEDEARs, incorpora splits)
-   - Response key: `ultimoPrecio` + `fechaHora`
-3. Para cada fecha: `Σ(cantidad × ultimoPrecio)` de todas las posiciones = valor del portafolio ese día
-4. Con 27 posiciones → 27 llamadas, usar `Promise.all` para paralelizar
-5. Cachear el resultado por período (los históricos no cambian durante el día)
+Para hacerlo bien se necesita el historial de composición del portafolio por fecha (qué cantidad de cada ticker tenías en cada día), que la API de IOL no provee.
 
 #### Market strip (Merval, S&P 500, MEP, Blue)
 
@@ -48,6 +39,58 @@ Actualmente hardcodeado con valores inventados en `src/app/dashboard/page.tsx`.
 - Dólar MEP: `POST /api/v2/Cotizaciones/MEP` o `GET /api/v2/Cotizaciones/MEP/{simbolo}`
 - S&P Merval: probar si `MERVAL` es símbolo válido en `GET /api/v2/bCBA/Titulos/MERVAL/Cotizacion`
 - Dólar Blue: **no disponible en la API de IOL** (es mercado informal), habría que usar otra fuente
+
+---
+
+## Referencia API IOL v2
+
+Documentación completa disponible en:
+- `e:\Usuario\Downloads\InvertirOnLine_API_v2_Documentacion.html` — navegable en browser
+- `e:\Usuario\Downloads\InvertirOnLine_swagger_v2.json` — importable en Postman/Insomnia
+
+Host: `https://api.invertironline.com`
+
+### Endpoints relevantes para el dashboard
+
+| Endpoint | Método | Descripción |
+|---|---|---|
+| `/api/v2/estadocuenta` | GET | Saldo, disponible ARS/USD, ganancia total |
+| `/api/v2/portafolio/{pais}` | GET | Posiciones con precio, cantidad, valuación |
+| `/api/v2/operaciones` | GET | Historial de operaciones (fechaDesde, fechaHasta, estado, etc.) |
+| `/api/v2/operaciones/{numero}` | GET | Detalle de una operación |
+| `/api/v2/{Mercado}/Titulos/{Simbolo}/Cotizacion` | GET | Cotización actual de un ticker |
+| `/api/v2/{mercado}/Titulos/{simbolo}/CotizacionDetalle` | GET | Cotización con más detalle (puntas, variación) |
+| `/api/v2/{mercado}/Titulos/{simbolo}/Cotizacion/seriehistorica/{fechaDesde}/{fechaHasta}/{ajustada}` | GET | Serie histórica de un ticker — devuelve `CotizacionModel[]` |
+| `/api/v2/Cotizaciones/MEP/{simbolo}` | GET | Cotización dólar MEP para un símbolo |
+| `/api/v2/Cotizaciones/MEP` | POST | Cotización MEP simplificada |
+| `/api/v2/Cotizaciones/{Instrumento}/{Pais}/Todos` | GET | Todas las cotizaciones de un instrumento (acciones, cedears, etc.) |
+| `/api/v2/Cotizaciones/{Instrumento}/{Panel}/{Pais}` | GET | Cotizaciones por panel |
+
+### Mercados válidos (`{mercado}`)
+`bCBA` · `nYSE` · `nASDAQ` · `aMEX` · `bCS` · `rOFX`
+
+### Tipos de instrumento
+`opciones` · `cedears` · `acciones` · `aDRs` · `titulosPublicos` · `cauciones` · `futuros` · `obligacionesNegociables` · `letras`
+
+### CotizacionModel (respuesta de seriehistorica y cotización actual)
+```
+ultimoPrecio    number   Precio de cierre del día
+fechaHora       string   Fecha ISO 8601
+apertura        number
+maximo          number
+minimo          number
+cierreAnterior  number
+variacion       number   % de variación
+montoOperado    number
+volumenNominal  number
+moneda          enum     peso_Argentino | dolar_Estadounidense | ...
+```
+
+### Nota sobre seriehistorica
+- No existe endpoint batch — una llamada por ticker
+- Con 27 posiciones → 27 llamadas paralelas (`Promise.all`)
+- `ajustada` es importante para CEDEARs (incorpora splits y dividendos)
+- Los históricos no cambian durante el día → cachear por período
 
 ---
 
@@ -62,7 +105,7 @@ Actualmente hardcodeado con valores inventados en `src/app/dashboard/page.tsx`.
 
 ## Pendientes futuros
 
-- [ ] Conectar gráfico de evolución con `seriehistorica` (ver arriba)
+- [x] Conectar gráfico de evolución con `seriehistorica`
 - [ ] Conectar market strip con cotizaciones reales
 - [ ] Deploy en Vercel + login con NextAuth (usuario único)
 - [ ] Página de Cotizaciones (sidebar muestra "PRONTO")

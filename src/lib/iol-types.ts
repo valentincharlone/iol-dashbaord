@@ -113,9 +113,21 @@ export interface DashboardData {
   estadoCuenta: EstadoCuenta | null;
 }
 
+// Respuesta real de GET /api/v2/{mercado}/Titulos/{simbolo}/Cotizacion — estructura plana
 export interface IOLCotizacionResponse {
-  titulo: IOLTitulo;
-  ultimo: IOLUltimoPrecio;
+  ultimoPrecio: number;
+  variacion: number;         // % de variación diaria
+  apertura: number;
+  maximo: number;
+  minimo: number;
+  fechaHora: string;
+  tendencia: string;         // "sube" | "baja" | "mantiene"
+  cierreAnterior: number;
+  montoOperado: number;
+  volumenNominal: number;
+  precioPromedio?: number;
+  cantidadOperaciones?: number;
+  moneda: string;
 }
 
 export interface CotizacionItem {

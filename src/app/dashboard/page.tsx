@@ -1,8 +1,7 @@
 import { getPortafolio } from "@/lib/iol-actions";
 import { HoldingsTable } from "@/components/HoldingsTable";
 import { AllocationChart } from "@/components/AllocationChart";
-// import { EvolutionChart } from "@/components/EvolutionChart"; // TODO: mock — ver CLAUDE.md
-import { Wallet } from "lucide-react";
+// import { EvolutionChart } from "@/components/EvolutionChart"; // requiere historial de composición del portafolio por fecha — API de IOL no lo provee
 
 /* ─── Helpers ─── */
 function fmtMoney(n: number) {
@@ -116,11 +115,11 @@ async function DashboardContent() {
         </span>
       </div>
 
-      {/* KPI row — 2fr 1fr 1fr 0.7fr */}
+      {/* KPI row — 2fr 1fr 1fr 1fr */}
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "2fr 1fr 1fr 0.7fr",
+          gridTemplateColumns: "2fr 1fr 1fr 1fr",
           gap: 14,
         }}
       >
@@ -189,6 +188,10 @@ async function DashboardContent() {
                   {fmtMoney(estadoCuenta.totalConEfectivo)}
                 </div>
               )}
+              <div style={{ fontSize: 12, opacity: 0.65 }}>
+                <span style={{ opacity: 0.8 }}>{cantidadPosiciones} </span>
+                activos
+              </div>
             </div>
           </div>
         </div>
@@ -267,7 +270,7 @@ async function DashboardContent() {
           </div>
         </div>
 
-        {/* Posiciones */}
+        {/* Disponible */}
         <div style={{ ...cardBase, padding: "20px 22px" }}>
           <div
             style={{
@@ -276,81 +279,29 @@ async function DashboardContent() {
               color: "var(--text-3)",
               textTransform: "uppercase",
               letterSpacing: 0.5,
+              marginBottom: 10,
             }}
           >
-            Posiciones
+            Disponible
           </div>
-          <div
-            style={{
-              fontSize: 26,
-              fontWeight: 700,
-              marginTop: 6,
-              color: "var(--text-1)",
-            }}
-          >
-            {cantidadPosiciones}
-          </div>
-          <div style={{ fontSize: 12, color: "var(--text-3)", marginTop: 2 }}>
-            activos
-          </div>
-        </div>
-      </div>
-
-      {/* Cash + Market */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        {/* Cash */}
-        {estadoCuenta && (
-          <div style={{ display: "flex", gap: 14 }}>
-            {[
-              {
-                label: "ARS Disponible",
-                value: fmtMoney(estadoCuenta.disponibleARS),
-              },
-              {
-                label: "USD Disponible",
-                value: fmtUSD(estadoCuenta.disponibleUSD),
-              },
-            ].map((c) => (
-              <div
-                key={c.label}
-                style={{
-                  ...cardBase,
-                  borderRadius: 12,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "14px 20px",
-                  flex: 1,
-                }}
-              >
-                <Wallet size={16} color="#6366F1" strokeWidth={2} />
-                <div>
-                  <div
-                    style={{
-                      fontSize: 11,
-                      color: "var(--text-3)",
-                      fontWeight: 500,
-                      textTransform: "uppercase",
-                      letterSpacing: 0.4,
-                    }}
-                  >
-                    {c.label}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 700,
-                      fontVariantNumeric: "tabular-nums",
-                      marginTop: 1,
-                    }}
-                  >
-                    {c.value}
-                  </div>
+          {estadoCuenta ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {[
+                { label: "ARS", value: fmtMoney(estadoCuenta.disponibleARS) },
+                { label: "USD", value: fmtUSD(estadoCuenta.disponibleUSD) },
+              ].map((r) => (
+                <div key={r.label} style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                  <span style={{ fontSize: 10, color: "var(--text-3)", fontWeight: 600, minWidth: 24 }}>{r.label}</span>
+                  <span style={{ fontSize: 18, fontWeight: 700, fontVariantNumeric: "tabular-nums", color: "var(--text-1)" }}>
+                    {r.value}
+                  </span>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          ) : (
+            <div style={{ fontSize: 13, color: "var(--text-3)" }}>—</div>
+          )}
+        </div>
       </div>
 
       {/* Top movers hoy — datos reales de variacionDiaria */}
@@ -389,14 +340,6 @@ async function DashboardContent() {
         ))}
       </div>
 
-      {/* Charts row */}
-      {/* TODO: EvolutionChart comentado — usa datos mock. Ver CLAUDE.md para conectar seriehistorica */}
-      {/* <div style={{ ...cardBase, padding: "20px 24px" }}>
-        <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text-2)", margin: "0 0 16px" }}>
-          Evolución del portafolio
-        </p>
-        <EvolutionChart totalValuacion={totalValuacion} />
-      </div> */}
 
       {/* Distribution + Holdings */}
       <div style={{ display: "grid", gridTemplateColumns: "360px 1fr", gap: 20, alignItems: "start" }}>

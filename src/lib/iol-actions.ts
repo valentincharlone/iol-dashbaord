@@ -8,6 +8,13 @@ import type {
 
 const IOL_API_BASE = "https://api.invertironline.com";
 
+const MERCADO_MAP: Record<string, string> = {
+  bcba: "bCBA", nyse: "nYSE", nasdaq: "nASDAQ", amex: "aMEX", rofx: "rOFX", bcs: "bCS",
+};
+function normalizeMercado(m: string): string {
+  return MERCADO_MAP[m?.toLowerCase()] ?? m ?? "bCBA";
+}
+
 async function iolFetch<T>(path: string, retry = true): Promise<T> {
   const token = await getValidToken();
   const res = await fetch(`${IOL_API_BASE}${path}`, {
@@ -40,15 +47,14 @@ export async function getPortafolio(): Promise<DashboardData> {
   // Usamos variacionPorcentual de cada cotización, que refleja el cierre del día.
   const cotizResults = await Promise.allSettled(
     activos.map(async (a) => {
-      const mercado = a.titulo.mercado || "bCBA";
+      const mercado = normalizeMercado(a.titulo.mercado);
       const simbolo = encodeURIComponent(a.titulo.simbolo);
       const cot = await iolFetch<IOLCotizacionResponse>(
         `/api/v2/${mercado}/Titulos/${simbolo}/Cotizacion`
       );
-      const { variacionPorcentual, precio, cierreAnterior } = cot.ultimo;
-      const variacion = variacionPorcentual !== 0
-        ? variacionPorcentual
-        : cierreAnterior > 0 ? ((precio - cierreAnterior) / cierreAnterior) * 100 : 0;
+      const variacion = cot.variacion !== 0
+        ? cot.variacion
+        : cot.cierreAnterior > 0 ? ((cot.ultimoPrecio - cot.cierreAnterior) / cot.cierreAnterior) * 100 : 0;
       return { ticker: a.titulo.simbolo, variacion };
     })
   );
@@ -122,7 +128,7 @@ export async function getCotizacionesPortafolio(): Promise<CotizacionItem[]> {
 
   const results = await Promise.allSettled(
     activos.map(async (a) => {
-      const mercado = a.titulo.mercado || "bCBA";
+      const mercado = normalizeMercado(a.titulo.mercado);
       const simbolo = encodeURIComponent(a.titulo.simbolo);
       const data = await iolFetch<IOLCotizacionResponse>(`/api/v2/${mercado}/Titulos/${simbolo}/Cotizacion`);
       return {
@@ -130,17 +136,17 @@ export async function getCotizacionesPortafolio(): Promise<CotizacionItem[]> {
         nombre: a.titulo.descripcion,
         tipo: a.titulo.tipo,
         mercado,
-        precio: data.ultimo.precio,
-        variacionPorcentual: data.ultimo.variacionPorcentual,
-        apertura: data.ultimo.apertura,
-        maximo: data.ultimo.maximo,
-        minimo: data.ultimo.minimo,
-        cierreAnterior: data.ultimo.cierreAnterior,
-        volumenNominal: data.ultimo.volumenNominal,
-        montoOperado: data.ultimo.montoOperado,
-        cantidadOperaciones: data.ultimo.cantidadOperaciones,
-        moneda: data.ultimo.moneda,
-        tendencia: data.ultimo.tendencia,
+        precio: data.ultimoPrecio,
+        variacionPorcentual: data.variacion,
+        apertura: data.apertura,
+        maximo: data.maximo,
+        minimo: data.minimo,
+        cierreAnterior: data.cierreAnterior,
+        volumenNominal: data.volumenNominal,
+        montoOperado: data.montoOperado,
+        cantidadOperaciones: data.cantidadOperaciones ?? 0,
+        moneda: data.moneda,
+        tendencia: data.tendencia,
       } satisfies CotizacionItem;
     })
   );
