@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg:           #F5F7FB;
+  --card:         #FFFFFF;
+  --border:       #E8ECF4;
+  --border-light: #F0F3F9;
+  --row-hover:    #FAFBFE;
+  --text-1:       #1B1F3B;
+  --text-2:       #6E7191;
+  --text-3:       #A0A3BD;
+}
+
+body {
+  font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
+  background-color: var(--bg);
+  color: var(--text-1);
+}
+
+@keyframes livePulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); }
+  50%       { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.1); }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #F0F3F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #C8CDDC;
+  border-radius: 3px;
+}

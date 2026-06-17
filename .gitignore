@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# next.js
+.next/
+out/
+
+# env files
+.env
+.env.local
+.env*.local
+
+# token persistido (contiene refresh_token sensible)
+.iol-token.json
+
+# misc
+.DS_Store
+*.pem
