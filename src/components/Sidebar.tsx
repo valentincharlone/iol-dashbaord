@@ -9,15 +9,23 @@ import {
   Activity,
   User,
   FileText,
-  PanelLeftClose,
   X,
   LogOut,
+  PanelLeft,
 } from "lucide-react";
 
 const NAV_MAIN = [
-  { href: "/dashboard",             label: "Portafolio",   icon: <PieChart size={18} /> },
-  { href: "/dashboard/cotizaciones", label: "Cotizaciones", icon: <TrendingUp size={18} /> },
-  { href: "/dashboard/movimientos",  label: "Movimientos",  icon: <Activity size={18} /> },
+  { href: "/dashboard", label: "Portafolio", icon: <PieChart size={18} /> },
+  {
+    href: "/dashboard/cotizaciones",
+    label: "Cotizaciones",
+    icon: <TrendingUp size={18} />,
+  },
+  {
+    href: "/dashboard/movimientos",
+    label: "Movimientos",
+    icon: <Activity size={18} />,
+  },
 ];
 const NAV_SECONDARY = [
   { href: "/dashboard/perfil", label: "Mi perfil", icon: <User size={18} /> },
@@ -89,7 +97,7 @@ export function Sidebar({ collapsed, onToggle, isMobile }: Props) {
             title={isMobile ? "Cerrar menú" : "Colapsar sidebar"}
             className="text-text3 shrink-0 flex hover:text-brand transition-colors"
           >
-            {isMobile ? <X size={18} /> : <PanelLeftClose size={18} />}
+            {isMobile ? <X size={18} /> : <PanelLeft size={18} />}
           </button>
         </div>
       )}

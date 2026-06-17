@@ -24,10 +24,7 @@ function fmtMoney(n: number, moneda?: string | null) {
 function fmtPrecio(n: number) {
   return (
     "$" +
-    n.toLocaleString("es-AR", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })
+    n.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   );
 }
 
@@ -38,93 +35,61 @@ function isDividendo(tipo: string) {
 function fmtFecha(iso: string) {
   try {
     const d = new Date(iso);
-    const pad = (n: number) => String(n).padStart(2, "0");
-    return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    const p = (n: number) => String(n).padStart(2, "0");
+    return `${p(d.getDate())}/${p(d.getMonth() + 1)}/${d.getFullYear()} ${p(d.getHours())}:${p(d.getMinutes())}`;
   } catch {
     return iso;
   }
 }
 
-function getTipoStyle(tipo: string): {
-  bg: string;
-  text: string;
-  label: string;
-} {
+function getTipoCls(tipo: string): { cls: string; label: string } {
   const key = tipo.toLowerCase();
-  if (key === "compra")
-    return { bg: "#F0FDF4", text: "#16A34A", label: "Compra" };
-  if (key === "venta")
-    return { bg: "#FFF1F2", text: "#DC2626", label: "Venta" };
-  if (key.includes("dividendo"))
-    return { bg: "#FFFBEB", text: "#92400E", label: "Dividendo" };
-  if (key.includes("acreditacion"))
-    return { bg: "#EEF2FF", text: "#4338CA", label: "Acreditación" };
-  if (key.includes("transferencia"))
-    return { bg: "#F5F3FF", text: "#6D28D9", label: "Transferencia" };
-  return { bg: "#F0F2F8", text: "#6E7191", label: tipo };
+  if (key === "compra")              return { cls: "bg-profit-bg text-profit",         label: "Compra" };
+  if (key === "venta")               return { cls: "bg-loss-bg text-loss",             label: "Venta" };
+  if (key.includes("dividendo"))     return { cls: "bg-amber-50 text-amber-800",       label: "Dividendo" };
+  if (key.includes("acreditacion"))  return { cls: "bg-brand-muted text-brand",        label: "Acreditación" };
+  if (key.includes("transferencia")) return { cls: "bg-purple-50 text-purple-700",     label: "Transferencia" };
+  return { cls: "bg-[#F0F2F8] text-text3", label: tipo };
 }
 
-const ESTADO_STYLE: Record<string, { color: string }> = {
-  terminada: { color: "#059669" },
-  pendiente: { color: "#D97706" },
-  cancelada: { color: "#EF4444" },
+const ESTADO_CLS: Record<string, string> = {
+  terminada: "text-profit",
+  pendiente: "text-amber-600",
+  cancelada: "text-loss",
 };
-
-function getEstadoStyle(estado: string) {
-  return ESTADO_STYLE[estado.toLowerCase()] ?? { color: "var(--text-3)" };
+function getEstadoCls(estado: string) {
+  return ESTADO_CLS[estado.toLowerCase()] ?? "text-text3";
 }
 
 type SortCol = "fecha" | "activo" | "total";
 type SortDir = "asc" | "desc";
 
-const TH: React.CSSProperties = {
-  fontSize: 10,
-  fontWeight: 600,
-  color: "var(--text-3)",
-  textTransform: "uppercase",
-  letterSpacing: 0.6,
-  padding: "10px 12px",
-  borderBottom: "1px solid var(--border)",
-  textAlign: "right",
-  whiteSpace: "nowrap",
-};
-
-function SortIcon({
-  col,
-  active,
-  dir,
-}: {
-  col: string;
-  active: boolean;
-  dir: SortDir;
-}) {
-  return (
-    <span style={{ marginLeft: 4, opacity: active ? 1 : 0.3, fontSize: 10 }}>
-      {active ? (dir === "asc" ? "↑" : "↓") : "↕"}
-    </span>
-  );
-}
-
 const PERIODOS = [
-  { label: "1 mes", days: 30 },
-  { label: "3 meses", days: 90 },
+  { label: "1 mes",   days: 30  },
+  { label: "3 meses", days: 90  },
   { label: "6 meses", days: 180 },
-  { label: "Todo", days: 0 },
+  { label: "Todo",    days: 0   },
 ];
 
 function toDateInput(d: Date) {
   return d.toISOString().split("T")[0];
 }
 
-export function MovimientosTable({
-  operaciones,
-  defaultDesde,
-  defaultHasta,
-}: Props) {
+const TH_BASE   = "text-[10px] font-semibold text-text3 uppercase tracking-[0.6px] py-2.5 px-3 border-b border-border whitespace-nowrap cursor-pointer select-none";
+const TD_BASE   = "py-3 px-3 border-b border-[#F5F7FB] text-[13px] tabular-nums text-right whitespace-nowrap";
+const TD_LEFT   = "py-3 px-3 border-b border-[#F5F7FB] text-[13px] tabular-nums text-left  whitespace-nowrap";
+
+function filterBtnCls(active: boolean) {
+  return `px-3.5 py-[5px] rounded-md text-[12px] font-medium cursor-pointer border font-[inherit] transition-colors ${
+    active
+      ? "bg-brand-muted text-brand border-[#C7D2FE]"
+      : "bg-white text-text2 border-border hover:bg-[#F5F6FA]"
+  }`;
+}
+
+export function MovimientosTable({ operaciones, defaultDesde, defaultHasta }: Props) {
   const router = useRouter();
-  const [tipoFiltro, setTipoFiltro] = useState<"todos" | "compra" | "venta">(
-    "todos",
-  );
+  const [tipoFiltro, setTipoFiltro] = useState<"todos" | "compra" | "venta">("todos");
   const [activePeriod, setActivePeriod] = useState<number | null>(null);
   const [desde, setDesde] = useState(defaultDesde);
   const [hasta, setHasta] = useState(defaultHasta);
@@ -134,19 +99,14 @@ export function MovimientosTable({
   const [hovRow, setHovRow] = useState<number | null>(null);
 
   function toggleSort(col: SortCol) {
-    if (sortCol === col) {
-      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
-    } else {
-      setSortCol(col);
-      setSortDir(col === "fecha" ? "desc" : "asc");
-    }
+    if (sortCol === col) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    else { setSortCol(col); setSortDir(col === "fecha" ? "desc" : "asc"); }
   }
 
   function applyPeriod(idx: number) {
     setActivePeriod(idx);
     const { days } = PERIODOS[idx];
-    const newDesde =
-      days === 0 ? "" : toDateInput(new Date(Date.now() - days * 86_400_000));
+    const newDesde = days === 0 ? "" : toDateInput(new Date(Date.now() - days * 86_400_000));
     setDesde(newDesde);
     setHasta("");
     const params = new URLSearchParams();
@@ -165,363 +125,154 @@ export function MovimientosTable({
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     const rows = operaciones.filter((op) => {
-      if (tipoFiltro !== "todos" && op.tipo.toLowerCase() !== tipoFiltro)
-        return false;
+      if (tipoFiltro !== "todos" && op.tipo.toLowerCase() !== tipoFiltro) return false;
       if (q && !op.simbolo.toLowerCase().includes(q)) return false;
       return true;
     });
-
     const mul = sortDir === "asc" ? 1 : -1;
     rows.sort((a, b) => {
       if (sortCol === "fecha")
-        return (
-          mul *
-          (new Date(a.fechaOrden).getTime() - new Date(b.fechaOrden).getTime())
-        );
+        return mul * (new Date(a.fechaOrden).getTime() - new Date(b.fechaOrden).getTime());
       if (sortCol === "activo") return mul * a.simbolo.localeCompare(b.simbolo);
       if (sortCol === "total")
-        return (
-          mul *
-          ((a.montoOperado || a.monto || 0) - (b.montoOperado || b.monto || 0))
-        );
+        return mul * ((a.montoOperado || a.monto || 0) - (b.montoOperado || b.monto || 0));
       return 0;
     });
     return rows;
   }, [operaciones, tipoFiltro, search, sortCol, sortDir]);
 
-  const tdBase: React.CSSProperties = {
-    padding: "12px 12px",
-    borderBottom: "1px solid #F5F7FB",
-    fontSize: 13,
-    fontVariantNumeric: "tabular-nums",
-    textAlign: "right",
-    whiteSpace: "nowrap",
-  };
+  function sortIcon(col: SortCol) {
+    if (sortCol !== col) return <span className="ml-0.5 opacity-30 text-[10px]">↕</span>;
+    return <span className="ml-0.5 text-[10px]">{sortDir === "asc" ? "↑" : "↓"}</span>;
+  }
 
-  const filterBtn = (active: boolean): React.CSSProperties => ({
-    padding: "5px 14px",
-    borderRadius: 6,
-    fontSize: 12,
-    fontWeight: 500,
-    cursor: "pointer",
-    border: "1px solid var(--border)",
-    fontFamily: "inherit",
-    background: active ? "#EEF2FF" : "white",
-    color: active ? "#4338CA" : "var(--text-2)",
-    borderColor: active ? "#C7D2FE" : "var(--border)",
-  });
+  const dateCls = "text-[12px] px-2 py-[5px] rounded-lg border border-border outline-none font-[inherit] text-text1 focus:border-brand transition-colors";
 
   return (
-    <div
-      style={{
-        background: "white",
-        borderRadius: 14,
-        border: "1px solid var(--border-light)",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-        overflow: "clip",
-      }}
-    >
-      <div
-        style={{
-          padding: "16px 20px",
-          borderBottom: "1px solid var(--border-light)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 12,
-          flexWrap: "wrap",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span
-            style={{ fontSize: 15, fontWeight: 600, color: "var(--text-1)" }}
-          >
-            Movimientos
-          </span>
-          <span style={{ fontSize: 12, color: "var(--text-3)" }}>
-            {filtered.length} operaciones
-          </span>
+    <div className="bg-white rounded-card shadow-sm overflow-clip">
+      {/* Toolbar */}
+      <div className="flex items-center justify-between px-5 py-4 border-b border-border-light gap-3 flex-wrap">
+        <div className="flex items-center gap-2">
+          <span className="text-[15px] font-semibold text-text1">Movimientos</span>
+          <span className="text-[12px] text-text3">{filtered.length} operaciones</span>
         </div>
-        <div
-          style={{
-            display: "flex",
-            gap: 8,
-            alignItems: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          <div style={{ display: "flex", gap: 4 }}>
+
+        <div className="flex gap-2 items-center flex-wrap">
+          {/* Filtro tipo */}
+          <div className="flex gap-1">
             {(["todos", "compra", "venta"] as const).map((t) => (
-              <button
-                key={t}
-                onClick={() => setTipoFiltro(t)}
-                style={filterBtn(tipoFiltro === t)}
-              >
-                {t === "todos"
-                  ? "Todos"
-                  : t === "compra"
-                    ? "Compras"
-                    : "Ventas"}
+              <button key={t} onClick={() => setTipoFiltro(t)} className={filterBtnCls(tipoFiltro === t)}>
+                {t === "todos" ? "Todos" : t === "compra" ? "Compras" : "Ventas"}
               </button>
             ))}
           </div>
-          <div style={{ display: "flex", gap: 4 }}>
+
+          {/* Períodos */}
+          <div className="flex gap-1">
             {PERIODOS.map((p, idx) => (
-              <button
-                key={p.label}
-                onClick={() => applyPeriod(idx)}
-                style={filterBtn(activePeriod === idx)}
-              >
+              <button key={p.label} onClick={() => applyPeriod(idx)} className={filterBtnCls(activePeriod === idx)}>
                 {p.label}
               </button>
             ))}
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+
+          {/* Rango de fechas */}
+          <div className="flex items-center gap-1.5">
             <input
               type="date"
               value={desde}
               onChange={(e) => setDesde(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && buscar()}
-              style={{
-                fontSize: 12,
-                padding: "5px 8px",
-                borderRadius: 8,
-                border: "1px solid var(--border)",
-                outline: "none",
-                fontFamily: "inherit",
-                color: desde ? "var(--text-1)" : "var(--text-3)",
-              }}
+              className={dateCls}
             />
-            <span style={{ fontSize: 12, color: "var(--text-3)" }}>—</span>
+            <span className="text-[12px] text-text3">—</span>
             <input
               type="date"
               value={hasta}
               onChange={(e) => setHasta(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && buscar()}
-              style={{
-                fontSize: 12,
-                padding: "5px 8px",
-                borderRadius: 8,
-                border: "1px solid var(--border)",
-                outline: "none",
-                fontFamily: "inherit",
-                color: hasta ? "var(--text-1)" : "var(--text-3)",
-              }}
+              className={dateCls}
             />
             <button
               onClick={buscar}
-              style={{
-                padding: "5px 14px",
-                borderRadius: 6,
-                fontSize: 12,
-                fontWeight: 600,
-                cursor: "pointer",
-                border: "1px solid #C7D2FE",
-                fontFamily: "inherit",
-                background: "#EEF2FF",
-                color: "#4338CA",
-              }}
+              className="px-3.5 py-[5px] rounded-md text-[12px] font-semibold cursor-pointer border border-[#C7D2FE] font-[inherit] bg-brand-muted text-brand"
             >
               Buscar
             </button>
           </div>
+
+          {/* Buscar ticker */}
           <input
             type="text"
             placeholder="Buscar ticker…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            style={{
-              fontSize: 13,
-              padding: "5px 12px",
-              borderRadius: 8,
-              border: "1px solid var(--border)",
-              outline: "none",
-              fontFamily: "inherit",
-              color: "var(--text-1)",
-              width: 140,
-            }}
+            className="text-[13px] px-3 py-[5px] rounded-lg border border-border outline-none font-[inherit] text-text1 w-[140px] focus:border-brand transition-colors"
           />
         </div>
       </div>
 
-      <div style={{ overflowX: "auto" }}>
-        <table
-          style={{ width: "100%", borderCollapse: "collapse", minWidth: 760 }}
-        >
-          <thead
-            style={{
-              position: "sticky",
-              top: 0,
-              zIndex: 10,
-              background: "white",
-            }}
-          >
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse" style={{ minWidth: 760 }}>
+          <thead className="sticky top-0 z-10 bg-white">
             <tr>
-              <th
-                onClick={() => toggleSort("fecha")}
-                style={{
-                  ...TH,
-                  textAlign: "left",
-                  paddingLeft: 20,
-                  cursor: "pointer",
-                  userSelect: "none",
-                }}
-              >
-                Fecha{" "}
-                <SortIcon
-                  col="fecha"
-                  active={sortCol === "fecha"}
-                  dir={sortDir}
-                />
+              <th onClick={() => toggleSort("fecha")}  className={`${TH_BASE} text-left pl-5`}>
+                Fecha{sortIcon("fecha")}
               </th>
-              <th style={{ ...TH, textAlign: "left" }}>Tipo</th>
-              <th
-                onClick={() => toggleSort("activo")}
-                style={{
-                  ...TH,
-                  textAlign: "left",
-                  cursor: "pointer",
-                  userSelect: "none",
-                }}
-              >
-                Activo{" "}
-                <SortIcon
-                  col="activo"
-                  active={sortCol === "activo"}
-                  dir={sortDir}
-                />
+              <th className={`${TH_BASE} text-left`}>Tipo</th>
+              <th onClick={() => toggleSort("activo")} className={`${TH_BASE} text-left`}>
+                Activo{sortIcon("activo")}
               </th>
-              <th style={TH}>Cantidad</th>
-              <th style={TH}>Precio</th>
-              <th
-                onClick={() => toggleSort("total")}
-                style={{ ...TH, cursor: "pointer", userSelect: "none" }}
-              >
-                Total{" "}
-                <SortIcon
-                  col="total"
-                  active={sortCol === "total"}
-                  dir={sortDir}
-                />
+              <th className={`${TH_BASE} text-right`}>Cantidad</th>
+              <th className={`${TH_BASE} text-right`}>Precio</th>
+              <th onClick={() => toggleSort("total")}  className={`${TH_BASE} text-right`}>
+                Total{sortIcon("total")}
               </th>
-              <th style={{ ...TH, paddingRight: 20 }}>Estado</th>
+              <th className={`${TH_BASE} text-right pr-5`}>Estado</th>
             </tr>
           </thead>
           <tbody>
             {filtered.map((op, i) => {
-              const tipoStyle = getTipoStyle(op.tipo);
-              const estadoStyle = getEstadoStyle(op.estado);
+              const { cls: tipoCls, label: tipoLabel } = getTipoCls(op.tipo);
+              const estadoCls = getEstadoCls(op.estado);
               return (
                 <tr
                   key={op.numero}
                   onMouseEnter={() => setHovRow(i)}
                   onMouseLeave={() => setHovRow(null)}
-                  style={{
-                    background: hovRow === i ? "#FAFBFE" : "transparent",
-                  }}
+                  className={hovRow === i ? "bg-[#FAFBFE]" : "bg-transparent"}
                 >
-                  <td
-                    style={{
-                      ...tdBase,
-                      textAlign: "left",
-                      paddingLeft: 20,
-                      color: "var(--text-2)",
-                    }}
-                  >
-                    {fmtFecha(op.fechaOrden)}
-                  </td>
-                  <td style={{ ...tdBase, textAlign: "left" }}>
-                    <span
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 600,
-                        padding: "2px 8px",
-                        borderRadius: 4,
-                        background: tipoStyle.bg,
-                        color: tipoStyle.text,
-                      }}
-                    >
-                      {tipoStyle.label}
+                  <td className={`${TD_LEFT} pl-5 text-text2`}>{fmtFecha(op.fechaOrden)}</td>
+                  <td className={TD_LEFT}>
+                    <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-[4px] ${tipoCls}`}>
+                      {tipoLabel}
                     </span>
                   </td>
-                  <td style={{ ...tdBase, textAlign: "left" }}>
-                    <span
-                      style={{
-                        fontWeight: 700,
-                        fontSize: 13,
-                        color: "var(--text-1)",
-                      }}
-                    >
-                      {op.simbolo}
-                    </span>
-                    <div
-                      style={{
-                        fontSize: 11,
-                        color: "var(--text-3)",
-                        marginTop: 1,
-                      }}
-                    >
-                      {op.mercado}
-                    </div>
+                  <td className={TD_LEFT}>
+                    <span className="font-bold text-[13px] text-text1">{op.simbolo}</span>
+                    <div className="text-[11px] text-text3 mt-px">{op.mercado}</div>
                   </td>
-                  <td
-                    style={{
-                      ...tdBase,
-                      color: isDividendo(op.tipo) ? "var(--text-3)" : undefined,
-                    }}
-                  >
+                  <td className={`${TD_BASE} ${isDividendo(op.tipo) ? "text-text3" : ""}`}>
                     {isDividendo(op.tipo)
                       ? "—"
-                      : (
-                          (op.cantidadOperada || op.cantidad) ??
-                          0
-                        ).toLocaleString("es-AR")}
+                      : ((op.cantidadOperada || op.cantidad) ?? 0).toLocaleString("es-AR")}
                   </td>
-                  <td
-                    style={{
-                      ...tdBase,
-                      color: isDividendo(op.tipo) ? "var(--text-3)" : undefined,
-                    }}
-                  >
-                    {isDividendo(op.tipo)
-                      ? "—"
-                      : fmtPrecio(op.precioOperado || op.precio || 0)}
+                  <td className={`${TD_BASE} ${isDividendo(op.tipo) ? "text-text3" : ""}`}>
+                    {isDividendo(op.tipo) ? "—" : fmtPrecio(op.precioOperado || op.precio || 0)}
                   </td>
-                  <td
-                    style={{
-                      ...tdBase,
-                      fontWeight: 700,
-                      color: isDividendo(op.tipo) ? "#059669" : undefined,
-                    }}
-                  >
+                  <td className={`${TD_BASE} font-bold ${isDividendo(op.tipo) ? "text-profit" : ""}`}>
                     {op.montoOperado || op.monto
                       ? fmtMoney(op.montoOperado || op.monto || 0, op.moneda)
                       : "—"}
                   </td>
-                  <td
-                    style={{
-                      ...tdBase,
-                      paddingRight: 20,
-                      fontWeight: 500,
-                      color: estadoStyle.color,
-                    }}
-                  >
-                    {op.estado}
-                  </td>
+                  <td className={`${TD_BASE} pr-5 font-medium ${estadoCls}`}>{op.estado}</td>
                 </tr>
               );
             })}
             {filtered.length === 0 && (
               <tr>
-                <td
-                  colSpan={7}
-                  style={{
-                    padding: "32px",
-                    textAlign: "center",
-                    fontSize: 13,
-                    color: "var(--text-3)",
-                  }}
-                >
+                <td colSpan={7} className="py-8 text-center text-[13px] text-text3">
                   No hay operaciones para los filtros seleccionados.
                 </td>
               </tr>

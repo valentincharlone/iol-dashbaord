@@ -5,60 +5,16 @@ export default async function CotizacionesPage() {
   const items = await getCotizacionesPortafolio();
 
   return (
-    <div
-      style={{
-        padding: "24px",
-        paddingBottom: 48,
-        display: "flex",
-        flexDirection: "column",
-        gap: 20,
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+    <div className="p-4 pb-12 md:p-6 md:pb-16 flex flex-col gap-5">
+      <div className="flex items-center justify-between">
         <div>
-          <h1
-            style={{
-              fontSize: 22,
-              fontWeight: 700,
-              color: "var(--text-1)",
-              margin: 0,
-            }}
-          >
-            Cotizaciones
-          </h1>
-          <p
-            style={{ fontSize: 13, color: "var(--text-3)", margin: "2px 0 0" }}
-          >
+          <h1 className="text-[22px] font-bold text-text1 m-0">Cotizaciones</h1>
+          <p className="text-[13px] text-text3 mt-0.5">
             Mercado en tiempo real · tus posiciones
           </p>
         </div>
-        <span
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-            color: "#059669",
-            fontSize: 13,
-            fontWeight: 600,
-          }}
-        >
-          <span
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: "50%",
-              background: "#10B981",
-              boxShadow: "0 0 0 3px rgba(16,185,129,0.2)",
-              animation: "livePulse 2s ease-in-out infinite",
-              display: "inline-block",
-            }}
-          />
+        <span className="inline-flex items-center gap-1.5 text-profit text-[13px] font-semibold">
+          <span className="w-2 h-2 rounded-full bg-profit-subtle inline-block shadow-[0_0_0_3px_rgba(16,185,129,0.2)] animate-[livePulse_2s_ease-in-out_infinite]" />
           En vivo
         </span>
       </div>

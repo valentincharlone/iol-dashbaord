@@ -69,7 +69,6 @@ function tipoLabel(tipo: string): string {
   return tipo;
 }
 
-
 const DENSITY_PY: Record<Density, string> = {
   compact: "py-1.5",
   normal: "py-3",
@@ -159,7 +158,8 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
         )
       : 0;
 
-  const tdCls = `${DENSITY_PY[density]} px-2.5 border-b border-[#F5F7FB] text-[13px] tabular-nums text-right whitespace-nowrap transition-[padding] duration-200`;
+  const tdCls     = `${DENSITY_PY[density]} px-2.5 border-b border-[#F5F7FB] text-[13px] tabular-nums text-right whitespace-nowrap transition-[padding] duration-200`;
+  const tdClsLeft = `${DENSITY_PY[density]} px-2.5 border-b border-[#F5F7FB] text-[13px] tabular-nums text-left  whitespace-nowrap transition-[padding] duration-200`;
 
   const densityBtn = (d: Density, label: string) => (
     <button
@@ -175,10 +175,10 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
     </button>
   );
 
-  const thSort = (key: SortBy, label: string, extra = "") => (
+  const thSort = (key: SortBy, label: string, extra = "", align: "left" | "right" = "right") => (
     <th
       onClick={() => toggleSort(key)}
-      className={`text-[10px] font-semibold text-text3 uppercase tracking-[0.6px] py-2.5 px-2.5 border-b border-border text-right whitespace-nowrap cursor-pointer select-none ${extra}`}
+      className={`text-[10px] font-semibold text-text3 uppercase tracking-[0.6px] py-2.5 px-2.5 border-b border-border ${align === "left" ? "text-left" : "text-right"} whitespace-nowrap cursor-pointer select-none ${extra}`}
     >
       {label}
       <span
@@ -192,7 +192,7 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
   return (
     <div className="bg-white rounded-card shadow-sm overflow-clip">
       {/* Toolbar */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-border-light">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-border-light flex-wrap gap-3">
         <div className="flex items-center gap-2">
           <span className="text-[15px] font-semibold text-text1">Holdings</span>
           <span className="text-[12px] text-text3">
@@ -245,7 +245,7 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
         <table className="w-full border-collapse" style={{ minWidth: 760 }}>
           <thead className="sticky top-0 z-10 bg-white">
             <tr>
-              {thSort("name", "Activo", "text-left pl-5 w-[22%]")}
+              {thSort("name", "Activo", "pl-5 w-[22%]", "left")}
               {col("cantidad") && thSort("cantidad", "Cant.")}
               {col("precio") && thSort("precio", "Precio")}
               {col("costo") && thSort("costo", "Costo")}
@@ -269,7 +269,7 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
                   onMouseLeave={() => setHovRow(null)}
                   className={hovRow === i ? "bg-[#FAFBFE]" : "bg-transparent"}
                 >
-                  <td className={`${tdCls} text-left pl-5`}>
+                  <td className={`${tdClsLeft} pl-5`}>
                     <div className="flex items-center gap-2">
                       <div>
                         <div className="flex items-center gap-1.5">

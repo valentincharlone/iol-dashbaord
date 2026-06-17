@@ -158,14 +158,12 @@ export default async function DashboardContent() {
                   key={p.ticker}
                   className="flex items-center justify-between"
                 >
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-[13px] text-text1">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="font-bold text-[13px] text-text1 shrink-0">
                       {p.ticker}
                     </span>
-                    <span className="text-[11px] text-text3">
-                      {p.nombre.length > 22
-                        ? p.nombre.slice(0, 22) + "…"
-                        : p.nombre}
+                    <span className="text-[11px] text-text3 truncate">
+                      {p.nombre}
                     </span>
                   </div>
                   <div className="text-right">

@@ -15,92 +15,32 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const res = await signIn("credentials", {
-      username,
-      password,
-      redirect: false,
-    });
+    const res = await signIn("credentials", { username, password, redirect: false });
     setLoading(false);
-    if (res?.ok) {
-      router.push("/dashboard");
-    } else {
-      setError("Usuario o contraseña incorrectos.");
-    }
+    if (res?.ok) router.push("/dashboard");
+    else setError("Usuario o contraseña incorrectos.");
   }
 
+  const inputCls =
+    "w-full px-3.5 py-2.5 rounded-lg border border-border text-sm text-text1 bg-white font-[inherit] outline-none focus:border-brand transition-colors";
+
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "var(--bg)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 24,
-      }}
-    >
-      <div style={{ width: "100%", maxWidth: 380 }}>
+    <div className="min-h-screen bg-bg flex items-center justify-center p-6">
+      <div className="w-full max-w-[380px]">
         {/* Logo */}
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <div
-            style={{
-              width: 48,
-              height: 48,
-              borderRadius: 12,
-              background: "linear-gradient(135deg, #4338CA, #818CF8)",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              fontWeight: 700,
-              fontSize: 15,
-              letterSpacing: -0.5,
-              marginBottom: 16,
-            }}
-          >
+        <div className="text-center mb-8">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand to-brand-light inline-flex items-center justify-center text-white font-bold text-[15px] tracking-tight mb-4">
             IOL
           </div>
-          <h1
-            style={{
-              fontSize: 22,
-              fontWeight: 700,
-              color: "var(--text-1)",
-              margin: "0 0 4px",
-            }}
-          >
-            Dashboard
-          </h1>
-          <p style={{ fontSize: 13, color: "var(--text-3)", margin: 0 }}>
-            Ingresá para ver tu portafolio
-          </p>
+          <h1 className="text-[22px] font-bold text-text1 mb-1">Dashboard</h1>
+          <p className="text-[13px] text-text3">Ingresá para ver tu portafolio</p>
         </div>
 
         {/* Card */}
-        <div
-          style={{
-            background: "white",
-            borderRadius: 16,
-            border: "1px solid var(--border)",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-            padding: "32px 28px",
-          }}
-        >
-          <form
-            onSubmit={handleSubmit}
-            style={{ display: "flex", flexDirection: "column", gap: 16 }}
-          >
+        <div className="bg-white rounded-2xl border border-border shadow-sm p-8">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
-              <label
-                style={{
-                  display: "block",
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: "var(--text-2)",
-                  marginBottom: 6,
-                  textTransform: "uppercase",
-                  letterSpacing: 0.4,
-                }}
-              >
+              <label className="block text-[11px] font-semibold text-text2 uppercase tracking-[0.4px] mb-1.5">
                 Usuario
               </label>
               <input
@@ -109,36 +49,12 @@ export default function LoginPage() {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 autoFocus
-                style={{
-                  width: "100%",
-                  padding: "10px 14px",
-                  borderRadius: 8,
-                  border: "1px solid var(--border)",
-                  fontSize: 14,
-                  color: "var(--text-1)",
-                  outline: "none",
-                  boxSizing: "border-box",
-                  fontFamily: "inherit",
-                  background: "white",
-                  transition: "border-color 0.15s",
-                }}
-                onFocus={(e) => (e.target.style.borderColor = "#6366F1")}
-                onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+                className={inputCls}
               />
             </div>
 
             <div>
-              <label
-                style={{
-                  display: "block",
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: "var(--text-2)",
-                  marginBottom: 6,
-                  textTransform: "uppercase",
-                  letterSpacing: 0.4,
-                }}
-              >
+              <label className="block text-[11px] font-semibold text-text2 uppercase tracking-[0.4px] mb-1.5">
                 Contraseña
               </label>
               <input
@@ -146,35 +62,12 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                style={{
-                  width: "100%",
-                  padding: "10px 14px",
-                  borderRadius: 8,
-                  border: "1px solid var(--border)",
-                  fontSize: 14,
-                  color: "var(--text-1)",
-                  outline: "none",
-                  boxSizing: "border-box",
-                  fontFamily: "inherit",
-                  background: "white",
-                  transition: "border-color 0.15s",
-                }}
-                onFocus={(e) => (e.target.style.borderColor = "#6366F1")}
-                onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+                className={inputCls}
               />
             </div>
 
             {error && (
-              <p
-                style={{
-                  fontSize: 13,
-                  color: "#EF4444",
-                  margin: 0,
-                  padding: "8px 12px",
-                  background: "#FEF2F2",
-                  borderRadius: 6,
-                }}
-              >
+              <p className="text-[13px] text-loss bg-loss-bg rounded-md px-3 py-2">
                 {error}
               </p>
             )}
@@ -182,19 +75,9 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              style={{
-                background: loading ? "#818CF8" : "#4338CA",
-                color: "white",
-                border: "none",
-                borderRadius: 8,
-                padding: "12px",
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: loading ? "not-allowed" : "pointer",
-                fontFamily: "inherit",
-                transition: "background 0.15s",
-                marginTop: 4,
-              }}
+              className={`mt-1 rounded-lg py-3 text-sm font-semibold text-white border-none font-[inherit] transition-opacity ${
+                loading ? "bg-brand-light cursor-not-allowed" : "bg-brand cursor-pointer hover:opacity-90"
+              }`}
             >
               {loading ? "Ingresando…" : "Ingresar"}
             </button>

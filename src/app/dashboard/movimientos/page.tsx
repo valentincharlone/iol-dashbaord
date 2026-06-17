@@ -12,27 +12,10 @@ export default async function MovimientosPage({
   const operaciones = await getOperaciones(desde, hasta);
 
   return (
-    <div
-      style={{
-        padding: "24px",
-        paddingBottom: 48,
-        display: "flex",
-        flexDirection: "column",
-        gap: 20,
-      }}
-    >
+    <div className="p-4 pb-12 md:p-6 md:pb-16 flex flex-col gap-5">
       <div>
-        <h1
-          style={{
-            fontSize: 22,
-            fontWeight: 700,
-            color: "var(--text-1)",
-            margin: 0,
-          }}
-        >
-          Movimientos
-        </h1>
-        <p style={{ fontSize: 13, color: "var(--text-3)", margin: "2px 0 0" }}>
+        <h1 className="text-[22px] font-bold text-text1 m-0">Movimientos</h1>
+        <p className="text-[13px] text-text3 mt-0.5">
           Historial de operaciones · Argentina
         </p>
       </div>
