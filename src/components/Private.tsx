@@ -13,7 +13,9 @@ export function Private({ children, prefix = "$" }: Props) {
     return (
       <span className="select-none align-middle">
         <span className="text-text2 font-semibold">{prefix}</span>
-        <span className="text-text3/50 tracking-wider">{"*".repeat(6)}</span>
+        <span className="pl-1 text-text3/50 tracking-wider">
+          {"*".repeat(6)}
+        </span>
       </span>
     );
   }

@@ -86,7 +86,10 @@ export default async function DashboardContent() {
           <div
             className={`text-[12px] mt-0.5 tabular-nums ${pct >= 0 ? "text-profit" : "text-loss"}`}
           >
-            <Private>{pesos >= 0 ? "+" : ""}{fmtMoney(pesos)}</Private>
+            <Private>
+              {pesos >= 0 ? "+" : ""}
+              {fmtMoney(pesos)}
+            </Private>
           </div>
         </div>
 
@@ -103,7 +106,10 @@ export default async function DashboardContent() {
           <div
             className={`text-[12px] mt-0.5 tabular-nums ${variacionHoy >= 0 ? "text-profit" : "text-loss"}`}
           >
-            <Private>{variacionHoyPesos >= 0 ? "+" : ""}{fmtMoney(variacionHoyPesos)}</Private>
+            <Private>
+              {variacionHoyPesos >= 0 ? "+" : ""}
+              {fmtMoney(variacionHoyPesos)}
+            </Private>
           </div>
         </div>
 
@@ -115,15 +121,23 @@ export default async function DashboardContent() {
           {estadoCuenta ? (
             <div className="flex flex-col gap-2">
               {[
-                { label: "ARS", value: fmtMoney(estadoCuenta.disponibleARS), prefix: "$" },
-                { label: "USD", value: fmtUSD(estadoCuenta.disponibleUSD),   prefix: "US$" },
+                {
+                  label: "ARS",
+                  value: fmtMoney(estadoCuenta.disponibleARS),
+                  prefix: "$",
+                },
+                {
+                  label: "USD",
+                  value: fmtUSD(estadoCuenta.disponibleUSD),
+                  prefix: "US$",
+                },
               ].map((r) => (
                 <div key={r.label} className="flex items-baseline gap-1.5">
                   <span className="text-[10px] text-text3 font-semibold min-w-[24px]">
                     {r.label}
                   </span>
                   <span className="text-[18px] font-bold tabular-nums text-text1">
-                    <Private prefix={r.prefix}>{r.value}</Private>
+                    {r.value}
                   </span>
                 </div>
               ))}
@@ -168,7 +182,10 @@ export default async function DashboardContent() {
                       {fmtPct(p.variacionDiaria)}
                     </span>
                     <div className="text-[10px] text-text3 tabular-nums">
-                      <Private>{p.variacionDiaria >= 0 ? "+" : ""}{fmtMoney((p.valuacion * p.variacionDiaria) / 100)}</Private>
+                      <Private>
+                        {p.variacionDiaria >= 0 ? "+" : ""}
+                        {fmtMoney((p.valuacion * p.variacionDiaria) / 100)}
+                      </Private>
                     </div>
                   </div>
                 </div>

@@ -265,7 +265,7 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
 
                   {col("cantidad") && (
                     <td className={tdCls}>
-                      {p.cantidad.toLocaleString("es-AR")}
+                      <Private prefix=" ">{p.cantidad.toLocaleString("es-AR")}</Private>
                     </td>
                   )}
                   {col("precio") && (
