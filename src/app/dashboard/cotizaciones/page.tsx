@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getCotizacionesPortafolio } from "@/lib/iol-actions";
 import { CotizacionesTable } from "@/components/CotizacionesTable";
 

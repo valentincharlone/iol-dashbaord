@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getOperaciones } from "@/lib/iol-actions";
 import { MovimientosTable } from "@/components/MovimientosTable";
 

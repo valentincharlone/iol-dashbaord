@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getPerfil, getPortafolio } from "@/lib/iol-actions";
 import { fmtMoney, fmtUSD } from "@/lib/fmt";
 

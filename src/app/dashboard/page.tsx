@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getPortafolio } from "@/lib/iol-actions";
 import { HoldingsTable } from "@/components/HoldingsTable";
 import { AllocationChart } from "@/components/AllocationChart";
