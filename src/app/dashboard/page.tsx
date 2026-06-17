@@ -34,13 +34,7 @@ export default async function DashboardContent() {
           <p className="text-[13px] text-text3 mt-0.5">Argentina · BCBA</p>
         </div>
         <span className="inline-flex items-center gap-1.5 text-profit text-[13px] font-semibold">
-          <span
-            className="w-2 h-2 rounded-full bg-profit-subtle"
-            style={{
-              boxShadow: "0 0 0 3px rgba(16,185,129,0.2)",
-              animation: "livePulse 2s ease-in-out infinite",
-            }}
-          />
+          <span className="w-2 h-2 rounded-full bg-profit-subtle shadow-[0_0_0_3px_rgba(16,185,129,0.2)] animate-[livePulse_2s_ease-in-out_infinite] inline-block" />
           En vivo
         </span>
       </div>

@@ -10,6 +10,7 @@ import type {
   IOLCotizacionResponse,
   CotizacionItem,
   IOLOperacion,
+  IOLOperacionDetalle,
   IOLPerfil,
 } from "./iol-types";
 
@@ -222,6 +223,10 @@ export async function getCotizacionesPortafolio(): Promise<CotizacionItem[]> {
 
 export async function getPerfil(): Promise<IOLPerfil> {
   return iolFetch<IOLPerfil>("/api/v2/datos-perfil");
+}
+
+export async function getOperacionDetalle(numero: number): Promise<IOLOperacionDetalle> {
+  return iolFetch<IOLOperacionDetalle>(`/api/v2/operaciones/${numero}`);
 }
 
 export async function getOperaciones(

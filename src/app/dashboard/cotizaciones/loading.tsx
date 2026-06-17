@@ -8,7 +8,7 @@ export default function CotizacionesLoading() {
         <div className="shimmer h-3.5 w-56" />
       </div>
 
-      <div className="bg-white rounded-card shadow-card overflow-clip">
+      <div className="bg-white rounded-card shadow-sm overflow-clip">
         <div className="px-5 py-4 border-b border-border-light flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="shimmer h-[18px] w-[120px]" />
@@ -18,7 +18,7 @@ export default function CotizacionesLoading() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse" style={{ minWidth: 820 }}>
+          <table className="w-full border-collapse min-w-[820px]">
             <thead>
               <tr>
                 {COLS.map((w, i) => (
@@ -27,12 +27,8 @@ export default function CotizacionesLoading() {
                     className={`py-2.5 px-3 border-b border-border ${i === 0 ? "pl-5 text-left" : "text-right"}`}
                   >
                     <div
-                      className="shimmer"
-                      style={{
-                        height: 10,
-                        width: w,
-                        marginLeft: i === 0 ? 0 : "auto",
-                      }}
+                      className={`shimmer h-2.5 ${i === 0 ? "" : "ml-auto"}`}
+                      style={{ width: w }}
                     />
                   </th>
                 ))}
@@ -46,13 +42,10 @@ export default function CotizacionesLoading() {
                     <div className="shimmer h-[11px] w-28" />
                   </td>
                   {COLS.slice(1).map((w, j) => (
-                    <td
-                      key={j}
-                      className="px-3 py-3 border-b border-[#F5F7FB] text-right"
-                    >
+                    <td key={j} className="px-3 py-3 border-b border-[#F5F7FB] text-right">
                       <div
-                        className="shimmer ml-auto"
-                        style={{ height: 14, width: parseInt(w) * 0.6 }}
+                        className="shimmer h-3.5 ml-auto"
+                        style={{ width: parseInt(w) * 0.6 }}
                       />
                     </td>
                   ))}

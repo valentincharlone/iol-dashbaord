@@ -3,6 +3,8 @@
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import type { IOLOperacion } from "@/lib/iol-types";
+import { getTipoCls, getEstadoCls } from "@/lib/operacion";
+import { OperacionDrawer } from "./OperacionDrawer";
 
 interface Props {
   operaciones: IOLOperacion[];
@@ -42,24 +44,6 @@ function fmtFecha(iso: string) {
   }
 }
 
-function getTipoCls(tipo: string): { cls: string; label: string } {
-  const key = tipo.toLowerCase();
-  if (key === "compra")              return { cls: "bg-profit-bg text-profit",         label: "Compra" };
-  if (key === "venta")               return { cls: "bg-loss-bg text-loss",             label: "Venta" };
-  if (key.includes("dividendo"))     return { cls: "bg-amber-50 text-amber-800",       label: "Dividendo" };
-  if (key.includes("acreditacion"))  return { cls: "bg-brand-muted text-brand",        label: "Acreditación" };
-  if (key.includes("transferencia")) return { cls: "bg-purple-50 text-purple-700",     label: "Transferencia" };
-  return { cls: "bg-[#F0F2F8] text-text3", label: tipo };
-}
-
-const ESTADO_CLS: Record<string, string> = {
-  terminada: "text-profit",
-  pendiente: "text-amber-600",
-  cancelada: "text-loss",
-};
-function getEstadoCls(estado: string) {
-  return ESTADO_CLS[estado.toLowerCase()] ?? "text-text3";
-}
 
 type SortCol = "fecha" | "activo" | "total";
 type SortDir = "asc" | "desc";
@@ -97,6 +81,7 @@ export function MovimientosTable({ operaciones, defaultDesde, defaultHasta }: Pr
   const [sortCol, setSortCol] = useState<SortCol>("fecha");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [hovRow, setHovRow] = useState<number | null>(null);
+  const [selectedNumero, setSelectedNumero] = useState<number | null>(null);
 
   function toggleSort(col: SortCol) {
     if (sortCol === col) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
@@ -149,6 +134,8 @@ export function MovimientosTable({ operaciones, defaultDesde, defaultHasta }: Pr
   const dateCls = "text-[12px] px-2 py-[5px] rounded-lg border border-border outline-none font-[inherit] text-text1 focus:border-brand transition-colors";
 
   return (
+    <>
+    <OperacionDrawer numero={selectedNumero} onClose={() => setSelectedNumero(null)} />
     <div className="bg-white rounded-card shadow-sm overflow-clip">
       {/* Toolbar */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-border-light gap-3 flex-wrap">
@@ -239,9 +226,10 @@ export function MovimientosTable({ operaciones, defaultDesde, defaultHasta }: Pr
               return (
                 <tr
                   key={op.numero}
+                  onClick={() => setSelectedNumero(op.numero)}
                   onMouseEnter={() => setHovRow(i)}
                   onMouseLeave={() => setHovRow(null)}
-                  className={hovRow === i ? "bg-[#FAFBFE]" : "bg-transparent"}
+                  className={`cursor-pointer ${hovRow === i ? "bg-[#FAFBFE]" : "bg-transparent"}`}
                 >
                   <td className={`${TD_LEFT} pl-5 text-text2`}>{fmtFecha(op.fechaOrden)}</td>
                   <td className={TD_LEFT}>
@@ -281,5 +269,6 @@ export function MovimientosTable({ operaciones, defaultDesde, defaultHasta }: Pr
         </table>
       </div>
     </div>
+    </>
   );
 }

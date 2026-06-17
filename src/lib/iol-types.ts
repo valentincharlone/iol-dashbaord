@@ -184,3 +184,33 @@ export interface IOLOperacion {
   plazo: string;
   moneda?: string | null;
 }
+
+export interface IOLArancel {
+  tipo: string;
+  neto: number;
+  iva: number;
+  moneda: string;
+}
+
+// Respuesta de GET /api/v2/operaciones/{numero} — campos distintos al listado
+export interface IOLOperacionDetalle {
+  numero: number;
+  mercado: string;
+  simbolo: string;
+  moneda: string | null;
+  tipo: string | null;
+  fechaAlta: string | null;
+  validez: string | null;
+  fechaOperado: string | null;
+  estadoActual: string | null;
+  precio: number | null;
+  cantidad: number | null;
+  monto: number | null;
+  fondosParaOperacion: number | null;
+  montoOperacion: number | null;
+  modalidad: string | null;
+  plazo: string | null;
+  aranceles: IOLArancel[] | null;
+  arancelesARS: number | null;
+  arancelesUSD: number | null;
+}

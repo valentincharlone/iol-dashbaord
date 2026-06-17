@@ -81,7 +81,7 @@ function DonutChart({
 
   return (
     <div className="flex flex-col items-center gap-5">
-      <div className="relative w-full aspect-square" style={{ maxWidth: size }}>
+      <div className="relative w-full aspect-square max-w-[190px]">
         <svg width="100%" height="100%" viewBox={`0 0 ${size} ${size}`}>
           <g transform={`rotate(-90 ${size / 2} ${size / 2})`}>
             {segments.map((seg, i) => {
@@ -102,7 +102,7 @@ function DonutChart({
                   strokeDasharray={`${dashLen} ${dashGap}`}
                   strokeDashoffset={offset}
                   strokeLinecap="butt"
-                  style={{ transition: "all 0.5s ease" }}
+                  className="transition-all duration-500 ease-in-out"
                 />
               );
             })}
