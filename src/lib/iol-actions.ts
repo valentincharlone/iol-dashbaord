@@ -3,7 +3,7 @@
 import { getValidToken, invalidateTokens } from "./iol-auth";
 import type {
   IOLPortafolio, IOLEstadoCuenta, DashboardData, DashboardPosicion, EstadoCuenta,
-  IOLCotizacionResponse, CotizacionItem, IOLOperacion,
+  IOLCotizacionResponse, CotizacionItem, IOLOperacion, IOLPerfil,
 } from "./iol-types";
 
 const IOL_API_BASE = "https://api.invertironline.com";
@@ -155,6 +155,10 @@ export async function getCotizacionesPortafolio(): Promise<CotizacionItem[]> {
     .filter((r): r is PromiseFulfilledResult<CotizacionItem> => r.status === "fulfilled")
     .map((r) => r.value)
     .sort((a, b) => b.variacionPorcentual - a.variacionPorcentual);
+}
+
+export async function getPerfil(): Promise<IOLPerfil> {
+  return iolFetch<IOLPerfil>("/api/v2/datos-perfil");
 }
 
 export async function getOperaciones(fechaDesde?: string, fechaHasta?: string): Promise<IOLOperacion[]> {

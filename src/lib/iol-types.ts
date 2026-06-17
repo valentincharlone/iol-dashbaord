@@ -148,6 +148,20 @@ export interface CotizacionItem {
   tendencia: string;
 }
 
+export interface IOLPerfil {
+  nombre: string;
+  apellido: string;
+  numeroCuenta: string;
+  dni: string;
+  cuitCuil: string;
+  sexo: string;
+  perfilInversor: string;
+  email: string;
+  cuentaAbierta: boolean;
+  actualizarDDJJ: boolean;
+  actualizarTestInversor: boolean;
+}
+
 export interface IOLOperacion {
   numero: number;
   fechaOrden: string;
