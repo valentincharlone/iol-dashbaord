@@ -1,11 +1,11 @@
-export function getTipoCls(tipo: string): { cls: string; label: string } {
+export function getTipoCls(tipo: string | null | undefined): { cls: string; label: string } {
   const key = tipo != null ? String(tipo).toLowerCase() : "";
   if (key === "compra")              return { cls: "bg-profit-bg text-profit",     label: "Compra" };
   if (key === "venta")               return { cls: "bg-loss-bg text-loss",         label: "Venta" };
   if (key.includes("dividendo"))     return { cls: "bg-amber-50 text-amber-800",   label: "Dividendo" };
   if (key.includes("acreditacion"))  return { cls: "bg-brand-muted text-brand",    label: "Acreditación" };
   if (key.includes("transferencia")) return { cls: "bg-purple-50 text-purple-700", label: "Transferencia" };
-  return { cls: "bg-[#F0F2F8] text-text3", label: tipo };
+  return { cls: "bg-[#F0F2F8] text-text3", label: tipo ?? "—" };
 }
 
 const ESTADO_CLS: Record<string, string> = {
