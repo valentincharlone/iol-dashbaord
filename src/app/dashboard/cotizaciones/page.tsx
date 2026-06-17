@@ -1,8 +1,7 @@
 import { getCotizacionesPortafolio } from "@/lib/iol-actions";
 import { CotizacionesTable } from "@/components/CotizacionesTable";
-import { Suspense } from "react";
 
-async function CotizacionesContent() {
+export default async function CotizacionesPage() {
   const items = await getCotizacionesPortafolio();
 
   return (
@@ -31,27 +30,5 @@ async function CotizacionesContent() {
 
       <CotizacionesTable items={items} />
     </div>
-  );
-}
-
-export default function CotizacionesPage() {
-  return (
-    <Suspense
-      fallback={
-        <div style={{ display: "flex", height: "100%", alignItems: "center",
-            justifyContent: "center", minHeight: "50vh" }}>
-          <div style={{ textAlign: "center" }}>
-            <div style={{
-              width: 28, height: 28, borderRadius: "50%",
-              border: "2px solid #6366F1", borderTopColor: "transparent",
-              animation: "spin 0.8s linear infinite", margin: "0 auto 10px",
-            }} />
-            <p style={{ fontSize: 14, color: "var(--text-3)" }}>Cargando cotizaciones…</p>
-          </div>
-        </div>
-      }
-    >
-      <CotizacionesContent />
-    </Suspense>
   );
 }

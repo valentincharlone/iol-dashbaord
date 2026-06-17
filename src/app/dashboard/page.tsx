@@ -2,7 +2,6 @@ import { getPortafolio } from "@/lib/iol-actions";
 import { HoldingsTable } from "@/components/HoldingsTable";
 import { AllocationChart } from "@/components/AllocationChart";
 // import { EvolutionChart } from "@/components/EvolutionChart"; // TODO: mock — ver CLAUDE.md
-import { Suspense } from "react";
 import { Wallet } from "lucide-react";
 
 /* ─── Helpers ─── */
@@ -421,39 +420,4 @@ async function DashboardContent() {
   );
 }
 
-export default function DashboardPage() {
-  return (
-    <Suspense
-      fallback={
-        <div
-          style={{
-            display: "flex",
-            height: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "50vh",
-          }}
-        >
-          <div style={{ textAlign: "center" }}>
-            <div
-              style={{
-                width: 28,
-                height: 28,
-                borderRadius: "50%",
-                border: "2px solid #6366F1",
-                borderTopColor: "transparent",
-                animation: "spin 0.8s linear infinite",
-                margin: "0 auto 10px",
-              }}
-            />
-            <p style={{ fontSize: 14, color: "var(--text-3)" }}>
-              Cargando portafolio…
-            </p>
-          </div>
-        </div>
-      }
-    >
-      <DashboardContent />
-    </Suspense>
-  );
-}
+export default DashboardContent;

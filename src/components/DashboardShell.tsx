@@ -7,7 +7,7 @@ import { Sidebar } from "./Sidebar";
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000; // 5 minutos
 
 export function DashboardShell({ children }: { children: React.ReactNode }) {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
 
   useEffect(() => {

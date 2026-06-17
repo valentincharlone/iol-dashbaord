@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import type { DashboardPosicion } from "@/lib/iol-types";
 
 interface Props {
@@ -9,7 +9,19 @@ interface Props {
 }
 
 type Density = "compact" | "normal" | "spacious";
-type SortBy = "value" | "pnl" | "weight" | "today" | "name";
+type SortBy = "name" | "cantidad" | "precio" | "costo" | "valuacion" | "pnl" | "hoy" | "peso";
+type SortDir = "asc" | "desc";
+type ColKey = "cantidad" | "precio" | "costo" | "valuacion" | "pnl" | "hoy" | "peso";
+
+const ALL_COLS: { key: ColKey; label: string }[] = [
+  { key: "cantidad",  label: "Cant." },
+  { key: "precio",    label: "Precio" },
+  { key: "costo",     label: "Costo" },
+  { key: "valuacion", label: "Valuación" },
+  { key: "pnl",       label: "P&L" },
+  { key: "hoy",       label: "Hoy" },
+  { key: "peso",      label: "Peso" },
+];
 
 const TIPO_BADGE: Record<string, { bg: string; text: string }> = {
   cedear:    { bg: "#EEF2FF", text: "#4338CA" },
@@ -51,13 +63,6 @@ function fmtPct(n: number): string {
 
 const DENSITY_PY: Record<Density, number> = { compact: 6, normal: 12, spacious: 18 };
 
-const SORT_OPTIONS: { value: SortBy; label: string }[] = [
-  { value: "value",  label: "Valuación" },
-  { value: "pnl",    label: "P&L %" },
-  { value: "weight", label: "Peso" },
-  { value: "today",  label: "Hoy" },
-  { value: "name",   label: "Nombre" },
-];
 
 const TH_STYLE: React.CSSProperties = {
   fontSize: 10, fontWeight: 600, color: "var(--text-3)",
@@ -68,20 +73,62 @@ const TH_STYLE: React.CSSProperties = {
 
 export function HoldingsTable({ posiciones, totalValuacion }: Props) {
   const [density, setDensity] = useState<Density>("normal");
-  const [sortBy, setSortBy] = useState<SortBy>("value");
+  const [sortBy, setSortBy] = useState<SortBy>("valuacion");
+  const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [hovRow, setHovRow] = useState<number | null>(null);
+
+  function toggleSort(col: SortBy) {
+    if (sortBy === col) {
+      setSortDir((d) => (d === "desc" ? "asc" : "desc"));
+    } else {
+      setSortBy(col);
+      setSortDir("desc");
+    }
+  }
+  const [visibleCols, setVisibleCols] = useState<Set<ColKey>>(
+    new Set<ColKey>(["cantidad", "precio", "costo", "valuacion", "pnl", "hoy", "peso"])
+  );
+  const [colsOpen, setColsOpen] = useState(false);
+  const colsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!colsOpen) return;
+    function handleClick(e: MouseEvent) {
+      if (colsRef.current && !colsRef.current.contains(e.target as Node)) setColsOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [colsOpen]);
+
+  function toggleCol(key: ColKey) {
+    setVisibleCols((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  }
+
+  const col = (key: ColKey) => visibleCols.has(key);
 
   const sorted = useMemo(() => {
     const arr = [...posiciones];
-    switch (sortBy) {
-      case "value":  arr.sort((a, b) => b.valuacion - a.valuacion); break;
-      case "pnl":    arr.sort((a, b) => b.pnlPorcentaje - a.pnlPorcentaje); break;
-      case "weight": arr.sort((a, b) => b.valuacion - a.valuacion); break;
-      case "today":  arr.sort((a, b) => b.variacionDiaria - a.variacionDiaria); break;
-      case "name":   arr.sort((a, b) => a.ticker.localeCompare(b.ticker)); break;
-    }
+    const mul = sortDir === "asc" ? 1 : -1;
+    arr.sort((a, b) => {
+      switch (sortBy) {
+        case "name":      return mul * a.ticker.localeCompare(b.ticker);
+        case "cantidad":  return mul * (a.cantidad - b.cantidad);
+        case "precio":    return mul * (a.precioActual - b.precioActual);
+        case "costo":     return mul * (a.ppc - b.ppc);
+        case "valuacion": return mul * (a.valuacion - b.valuacion);
+        case "pnl":       return mul * (a.pnlPorcentaje - b.pnlPorcentaje);
+        case "hoy":       return mul * (a.variacionDiaria - b.variacionDiaria);
+        case "peso":      return mul * (a.valuacion - b.valuacion);
+        default:          return 0;
+      }
+    });
     return arr;
-  }, [posiciones, sortBy]);
+  }, [posiciones, sortBy, sortDir]);
 
   const maxWeight = posiciones.length > 0
     ? Math.max(...posiciones.map((p) => totalValuacion > 0 ? (p.valuacion / totalValuacion) * 100 : 0))
@@ -124,12 +171,45 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
               </button>
             ))}
           </div>
-          <select value={sortBy} onChange={(e) => setSortBy(e.target.value as SortBy)}
-            style={{ fontSize: 12, color: "var(--text-2)", border: "1px solid var(--border)",
-              borderRadius: 6, padding: "3px 8px", background: "white",
-              cursor: "pointer", fontFamily: "inherit", outline: "none" }}>
-            {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-          </select>
+          {/* Columnas toggle */}
+          <div ref={colsRef} style={{ position: "relative" }}>
+            <button
+              onClick={() => setColsOpen((o) => !o)}
+              style={{ ...densityBtnBase, padding: "3px 10px", fontSize: 12, fontWeight: 500,
+                background: colsOpen ? "#EEF2FF" : "white",
+                color: colsOpen ? "#4338CA" : "var(--text-2)",
+                borderColor: colsOpen ? "#C7D2FE" : "var(--border)" }}
+            >
+              Columnas ▾
+            </button>
+            {colsOpen && (
+              <div style={{
+                position: "absolute", right: 0, top: "calc(100% + 6px)", zIndex: 50,
+                background: "white", border: "1px solid var(--border)",
+                borderRadius: 10, boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
+                padding: "8px 4px", minWidth: 140,
+              }}>
+                {ALL_COLS.map(({ key, label }) => (
+                  <label key={key} style={{
+                    display: "flex", alignItems: "center", gap: 8,
+                    padding: "6px 12px", cursor: "pointer", borderRadius: 6,
+                    fontSize: 13, color: "var(--text-1)",
+                  }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = "#F5F7FB")}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={visibleCols.has(key)}
+                      onChange={() => toggleCol(key)}
+                      style={{ accentColor: "#6366F1", width: 14, height: 14, cursor: "pointer" }}
+                    />
+                    {label}
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -137,14 +217,31 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
         <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 760 }}>
           <thead style={{ position: "sticky", top: 0, zIndex: 10, background: "white" }}>
             <tr>
-              <th style={{ ...TH_STYLE, textAlign: "left", paddingLeft: 20, width: "22%" }}>Activo</th>
-              <th style={TH_STYLE}>Cant.</th>
-              <th style={TH_STYLE}>Precio</th>
-              <th style={TH_STYLE}>Costo</th>
-              <th style={TH_STYLE}>Valuación</th>
-              <th style={TH_STYLE}>P&L</th>
-              <th style={TH_STYLE}>Hoy</th>
-              <th style={{ ...TH_STYLE, paddingRight: 20 }}>Peso</th>
+              {(() => {
+                const thSort = (key: SortBy, label: string, extra?: React.CSSProperties) => (
+                  <th
+                    onClick={() => toggleSort(key)}
+                    style={{ ...TH_STYLE, cursor: "pointer", userSelect: "none", ...extra }}
+                  >
+                    {label}
+                    <span style={{ marginLeft: 3, opacity: sortBy === key ? 1 : 0.3 }}>
+                      {sortBy === key ? (sortDir === "desc" ? "↓" : "↑") : "↕"}
+                    </span>
+                  </th>
+                );
+                return (
+                  <>
+                    {thSort("name", "Activo", { textAlign: "left", paddingLeft: 20, width: "22%" })}
+                    {col("cantidad")  && thSort("cantidad",  "Cant.")}
+                    {col("precio")    && thSort("precio",    "Precio")}
+                    {col("costo")     && thSort("costo",     "Costo")}
+                    {col("valuacion") && thSort("valuacion", "Valuación")}
+                    {col("pnl")       && thSort("pnl",       "P&L")}
+                    {col("hoy")       && thSort("hoy",       "Hoy")}
+                    {col("peso")      && thSort("peso",      "Peso", { paddingRight: 20 })}
+                  </>
+                );
+              })()}
             </tr>
           </thead>
           <tbody>
@@ -172,29 +269,35 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
                       </div>
                     </div>
                   </td>
-                  <td style={tdBase}>{p.cantidad.toLocaleString("es-AR")}</td>
-                  <td style={tdBase}>{fmtMoney(p.precioActual)}</td>
-                  <td style={{ ...tdBase, color: "var(--text-3)" }}>{fmtMoney(p.ppc)}</td>
-                  <td style={{ ...tdBase, fontWeight: 700 }}>{fmtMoney(p.valuacion)}</td>
-                  <td style={tdBase}>
-                    <div style={{ fontWeight: 600, color: isPos ? "#059669" : "#EF4444" }}>{fmtPct(p.pnlPorcentaje)}</div>
-                    <div style={{ fontSize: 10, color: isPos ? "#059669" : "#EF4444", opacity: 0.65 }}>
-                      {p.pnlPesos >= 0 ? "+" : ""}{fmtMoney(p.pnlPesos)}
-                    </div>
-                  </td>
-                  <td style={tdBase}>
-                    <span style={{ fontWeight: 600, fontSize: 12, color: hoyPos ? "#059669" : "#EF4444" }}>
-                      {fmtPct(p.variacionDiaria)}
-                    </span>
-                  </td>
-                  <td style={{ ...tdBase, paddingRight: 20 }}>
-                    <div style={{ fontWeight: 500, fontSize: 12 }}>{peso.toFixed(1)}%</div>
-                    <div style={{ height: 3, borderRadius: 2, background: "#EEF2FF", marginTop: 3, width: 56 }}>
-                      <div style={{ height: "100%", borderRadius: 2, background: "#6366F1",
-                        width: (maxWeight > 0 ? (peso / maxWeight) * 100 : 0) + "%",
-                        transition: "width 0.3s ease" }} />
-                    </div>
-                  </td>
+                  {col("cantidad")  && <td style={tdBase}>{p.cantidad.toLocaleString("es-AR")}</td>}
+                  {col("precio")    && <td style={tdBase}>{fmtMoney(p.precioActual)}</td>}
+                  {col("costo")     && <td style={{ ...tdBase, color: "var(--text-3)" }}>{fmtMoney(p.ppc)}</td>}
+                  {col("valuacion") && <td style={{ ...tdBase, fontWeight: 700 }}>{fmtMoney(p.valuacion)}</td>}
+                  {col("pnl") && (
+                    <td style={tdBase}>
+                      <div style={{ fontWeight: 600, color: isPos ? "#059669" : "#EF4444" }}>{fmtPct(p.pnlPorcentaje)}</div>
+                      <div style={{ fontSize: 10, color: isPos ? "#059669" : "#EF4444", opacity: 0.65 }}>
+                        {p.pnlPesos >= 0 ? "+" : ""}{fmtMoney(p.pnlPesos)}
+                      </div>
+                    </td>
+                  )}
+                  {col("hoy") && (
+                    <td style={tdBase}>
+                      <span style={{ fontWeight: 600, fontSize: 12, color: hoyPos ? "#059669" : "#EF4444" }}>
+                        {fmtPct(p.variacionDiaria)}
+                      </span>
+                    </td>
+                  )}
+                  {col("peso") && (
+                    <td style={{ ...tdBase, paddingRight: 20 }}>
+                      <div style={{ fontWeight: 500, fontSize: 12 }}>{peso.toFixed(1)}%</div>
+                      <div style={{ height: 3, borderRadius: 2, background: "#EEF2FF", marginTop: 3, width: 56 }}>
+                        <div style={{ height: "100%", borderRadius: 2, background: "#6366F1",
+                          width: (maxWeight > 0 ? (peso / maxWeight) * 100 : 0) + "%",
+                          transition: "width 0.3s ease" }} />
+                      </div>
+                    </td>
+                  )}
                 </tr>
               );
             })}

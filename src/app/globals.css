@@ -19,6 +19,11 @@ body {
   color: var(--text-1);
 }
 
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+
 @keyframes livePulse {
   0%, 100% { box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); }
   50%       { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.1); }

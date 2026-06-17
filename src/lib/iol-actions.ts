@@ -36,6 +36,28 @@ export async function getPortafolio(): Promise<DashboardData> {
 
   const activos = data.value.activos ?? [];
 
+  // variacionDiaria del portafolio llega en 0 fuera del horario de mercado.
+  // Usamos variacionPorcentual de cada cotización, que refleja el cierre del día.
+  const cotizResults = await Promise.allSettled(
+    activos.map(async (a) => {
+      const mercado = a.titulo.mercado || "bCBA";
+      const simbolo = encodeURIComponent(a.titulo.simbolo);
+      const cot = await iolFetch<IOLCotizacionResponse>(
+        `/api/v2/${mercado}/Titulos/${simbolo}/Cotizacion`
+      );
+      const { variacionPorcentual, precio, cierreAnterior } = cot.ultimo;
+      const variacion = variacionPorcentual !== 0
+        ? variacionPorcentual
+        : cierreAnterior > 0 ? ((precio - cierreAnterior) / cierreAnterior) * 100 : 0;
+      return { ticker: a.titulo.simbolo, variacion };
+    })
+  );
+
+  const variacionMap = new Map<string, number>();
+  for (const r of cotizResults) {
+    if (r.status === "fulfilled") variacionMap.set(r.value.ticker, r.value.variacion);
+  }
+
   const posiciones: DashboardPosicion[] = activos.map((a) => {
     const valorizado = a.valorizado ?? (a.cantidad * a.ultimoPrecio);
     const ppc = a.ppc ?? 0;
@@ -56,7 +78,7 @@ export async function getPortafolio(): Promise<DashboardData> {
       valuacion: valorizado,
       pnlPesos,
       pnlPorcentaje,
-      variacionDiaria: a.variacionDiaria ?? 0,
+      variacionDiaria: variacionMap.get(a.titulo.simbolo) ?? a.variacionDiaria ?? 0,
     };
   });
 
