@@ -74,7 +74,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function Row({ label, value, mono = false }: { label: string; value: React.ReactNode; mono?: boolean }) {
   return (
-    <div className="flex justify-between items-start py-3 border-b border-[#F5F7FB] last:border-0 gap-4">
+    <div className="flex justify-between items-start py-3 border-b border-border-light last:border-0 gap-4">
       <span className="text-[12px] text-text3 font-medium shrink-0">{label}</span>
       <span className={`text-[13px] text-text1 font-semibold text-right ${mono ? "tabular-nums" : ""}`}>
         {value}
@@ -120,7 +120,7 @@ export function OperacionDrawer({ numero, onClose }: Props) {
       />
 
       <div
-        className={`fixed top-0 right-0 h-screen w-full max-w-[400px] bg-white z-50 flex flex-col shadow-[-8px_0_32px_rgba(0,0,0,0.08)] transition-transform duration-200 ease-in-out ${open ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed top-0 right-0 h-screen w-full max-w-[400px] bg-card z-50 flex flex-col shadow-[-8px_0_32px_rgba(0,0,0,0.12)] dark:shadow-[-8px_0_32px_rgba(0,0,0,0.5)] transition-transform duration-200 ease-in-out ${open ? "translate-x-0" : "translate-x-full"}`}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">
           <div>
@@ -136,7 +136,7 @@ export function OperacionDrawer({ numero, onClose }: Props) {
           {loading && (
             <div className="flex flex-col gap-3 pt-2">
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="flex justify-between py-3 border-b border-[#F5F7FB]">
+                <div key={i} className="flex justify-between py-3 border-b border-border-light">
                   <div className="shimmer h-3.5 w-24" />
                   <div className="shimmer h-3.5 w-28" />
                 </div>
@@ -168,7 +168,7 @@ export function OperacionDrawer({ numero, onClose }: Props) {
                   </span>
                 </div>
 
-                <div className="bg-[#F8F9FE] rounded-xl p-4 mb-1">
+                <div className="bg-surfaceInset rounded-xl p-4 mb-1">
                   <div className="text-[20px] font-bold text-text1">{op.simbolo}</div>
                   <div className="text-[12px] text-text3 mt-0.5">{op.mercado}</div>
                 </div>

@@ -8,7 +8,7 @@ export default function MovimientosLoading() {
         <div className="shimmer h-3.5 w-60" />
       </div>
 
-      <div className="bg-white rounded-card shadow-sm overflow-clip">
+      <div className="bg-card rounded-card shadow-sm overflow-clip">
         <div className="px-5 py-4 border-b border-border-light flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <div className="shimmer h-[18px] w-28" />
@@ -42,18 +42,18 @@ export default function MovimientosLoading() {
             <tbody>
               {Array.from({ length: 12 }).map((_, i) => (
                 <tr key={i}>
-                  <td className="pl-5 pr-3 py-3 border-b border-[#F5F7FB]">
+                  <td className="pl-5 pr-3 py-3 border-b border-border-light">
                     <div className="shimmer h-3 w-28" />
                   </td>
-                  <td className="px-3 py-3 border-b border-[#F5F7FB]">
+                  <td className="px-3 py-3 border-b border-border-light">
                     <div className="shimmer h-5 w-16 rounded" />
                   </td>
-                  <td className="px-3 py-3 border-b border-[#F5F7FB]">
+                  <td className="px-3 py-3 border-b border-border-light">
                     <div className="shimmer h-3.5 w-14 mb-1" />
                     <div className="shimmer h-[11px] w-9" />
                   </td>
                   {[50, 80, 90, 60].map((w, j) => (
-                    <td key={j} className={`px-3 py-3 border-b border-[#F5F7FB] text-right ${j === 3 ? "pr-5" : ""}`}>
+                    <td key={j} className={`px-3 py-3 border-b border-border-light text-right ${j === 3 ? "pr-5" : ""}`}>
                       <div className="shimmer h-3.5 ml-auto" style={{ width: w }} />
                     </td>
                   ))}

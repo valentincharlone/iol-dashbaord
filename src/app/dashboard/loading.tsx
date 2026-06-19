@@ -12,7 +12,7 @@ function Sk({
   );
 }
 
-const card = "bg-white rounded-card shadow-card";
+const card = "bg-card rounded-card shadow-card";
 
 export default function DashboardLoading() {
   return (
@@ -128,14 +128,14 @@ export default function DashboardLoading() {
             <tbody>
               {Array.from({ length: 8 }).map((_, i) => (
                 <tr key={i}>
-                  <td className="pl-5 pr-3 py-3 border-b border-[#F5F7FB]">
+                  <td className="pl-5 pr-3 py-3 border-b border-border-light">
                     <Sk w={50} h={14} className="mb-1" />
                     <Sk w={110} h={11} />
                   </td>
                   {[50, 60, 70, 65, 65, 55].map((w, j) => (
                     <td
                       key={j}
-                      className={`px-3 py-3 border-b border-[#F5F7FB] text-right ${j === 5 ? "pr-5" : ""}`}
+                      className={`px-3 py-3 border-b border-border-light text-right ${j === 5 ? "pr-5" : ""}`}
                     >
                       <div
                         className="shimmer ml-auto"

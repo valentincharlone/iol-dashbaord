@@ -17,7 +17,7 @@ export default function DashboardError({
 
   return (
     <div className="flex items-center justify-center min-h-[60vh] p-6">
-      <div className="bg-white rounded-card border border-border shadow-sm p-9 text-center max-w-[400px] w-full">
+      <div className="bg-card rounded-card border border-border shadow-sm p-9 text-center max-w-[400px] w-full">
         <div className="w-12 h-12 rounded-full bg-[#FFF1F0] flex items-center justify-center mx-auto mb-4 text-[22px]">
           ⚠
         </div>
@@ -38,7 +38,7 @@ export default function DashboardError({
           </button>
           <button
             onClick={() => window.location.reload()}
-            className="bg-transparent text-text3 border border-border rounded-lg px-6 py-2.5 text-sm font-medium cursor-pointer font-[inherit] hover:bg-[#F5F6FA] transition-colors"
+            className="bg-transparent text-text3 border border-border rounded-lg px-6 py-2.5 text-sm font-medium cursor-pointer font-[inherit] hover:bg-surface2 transition-colors"
           >
             Recargar
           </button>

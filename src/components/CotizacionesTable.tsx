@@ -47,7 +47,7 @@ const COLUMNS: { key: SortKey; label: string; left?: true }[] = [
 const TH_BASE =
   "text-[10px] font-semibold text-text3 uppercase tracking-[0.6px] py-2.5 px-3 border-b border-border whitespace-nowrap cursor-pointer select-none";
 const TD_BASE =
-  "py-3 px-3 border-b border-[#F5F7FB] text-[13px] tabular-nums text-right whitespace-nowrap";
+  "py-3 px-3 border-b border-border-light text-[13px] tabular-nums text-right whitespace-nowrap";
 
 export function CotizacionesTable({ items }: Props) {
   const [sort, setSort] = useState<{ key: SortKey; dir: SortDir }>({
@@ -132,7 +132,7 @@ export function CotizacionesTable({ items }: Props) {
   }
 
   return (
-    <div className="bg-white rounded-card shadow-sm overflow-clip">
+    <div className="bg-card rounded-card shadow-sm overflow-clip">
       {/* Toolbar */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-border-light gap-3 flex-wrap">
         <div className="flex items-center gap-2">
@@ -148,14 +148,14 @@ export function CotizacionesTable({ items }: Props) {
           placeholder="Buscar ticker o nombre…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="text-[13px] px-3 py-1.5 rounded-lg border border-border outline-none font-[inherit] text-text1 w-[220px] focus:border-brand transition-colors"
+          className="text-[13px] px-3 py-1.5 rounded-lg border border-border outline-none font-[inherit] text-text1 bg-card w-[220px] focus:border-brand transition-colors"
         />
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full border-collapse" style={{ minWidth: 820 }}>
-          <thead className="sticky top-0 z-10 bg-white">
+          <thead className="sticky top-0 z-10 bg-card">
             <tr>
               {COLUMNS.map((col) => (
                 <th
@@ -178,7 +178,7 @@ export function CotizacionesTable({ items }: Props) {
                   key={item.ticker}
                   onMouseEnter={() => setHovRow(i)}
                   onMouseLeave={() => setHovRow(null)}
-                  className={hovRow === i ? "bg-[#FAFBFE]" : "bg-transparent"}
+                  className={hovRow === i ? "bg-rowHover" : "bg-transparent"}
                 >
                   <td className={`${TD_BASE} text-left pl-5`}>
                     <div className="flex items-center gap-1.5">

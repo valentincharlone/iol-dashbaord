@@ -85,7 +85,7 @@ export default async function DashboardContent() {
         </div>
 
         {/* Rendimiento */}
-        <div className="bg-white rounded-card shadow-sm p-5">
+        <div className="bg-card rounded-card shadow-sm p-5">
           <div className="text-[12px] font-medium text-text3 uppercase tracking-wide">
             Rendimiento total
           </div>
@@ -103,7 +103,7 @@ export default async function DashboardContent() {
         </div>
 
         {/* Variación hoy */}
-        <div className="bg-white rounded-card shadow-sm p-5 ">
+        <div className="bg-card rounded-card shadow-sm p-5">
           <div className="text-[12px] font-medium text-text3 uppercase tracking-wide">
             Variación hoy
           </div>
@@ -121,7 +121,7 @@ export default async function DashboardContent() {
         </div>
 
         {/* Disponible */}
-        <div className="col-span-2 md:col-span-1 bg-white rounded-card shadow-sm p-5">
+        <div className="col-span-2 md:col-span-1 bg-card rounded-card shadow-sm p-5">
           <div className="text-[12px] font-medium text-text3 uppercase tracking-wide mb-2.5">
             Disponible
           </div>
@@ -155,7 +155,7 @@ export default async function DashboardContent() {
         ].map(({ title, items, positive }) => (
           <div
             key={title}
-            className="bg-white rounded-card shadow-sm p-4 md:p-5"
+            className="bg-card rounded-card shadow-sm p-4 md:p-5"
           >
             <div className="text-[11px] font-semibold text-text3 uppercase tracking-wide mb-3">
               {title}
@@ -194,7 +194,7 @@ export default async function DashboardContent() {
 
       {/* Distribución + Holdings */}
       <div className="grid grid-cols-1 md:grid-cols-bottom gap-4 md:gap-5 items-start">
-        <div className="bg-white rounded-card shadow-sm p-5 md:p-6">
+        <div className="bg-card rounded-card shadow-sm p-5 md:p-6">
           <p className="text-[13px] font-semibold text-text2 mb-1">
             Distribución
           </p>

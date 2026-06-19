@@ -1,13 +1,13 @@
 // Lógica compartida para clasificar y colorear tipos de instrumentos IOL
 
 const BADGE_MAP: Record<string, { bg: string; text: string }> = {
-  cedear:    { bg: "#EEF2FF", text: "#4338CA" },
-  accion:    { bg: "#FFF7ED", text: "#C2410C" },
-  bono:      { bg: "#F0FDFA", text: "#0D9488" },
-  fci:       { bg: "#FFFBEB", text: "#92400E" },
-  obligacion:{ bg: "#F5F3FF", text: "#6D28D9" },
-  caucion:   { bg: "#ECFEFF", text: "#0E7490" },
-  opcion:    { bg: "#FDF2F8", text: "#9D174D" },
+  cedear:    { bg: "var(--badge-cedear-bg)",     text: "var(--badge-cedear-text)"     },
+  accion:    { bg: "var(--badge-accion-bg)",     text: "var(--badge-accion-text)"     },
+  bono:      { bg: "var(--badge-bono-bg)",       text: "var(--badge-bono-text)"       },
+  fci:       { bg: "var(--badge-fci-bg)",        text: "var(--badge-fci-text)"        },
+  obligacion:{ bg: "var(--badge-obligacion-bg)", text: "var(--badge-obligacion-text)" },
+  caucion:   { bg: "var(--badge-caucion-bg)",    text: "var(--badge-caucion-text)"    },
+  opcion:    { bg: "var(--badge-opcion-bg)",     text: "var(--badge-opcion-text)"     },
 };
 
 export function getBadge(tipo: string): { bg: string; text: string } {
@@ -15,7 +15,7 @@ export function getBadge(tipo: string): { bg: string; text: string } {
   for (const [match, style] of Object.entries(BADGE_MAP)) {
     if (key.includes(match)) return style;
   }
-  return { bg: "#F0F2F8", text: "#6E7191" };
+  return { bg: "var(--badge-default-bg)", text: "var(--badge-default-text)" };
 }
 
 export function tipoLabel(tipo: string): string {

@@ -8,7 +8,7 @@ export default function CotizacionesLoading() {
         <div className="shimmer h-3.5 w-56" />
       </div>
 
-      <div className="bg-white rounded-card shadow-sm overflow-clip">
+      <div className="bg-card rounded-card shadow-sm overflow-clip">
         <div className="px-5 py-4 border-b border-border-light flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="shimmer h-[18px] w-[120px]" />
@@ -37,12 +37,12 @@ export default function CotizacionesLoading() {
             <tbody>
               {Array.from({ length: 12 }).map((_, i) => (
                 <tr key={i}>
-                  <td className="pl-5 pr-3 py-3 border-b border-[#F5F7FB]">
+                  <td className="pl-5 pr-3 py-3 border-b border-border-light">
                     <div className="shimmer h-3.5 w-14 mb-1" />
                     <div className="shimmer h-[11px] w-28" />
                   </td>
                   {COLS.slice(1).map((w, j) => (
-                    <td key={j} className="px-3 py-3 border-b border-[#F5F7FB] text-right">
+                    <td key={j} className="px-3 py-3 border-b border-border-light text-right">
                       <div
                         className="shimmer h-3.5 ml-auto"
                         style={{ width: parseInt(w) * 0.6 }}

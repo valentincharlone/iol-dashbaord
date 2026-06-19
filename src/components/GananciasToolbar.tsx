@@ -18,8 +18,8 @@ function toDateInput(d: Date) {
 function btnCls(active: boolean) {
   return `px-3.5 py-[5px] rounded-md text-[12px] font-medium cursor-pointer border font-[inherit] transition-colors ${
     active
-      ? "bg-brand-muted text-brand border-[#C7D2FE]"
-      : "bg-white text-text2 border-border hover:bg-[#F5F6FA]"
+      ? "bg-brand-muted text-brand border-brand-border"
+      : "bg-card text-text2 border-border hover:bg-surface2"
   }`;
 }
 
@@ -56,7 +56,7 @@ export function GananciasToolbar({ defaultDesde, defaultHasta }: Props) {
   }
 
   const dateCls =
-    "text-[12px] px-2 py-[5px] rounded-lg border border-border outline-none font-[inherit] text-text1 focus:border-brand transition-colors";
+    "text-[12px] px-2 py-[5px] rounded-lg border border-border outline-none font-[inherit] text-text1 bg-card focus:border-brand transition-colors";
 
   return (
     <div className="flex items-center gap-2 flex-wrap">
@@ -88,7 +88,7 @@ export function GananciasToolbar({ defaultDesde, defaultHasta }: Props) {
         />
         <button
           onClick={buscar}
-          className="px-3.5 py-[5px] rounded-md text-[12px] font-semibold cursor-pointer border border-[#C7D2FE] font-[inherit] bg-brand-muted text-brand"
+          className="px-3.5 py-[5px] rounded-md text-[12px] font-semibold cursor-pointer border border-brand-border font-[inherit] bg-brand-muted text-brand"
         >
           Buscar
         </button>

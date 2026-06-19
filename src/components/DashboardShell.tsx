@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 import { Sidebar } from "./Sidebar";
+import { ThemeToggle } from "./ThemeToggle";
 
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 
@@ -67,7 +68,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
       <main className={`flex-1 overflow-y-auto ${isMobile ? "ml-0" : ""}`}>
         {/* Barra superior mobile */}
         {isMobile && (
-          <div className="sticky top-0 z-20 flex items-center gap-3 px-4 py-3 bg-white border-b border-border">
+          <div className="sticky top-0 z-20 flex items-center gap-3 px-4 py-3 bg-card border-b border-border">
             <button
               onClick={() => setMobileOpen(true)}
               className="p-1 text-text2 flex"
@@ -77,9 +78,10 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-brand to-brand-light flex items-center justify-center text-white font-bold text-[11px]">
               IOL
             </div>
-            <span className="font-semibold text-[15px] text-text1">
+            <span className="font-semibold text-[15px] text-text1 flex-1">
               Dashboard
             </span>
+            <ThemeToggle className="p-1 text-text3 hover:text-text1 transition-colors" />
           </div>
         )}
         {children}

@@ -12,16 +12,16 @@ const PERFIL_BADGE: Record<
     text: "text-profit",
     label: "Conservador",
   },
-  moderado: { bg: "bg-orange-50", text: "text-orange-700", label: "Moderado" },
+  moderado: { bg: "bg-orange-50 dark:bg-orange-950/40", text: "text-orange-700 dark:text-orange-400", label: "Moderado" },
   agresivo: { bg: "bg-loss-bg", text: "text-loss", label: "Agresivo" },
   agresivo_moderado: {
-    bg: "bg-yellow-50",
-    text: "text-yellow-800",
+    bg: "bg-yellow-50 dark:bg-yellow-950/40",
+    text: "text-yellow-800 dark:text-yellow-400",
     label: "Agresivo moderado",
   },
   moderado_agresivo: {
-    bg: "bg-yellow-50",
-    text: "text-yellow-800",
+    bg: "bg-yellow-50 dark:bg-yellow-950/40",
+    text: "text-yellow-800 dark:text-yellow-400",
     label: "Moderado agresivo",
   },
 };
@@ -39,7 +39,7 @@ function perfilBadge(perfil: string) {
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between items-center py-3.5 border-b border-[#F5F7FB]">
+    <div className="flex justify-between items-center py-3.5 border-b border-border-light">
       <span className="text-[13px] text-text3 font-medium">{label}</span>
       <span className="text-[13px] text-text1 font-semibold">{value}</span>
     </div>
@@ -67,7 +67,7 @@ export default async function PerfilPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
         {/* Datos personales */}
-        <div className="bg-white rounded-card shadow-sm p-7">
+        <div className="bg-card rounded-card shadow-sm p-7">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand to-brand-light flex items-center justify-center text-white font-bold text-xl tracking-tight shrink-0">
               {initials || "?"}
@@ -123,7 +123,7 @@ export default async function PerfilPage() {
 
           {/* Efectivo */}
           {estadoCuenta && (
-            <div className="bg-white rounded-card shadow-sm p-5 md:p-6">
+            <div className="bg-card rounded-card shadow-sm p-5 md:p-6">
               <div className="text-[11px] font-semibold text-text3 uppercase tracking-wide mb-4">
                 Efectivo disponible
               </div>
@@ -147,7 +147,7 @@ export default async function PerfilPage() {
                     </span>
                   </div>
                 ))}
-                <div className="border-t border-[#F5F7FB] pt-3 flex justify-between items-center">
+                <div className="border-t border-border-light pt-3 flex justify-between items-center">
                   <span className="text-[13px] text-text3 font-medium">
                     Total con efectivo
                   </span>

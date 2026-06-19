@@ -34,7 +34,7 @@ function KpiCard({
   valueColor?: string;
 }) {
   return (
-    <div className="bg-white rounded-card shadow-sm p-5">
+    <div className="bg-card rounded-card shadow-sm p-5">
       <div className="text-[12px] font-medium text-text3 uppercase tracking-wide mb-1.5">
         {label}
       </div>
@@ -53,7 +53,7 @@ function VentaRow({ item }: { item: GananciaItem }) {
   const pnlPos = (item.pnlEstimado ?? 0) >= 0;
 
   return (
-    <tr className="border-b border-[#F5F7FB] last:border-0 hover:bg-[#FAFBFE] transition-colors">
+    <tr className="border-b border-border-light last:border-0 hover:bg-rowHover transition-colors">
       <td className="py-3 px-5 text-[12px] text-text3 tabular-nums whitespace-nowrap">
         {fmtFecha(item.fecha)}
       </td>
@@ -140,7 +140,7 @@ export default async function GananciasPage({
 
       {/* Tabla */}
       {items.length === 0 ? (
-        <div className="bg-white rounded-card shadow-sm overflow-clip">
+        <div className="bg-card rounded-card shadow-sm overflow-clip">
           <div className="px-5 py-4 border-b border-border flex items-center justify-between flex-wrap gap-3">
             <span className="text-[15px] font-semibold text-text1">Detalle de ventas</span>
             <GananciasToolbar defaultDesde={fechaDesde} defaultHasta={fechaHasta} />
@@ -150,11 +150,11 @@ export default async function GananciasPage({
           </p>
         </div>
       ) : (
-        <div className="bg-white rounded-card shadow-sm overflow-clip">
+        <div className="bg-card rounded-card shadow-sm overflow-clip">
           <div className="px-5 py-4 border-b border-border flex items-center justify-between flex-wrap gap-3">
             <div className="flex items-center gap-3 flex-wrap">
               <span className="text-[15px] font-semibold text-text1">Detalle de ventas</span>
-              <span className="text-[11px] text-text3 bg-[#F5F7FB] px-2.5 py-1 rounded-full">
+              <span className="text-[11px] text-text3 bg-surface2 px-2.5 py-1 rounded-full">
                 P&L estimado desde compras del mismo período
               </span>
             </div>

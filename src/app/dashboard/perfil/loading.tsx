@@ -8,7 +8,7 @@ export default function PerfilLoading() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
         {/* Card datos personales */}
-        <div className="bg-white rounded-card border border-border-light shadow-card p-7">
+        <div className="bg-card rounded-card border border-border-light shadow-card p-7">
           <div className="flex items-center gap-4 mb-6">
             <div className="shimmer w-14 h-14 rounded-full shrink-0" />
             <div>
@@ -19,7 +19,7 @@ export default function PerfilLoading() {
           {[140, 80, 160, 180].map((w, i) => (
             <div
               key={i}
-              className="flex justify-between py-3.5 border-b border-[#F5F7FB]"
+              className="flex justify-between py-3.5 border-b border-border-light"
             >
               <div className="shimmer h-3 w-24" />
               <div className="shimmer h-3" style={{ width: w }} />
@@ -33,7 +33,7 @@ export default function PerfilLoading() {
             <div className="shimmer h-3 w-28 mb-2.5 opacity-30" />
             <div className="shimmer h-8 w-48 opacity-30" />
           </div>
-          <div className="bg-white rounded-card border border-border-light shadow-card p-5 md:p-6">
+          <div className="bg-card rounded-card border border-border-light shadow-card p-5 md:p-6">
             {[1, 2, 3].map((i) => (
               <div key={i} className="flex justify-between mb-3">
                 <div className="shimmer h-3 w-16" />

@@ -60,14 +60,14 @@ function toDateInput(d: Date) {
 }
 
 const TH_BASE   = "text-[10px] font-semibold text-text3 uppercase tracking-[0.6px] py-2.5 px-3 border-b border-border whitespace-nowrap cursor-pointer select-none";
-const TD_BASE   = "py-3 px-3 border-b border-[#F5F7FB] text-[13px] tabular-nums text-right whitespace-nowrap";
-const TD_LEFT   = "py-3 px-3 border-b border-[#F5F7FB] text-[13px] tabular-nums text-left  whitespace-nowrap";
+const TD_BASE   = "py-3 px-3 border-b border-border-light text-[13px] tabular-nums text-right whitespace-nowrap";
+const TD_LEFT   = "py-3 px-3 border-b border-border-light text-[13px] tabular-nums text-left  whitespace-nowrap";
 
 function filterBtnCls(active: boolean) {
   return `px-3.5 py-[5px] rounded-md text-[12px] font-medium cursor-pointer border font-[inherit] transition-colors ${
     active
-      ? "bg-brand-muted text-brand border-[#C7D2FE]"
-      : "bg-white text-text2 border-border hover:bg-[#F5F6FA]"
+      ? "bg-brand-muted text-brand border-brand-border"
+      : "bg-card text-text2 border-border hover:bg-surface2"
   }`;
 }
 
@@ -131,12 +131,12 @@ export function MovimientosTable({ operaciones, defaultDesde, defaultHasta }: Pr
     return <span className="ml-0.5 text-[10px]">{sortDir === "asc" ? "↑" : "↓"}</span>;
   }
 
-  const dateCls = "text-[12px] px-2 py-[5px] rounded-lg border border-border outline-none font-[inherit] text-text1 focus:border-brand transition-colors";
+  const dateCls = "text-[12px] px-2 py-[5px] rounded-lg border border-border outline-none font-[inherit] text-text1 bg-card focus:border-brand transition-colors";
 
   return (
     <>
     <OperacionDrawer numero={selectedNumero} onClose={() => setSelectedNumero(null)} />
-    <div className="bg-white rounded-card shadow-sm overflow-clip">
+    <div className="bg-card rounded-card shadow-sm overflow-clip">
       {/* Toolbar */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-border-light gap-3 flex-wrap">
         <div className="flex items-center gap-2">
@@ -182,7 +182,7 @@ export function MovimientosTable({ operaciones, defaultDesde, defaultHasta }: Pr
             />
             <button
               onClick={buscar}
-              className="px-3.5 py-[5px] rounded-md text-[12px] font-semibold cursor-pointer border border-[#C7D2FE] font-[inherit] bg-brand-muted text-brand"
+              className="px-3.5 py-[5px] rounded-md text-[12px] font-semibold cursor-pointer border border-brand-border font-[inherit] bg-brand-muted text-brand"
             >
               Buscar
             </button>
@@ -194,7 +194,7 @@ export function MovimientosTable({ operaciones, defaultDesde, defaultHasta }: Pr
             placeholder="Buscar ticker…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="text-[13px] px-3 py-[5px] rounded-lg border border-border outline-none font-[inherit] text-text1 w-[140px] focus:border-brand transition-colors"
+            className="text-[13px] px-3 py-[5px] rounded-lg border border-border outline-none font-[inherit] text-text1 bg-card w-[140px] focus:border-brand transition-colors"
           />
         </div>
       </div>
@@ -202,7 +202,7 @@ export function MovimientosTable({ operaciones, defaultDesde, defaultHasta }: Pr
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full border-collapse" style={{ minWidth: 760 }}>
-          <thead className="sticky top-0 z-10 bg-white">
+          <thead className="sticky top-0 z-10 bg-card">
             <tr>
               <th onClick={() => toggleSort("fecha")}  className={`${TH_BASE} text-left pl-5`}>
                 Fecha{sortIcon("fecha")}
@@ -229,7 +229,7 @@ export function MovimientosTable({ operaciones, defaultDesde, defaultHasta }: Pr
                   onClick={() => setSelectedNumero(op.numero)}
                   onMouseEnter={() => setHovRow(i)}
                   onMouseLeave={() => setHovRow(null)}
-                  className={`cursor-pointer ${hovRow === i ? "bg-[#FAFBFE]" : "bg-transparent"}`}
+                  className={`cursor-pointer ${hovRow === i ? "bg-rowHover" : "bg-transparent"}`}
                 >
                   <td className={`${TD_LEFT} pl-5 text-text2`}>{fmtFecha(op.fechaOrden)}</td>
                   <td className={TD_LEFT}>

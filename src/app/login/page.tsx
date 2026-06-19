@@ -22,7 +22,7 @@ export default function LoginPage() {
   }
 
   const inputCls =
-    "w-full px-3.5 py-2.5 rounded-lg border border-border text-sm text-text1 bg-white font-[inherit] outline-none focus:border-brand transition-colors";
+    "w-full px-3.5 py-2.5 rounded-lg border border-border text-sm text-text1 bg-card font-[inherit] outline-none focus:border-brand transition-colors";
 
   return (
     <div className="min-h-screen bg-bg flex items-center justify-center p-6">
@@ -37,7 +37,7 @@ export default function LoginPage() {
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl border border-border shadow-sm p-8">
+        <div className="bg-card rounded-2xl border border-border shadow-sm p-8">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
               <label className="block text-[11px] font-semibold text-text2 uppercase tracking-[0.4px] mb-1.5">

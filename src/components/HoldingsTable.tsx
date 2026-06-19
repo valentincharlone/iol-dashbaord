@@ -132,8 +132,8 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
         )
       : 0;
 
-  const tdCls     = `${DENSITY_PY[density]} px-2.5 border-b border-[#F5F7FB] text-[13px] tabular-nums text-right whitespace-nowrap transition-[padding] duration-200`;
-  const tdClsLeft = `${DENSITY_PY[density]} px-2.5 border-b border-[#F5F7FB] text-[13px] tabular-nums text-left  whitespace-nowrap transition-[padding] duration-200`;
+  const tdCls     = `${DENSITY_PY[density]} px-2.5 border-b border-border-light text-[13px] tabular-nums text-right whitespace-nowrap transition-[padding] duration-200`;
+  const tdClsLeft = `${DENSITY_PY[density]} px-2.5 border-b border-border-light text-[13px] tabular-nums text-left  whitespace-nowrap transition-[padding] duration-200`;
 
   const densityBtn = (d: Density, label: string) => (
     <button
@@ -141,8 +141,8 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
       onClick={() => setDensity(d)}
       className={`px-1.5 py-0.5 rounded text-[11px] font-semibold border transition-colors ${
         density === d
-          ? "bg-brand-muted text-brand border-[#C7D2FE]"
-          : "bg-white text-text3 border-border hover:bg-[#F5F6FA]"
+          ? "bg-brand-muted text-brand border-brand-border"
+          : "bg-card text-text3 border-border hover:bg-surface2"
       }`}
     >
       {label}
@@ -169,7 +169,7 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
       posicion={selectedPosicion}
       onClose={() => setSelectedPosicion(null)}
     />
-    <div className="bg-white rounded-card shadow-sm overflow-clip">
+    <div className="bg-card rounded-card shadow-sm overflow-clip">
       {/* Toolbar */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-border-light flex-wrap gap-3">
         <div className="flex items-center gap-2">
@@ -191,18 +191,18 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
               onClick={() => setColsOpen((o) => !o)}
               className={`px-2.5 py-1 rounded text-[12px] font-medium border transition-colors ${
                 colsOpen
-                  ? "bg-brand-muted text-brand border-[#C7D2FE]"
-                  : "bg-white text-text2 border-border hover:bg-[#F5F6FA]"
+                  ? "bg-brand-muted text-brand border-brand-border"
+                  : "bg-card text-text2 border-border hover:bg-surface2"
               }`}
             >
               Columnas ▾
             </button>
             {colsOpen && (
-              <div className="absolute right-0 top-[calc(100%+6px)] z-50 bg-white border border-border rounded-[10px] shadow-[0_4px_16px_rgba(0,0,0,0.08)] py-2 px-1 min-w-[140px]">
+              <div className="absolute right-0 top-[calc(100%+6px)] z-50 bg-card border border-border rounded-[10px] shadow-[0_4px_16px_rgba(0,0,0,0.08)] py-2 px-1 min-w-[140px]">
                 {ALL_COLS.map(({ key, label }) => (
                   <label
                     key={key}
-                    className="flex items-center gap-2 px-3 py-1.5 cursor-pointer rounded-md text-[13px] text-text1 hover:bg-[#F5F7FB]"
+                    className="flex items-center gap-2 px-3 py-1.5 cursor-pointer rounded-md text-[13px] text-text1 hover:bg-surface2"
                   >
                     <input
                       type="checkbox"
@@ -222,7 +222,7 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full border-collapse" style={{ minWidth: 760 }}>
-          <thead className="sticky top-0 z-10 bg-white">
+          <thead className="sticky top-0 z-10 bg-card">
             <tr>
               {thSort("name", "Activo", "pl-5 w-[22%]", "left")}
               {col("cantidad") && thSort("cantidad", "Cant.")}
@@ -247,7 +247,7 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
                   onMouseEnter={() => setHovRow(i)}
                   onMouseLeave={() => setHovRow(null)}
                   onClick={() => setSelectedPosicion(p)}
-                  className={`cursor-pointer ${hovRow === i ? "bg-[#FAFBFE]" : "bg-transparent"}`}
+                  className={`cursor-pointer ${hovRow === i ? "bg-rowHover" : "bg-transparent"}`}
                 >
                   <td className={`${tdClsLeft} pl-5`}>
                     <div className="flex items-center gap-2">

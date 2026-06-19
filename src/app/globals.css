@@ -11,6 +11,57 @@
   --text-1:       #1B1F3B;
   --text-2:       #6E7191;
   --text-3:       #A0A3BD;
+
+  --surface-2:    #F5F7FB;
+  --surface-inset:#F8F9FE;
+  --brand-muted:  #EEF2FF;
+  --brand-border: #C7D2FE;
+  --profit:       #059669;
+  --profit-subtle:#10B981;
+  --profit-bg:    #F0FDF4;
+  --loss:         #EF4444;
+  --loss-bg:      #FEF2F2;
+
+  --badge-cedear-bg:      #EEF2FF; --badge-cedear-text:      #4338CA;
+  --badge-accion-bg:      #FFF7ED; --badge-accion-text:      #C2410C;
+  --badge-bono-bg:        #F0FDFA; --badge-bono-text:        #0D9488;
+  --badge-fci-bg:         #FFFBEB; --badge-fci-text:         #92400E;
+  --badge-obligacion-bg:  #F5F3FF; --badge-obligacion-text:  #6D28D9;
+  --badge-caucion-bg:     #ECFEFF; --badge-caucion-text:     #0E7490;
+  --badge-opcion-bg:      #FDF2F8; --badge-opcion-text:      #9D174D;
+  --badge-default-bg:     #F0F2F8; --badge-default-text:     #6E7191;
+}
+
+html.dark {
+  color-scheme: dark;
+
+  --bg:           #0F1117;
+  --card:         #1A1D2E;
+  --border:       #2A2D3E;
+  --border-light: #212438;
+  --row-hover:    #1E2135;
+  --text-1:       #E8EAF6;
+  --text-2:       #9FA3C7;
+  --text-3:       #555878;
+
+  --surface-2:    #151829;
+  --surface-inset:#0D1020;
+  --brand-muted:  #1e1b4b;
+  --brand-border: #3730a3;
+  --profit:       #34D399;
+  --profit-subtle:#34D399;
+  --profit-bg:    #052e16;
+  --loss:         #F87171;
+  --loss-bg:      #450a0a;
+
+  --badge-cedear-bg:      #1e1b4b; --badge-cedear-text:      #818CF8;
+  --badge-accion-bg:      #431407; --badge-accion-text:      #fb923c;
+  --badge-bono-bg:        #042f2e; --badge-bono-text:        #2dd4bf;
+  --badge-fci-bg:         #451a03; --badge-fci-text:         #fbbf24;
+  --badge-obligacion-bg:  #2e1065; --badge-obligacion-text:  #a78bfa;
+  --badge-caucion-bg:     #083344; --badge-caucion-text:     #22d3ee;
+  --badge-opcion-bg:      #500724; --badge-opcion-text:      #f472b6;
+  --badge-default-bg:     #1e2235; --badge-default-text:     #9FA3C7;
 }
 
 body {
@@ -36,6 +87,16 @@ body {
   border-radius: 6px;
 }
 
+html.dark .shimmer {
+  background: linear-gradient(90deg, #1E2236 25%, #252840 50%, #1E2236 75%);
+  background-size: 600px 100%;
+}
+
+html.dark .shadow-sm {
+  --tw-shadow: 0 1px 3px 0 rgba(0,0,0,0.4), 0 1px 2px -1px rgba(0,0,0,0.3);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
 ::-webkit-scrollbar       { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: #F0F3F9; }
-::-webkit-scrollbar-thumb { background: #C8CDDC; border-radius: 3px; }
+::-webkit-scrollbar-track { background: var(--surface-2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }

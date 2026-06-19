@@ -14,6 +14,7 @@ import {
   LogOut,
   PanelLeft,
 } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const NAV_MAIN = [
   { href: "/dashboard", label: "Portafolio", icon: <PieChart size={18} /> },
@@ -64,7 +65,7 @@ export function Sidebar({ collapsed, onToggle, isMobile }: Props) {
           collapsed ? "justify-center px-0 py-2.5" : "px-3 py-2.5",
           active
             ? "bg-brand-muted text-brand font-semibold"
-            : "text-text2 hover:bg-[#F5F6FA]",
+            : "text-text2 hover:bg-surface2",
         ].join(" ")}
       >
         <span className="shrink-0">{icon}</span>
@@ -75,7 +76,7 @@ export function Sidebar({ collapsed, onToggle, isMobile }: Props) {
 
   return (
     <aside
-      className={`${w} h-screen sticky top-0 bg-white border-r border-border flex flex-col transition-[width,min-width] duration-250 ease-in-out overflow-hidden z-20 shrink-0`}
+      className={`${w} h-screen sticky top-0 bg-card border-r border-border flex flex-col transition-[width,min-width] duration-250 ease-in-out overflow-hidden z-20 shrink-0`}
     >
       {/* Header: Logo + Toggle */}
       {collapsed ? (
@@ -128,7 +129,7 @@ export function Sidebar({ collapsed, onToggle, isMobile }: Props) {
           rel="noopener noreferrer"
           title="Documentación API IOL"
           className={[
-            "flex items-center gap-3 rounded-lg text-sm no-underline transition-colors text-text3 hover:bg-[#F5F6FA] hover:text-text2",
+            "flex items-center gap-3 rounded-lg text-sm no-underline transition-colors text-text3 hover:bg-surface2 hover:text-text2",
             collapsed ? "justify-center px-0 py-2.5" : "px-3 py-2.5",
           ].join(" ")}
         >
@@ -142,7 +143,14 @@ export function Sidebar({ collapsed, onToggle, isMobile }: Props) {
       <div className="flex-1" />
 
       {/* Footer: Cerrar sesión */}
-      <div className="px-2.5 py-3 border-t border-border">
+      <div className="px-2.5 py-3 border-t border-border flex flex-col gap-1">
+        <ThemeToggle
+          iconSize={16}
+          className={[
+            "w-full flex items-center gap-3 rounded-lg text-sm text-text3 transition-colors hover:bg-surface2 hover:text-text1",
+            collapsed ? "justify-center px-0 py-2.5" : "px-3 py-2.5",
+          ].join(" ")}
+        />
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
           title="Cerrar sesión"

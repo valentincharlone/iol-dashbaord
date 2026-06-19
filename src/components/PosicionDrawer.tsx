@@ -43,7 +43,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function Row({ label, value, mono = false }: { label: string; value: React.ReactNode; mono?: boolean }) {
   return (
-    <div className="flex justify-between items-center py-2.5 border-b border-[#F5F7FB] last:border-0 gap-4">
+    <div className="flex justify-between items-center py-2.5 border-b border-border-light last:border-0 gap-4">
       <span className="text-[12px] text-text3 font-medium shrink-0">{label}</span>
       <span className={`text-[13px] text-text1 font-semibold text-right ${mono ? "tabular-nums" : ""}`}>
         {value}
@@ -94,7 +94,7 @@ export function PosicionDrawer({ posicion, onClose }: Props) {
       />
 
       <div
-        className={`fixed top-0 right-0 h-screen w-full max-w-[420px] bg-white z-50 flex flex-col shadow-[-8px_0_32px_rgba(0,0,0,0.08)] transition-transform duration-200 ease-in-out ${open ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed top-0 right-0 h-screen w-full max-w-[420px] bg-card z-50 flex flex-col shadow-[-8px_0_32px_rgba(0,0,0,0.12)] dark:shadow-[-8px_0_32px_rgba(0,0,0,0.5)] transition-transform duration-200 ease-in-out ${open ? "translate-x-0" : "translate-x-full"}`}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">
@@ -129,7 +129,7 @@ export function PosicionDrawer({ posicion, onClose }: Props) {
           {loading && (
             <div className="flex flex-col gap-3 pt-2">
               {Array.from({ length: 10 }).map((_, i) => (
-                <div key={i} className="flex justify-between py-2.5 border-b border-[#F5F7FB]">
+                <div key={i} className="flex justify-between py-2.5 border-b border-border-light">
                   <div className="shimmer h-3.5 w-24" />
                   <div className="shimmer h-3.5 w-28" />
                 </div>
@@ -147,7 +147,7 @@ export function PosicionDrawer({ posicion, onClose }: Props) {
             <div>
               {/* Precio hero */}
               {cotiz && (
-                <div className="bg-[#F8F9FE] rounded-xl p-4 mb-1">
+                <div className="bg-surfaceInset rounded-xl p-4 mb-1">
                   <div className="text-[26px] font-bold text-text1 tabular-nums">
                     {fmtPrice(cotiz.ultimoPrecio)}
                   </div>
@@ -194,7 +194,7 @@ export function PosicionDrawer({ posicion, onClose }: Props) {
               {cotiz?.puntas && cotiz.puntas.length > 0 && (
                 <Section title="Puntas">
                   {cotiz.puntas.slice(0, 3).map((p, i) => (
-                    <div key={i} className="flex justify-between items-center py-2.5 border-b border-[#F5F7FB] last:border-0">
+                    <div key={i} className="flex justify-between items-center py-2.5 border-b border-border-light last:border-0">
                       <div className="flex gap-4">
                         <div>
                           <div className="text-[10px] text-text3 font-medium mb-0.5">Compra</div>
@@ -225,7 +225,7 @@ export function PosicionDrawer({ posicion, onClose }: Props) {
                       const monedaPrefix = op.moneda?.toLowerCase().includes("dolar") ? "US$" : "$";
                       const total = op.montoOperado ?? op.monto;
                       return (
-                        <div key={op.numero} className="flex items-center justify-between py-2.5 border-b border-[#F5F7FB] last:border-0 gap-2">
+                        <div key={op.numero} className="flex items-center justify-between py-2.5 border-b border-border-light last:border-0 gap-2">
                           <div className="flex items-center gap-2 min-w-0">
                             <span className={`text-[10px] font-semibold px-1.5 py-px rounded-[3px] shrink-0 ${cls}`}>
                               {label || "—"}
