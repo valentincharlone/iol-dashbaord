@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { getPerfil, getPortafolio } from "@/lib/iol-actions";
+import { ValuacionCard } from "@/components/ValuacionCard";
 import { fmtMoney, fmtUSD } from "@/lib/fmt";
 
 const PERFIL_BADGE: Record<
@@ -69,7 +70,7 @@ export default async function PerfilPage() {
         {/* Datos personales */}
         <div className="bg-card rounded-card shadow-sm p-7">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand to-brand-light flex items-center justify-center text-white font-bold text-xl tracking-tight shrink-0">
+            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#4338CA] to-[#818CF8] flex items-center justify-center text-white font-bold text-xl tracking-tight shrink-0">
               {initials || "?"}
             </div>
             <div>
@@ -108,18 +109,11 @@ export default async function PerfilPage() {
         {/* Resumen de cuenta */}
         <div className="flex flex-col gap-3.5">
           {/* Valuación */}
-          <div className="bg-gradient-to-br from-brand to-brand-light rounded-card p-6 md:p-7 text-white relative overflow-hidden">
-            <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-white/[0.08]" />
-            <div className="text-[12px] font-medium opacity-80 mb-1.5">
-              Valuación de títulos
-            </div>
-            <div className="text-[28px] font-bold tabular-nums tracking-tight">
-              {fmtMoney(totalValuacion)}
-            </div>
-            <div className="text-[12px] opacity-65 mt-1.5">
+          <ValuacionCard valuacion={totalValuacion}>
+            <div className="text-[12px] opacity-65">
               {cantidadPosiciones} posiciones activas
             </div>
-          </div>
+          </ValuacionCard>
 
           {/* Efectivo */}
           {estadoCuenta && (

@@ -14,6 +14,7 @@
 
   --surface-2:    #F5F7FB;
   --surface-inset:#F8F9FE;
+  --brand:        #4338CA;
   --brand-muted:  #EEF2FF;
   --brand-border: #C7D2FE;
   --profit:       #059669;
@@ -42,12 +43,13 @@ html.dark {
   --row-hover:    #1E2135;
   --text-1:       #E8EAF6;
   --text-2:       #9FA3C7;
-  --text-3:       #555878;
+  --text-3:       #7B80A8;
 
   --surface-2:    #151829;
   --surface-inset:#0D1020;
-  --brand-muted:  #1e1b4b;
-  --brand-border: #3730a3;
+  --brand:        #818CF8;
+  --brand-muted:  #272466;
+  --brand-border: #4338CA;
   --profit:       #34D399;
   --profit-subtle:#34D399;
   --profit-bg:    #052e16;

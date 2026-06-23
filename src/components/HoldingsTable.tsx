@@ -295,7 +295,7 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
                         {fmtPct(p.pnlPorcentaje)}
                       </div>
                       <div
-                        className={`text-[10px] opacity-65 ${isPos ? "text-profit" : "text-loss"}`}
+                        className={`text-[10px] opacity-80 ${isPos ? "text-profit" : "text-loss"}`}
                       >
                         {p.pnlPesos >= 0 ? "+" : ""}
                         {fmtMoney(p.pnlPesos)}

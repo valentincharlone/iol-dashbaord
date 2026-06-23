@@ -75,7 +75,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             >
               <Menu size={22} />
             </button>
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-brand to-brand-light flex items-center justify-center text-white font-bold text-[11px]">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#4338CA] to-[#818CF8] flex items-center justify-center text-white font-bold text-[11px]">
               IOL
             </div>
             <span className="font-semibold text-[15px] text-text1 flex-1">

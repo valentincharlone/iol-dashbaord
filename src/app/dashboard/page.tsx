@@ -5,6 +5,7 @@ import { getPortafolio } from "@/lib/iol-actions";
 import { HoldingsTable } from "@/components/HoldingsTable";
 import { AllocationChart } from "@/components/AllocationChart";
 import { MarketStrip } from "@/components/MarketStrip";
+import { ValuacionCard } from "@/components/ValuacionCard";
 import { fmtMoney, fmtUSD, fmtPct } from "@/lib/fmt";
 
 export default async function DashboardContent() {
@@ -56,33 +57,23 @@ export default async function DashboardContent() {
       {/* KPI row */}
       <div className="grid grid-cols-2 md:grid-cols-kpi gap-3 md:gap-3.5">
         {/* Hero */}
-        <div className="col-span-2 md:col-span-1 bg-gradient-to-br from-brand to-brand-light rounded-card p-6 md:p-7 text-white relative overflow-hidden">
-          <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/[0.08]" />
-          <div className="absolute top-[60px] -right-20 w-[200px] h-[200px] rounded-full bg-white/[0.04]" />
-          <div className="relative">
-            <div className="text-[13px] font-medium opacity-80 mb-1.5">
-              Valuación de títulos
+        <ValuacionCard valuacion={totalValuacion} className="col-span-2 md:col-span-1">
+          <div className="flex flex-wrap gap-3 md:gap-4">
+            <div className="text-[12px] opacity-65">
+              <span className="opacity-80">Invertido </span>
+              {fmtMoney(costoTotal)}
             </div>
-            <div className="text-[26px] font-bold tabular-nums tracking-tight">
-              {fmtMoney(totalValuacion)}
-            </div>
-            <div className="flex flex-wrap gap-3 md:gap-4 mt-2">
+            {estadoCuenta && (
               <div className="text-[12px] opacity-65">
-                <span className="opacity-80">Invertido </span>
-                {fmtMoney(costoTotal)}
+                <span className="opacity-80">Con efectivo </span>
+                {fmtMoney(estadoCuenta.totalConEfectivo)}
               </div>
-              {estadoCuenta && (
-                <div className="text-[12px] opacity-65">
-                  <span className="opacity-80">Con efectivo </span>
-                  {fmtMoney(estadoCuenta.totalConEfectivo)}
-                </div>
-              )}
-              <div className="text-[12px] opacity-65">
-                <span className="opacity-80">{cantidadPosiciones} </span>activos
-              </div>
+            )}
+            <div className="text-[12px] opacity-65">
+              <span className="opacity-80">{cantidadPosiciones} </span>activos
             </div>
           </div>
-        </div>
+        </ValuacionCard>
 
         {/* Rendimiento */}
         <div className="bg-card rounded-card shadow-sm p-5">

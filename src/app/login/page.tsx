@@ -29,7 +29,7 @@ export default function LoginPage() {
       <div className="w-full max-w-[380px]">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand to-brand-light inline-flex items-center justify-center text-white font-bold text-[15px] tracking-tight mb-4">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#4338CA] to-[#818CF8] inline-flex items-center justify-center text-white font-bold text-[15px] tracking-tight mb-4">
             IOL
           </div>
           <h1 className="text-[22px] font-bold text-text1 mb-1">Dashboard</h1>

@@ -28,7 +28,7 @@ export default function DashboardLoading() {
 
       {/* KPI */}
       <div className="grid grid-cols-2 md:grid-cols-kpi gap-3 md:gap-3.5">
-        <div className="col-span-2 md:col-span-1 bg-gradient-to-br from-brand to-brand-light rounded-card p-6 md:p-7">
+        <div className="col-span-2 md:col-span-1 bg-gradient-to-br from-[#4338CA] to-[#818CF8] rounded-card p-6 md:p-7">
           <div className="shimmer h-3 w-36 mb-2.5 opacity-40" />
           <div className="shimmer h-8 w-48 mb-3 opacity-40" />
           <div className="flex gap-4">
