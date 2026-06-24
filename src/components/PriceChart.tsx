@@ -41,18 +41,33 @@ function fmtTooltipFecha(fechaHora: string): string {
 }
 
 function fmtPrecio(n: number): string {
-  return "$" + n.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return (
+    "$" +
+    n.toLocaleString("es-AR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+  );
 }
 
-function CustomTooltip({ active, payload }: { active?: boolean; payload?: Array<{ payload: DataPoint }> }) {
+function CustomTooltip({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload?: Array<{ payload: DataPoint }>;
+}) {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
     <div className="bg-card border border-border rounded-[10px] shadow-md px-3 py-2.5 text-[12px]">
       <div className="text-text3 mb-1">{fmtTooltipFecha(d.fechaHora)}</div>
       <div className="font-bold text-text1">{fmtPrecio(d.ultimoPrecio)}</div>
-      <div className={`text-[11px] mt-0.5 ${d.variacion >= 0 ? "text-profit" : "text-loss"}`}>
-        {d.variacion >= 0 ? "+" : ""}{d.variacion.toFixed(2)}%
+      <div
+        className={`text-[11px] mt-0.5 ${d.variacion >= 0 ? "text-profit" : "text-loss"}`}
+      >
+        {d.variacion >= 0 ? "+" : ""}
+        {d.variacion.toFixed(2)}%
       </div>
     </div>
   );
@@ -73,14 +88,17 @@ export function PriceChart({ ticker, mercado }: Props) {
     setLoading(true);
     setError(false);
     const ajustada = "sinAjustar";
-    fetch(`/api/historico/${encodeURIComponent(ticker)}?periodo=${periodo}&mercado=${mercado}&ajustada=${ajustada}`)
+    fetch(
+      `/api/historico/${encodeURIComponent(ticker)}?periodo=${periodo}&mercado=${mercado}&ajustada=${ajustada}`,
+    )
       .then((r) => {
         if (!r.ok) throw new Error();
         return r.json();
       })
       .then((d: DataPoint[]) => {
         const sorted = [...(Array.isArray(d) ? d : [])].sort(
-          (a, b) => new Date(a.fechaHora).getTime() - new Date(b.fechaHora).getTime(),
+          (a, b) =>
+            new Date(a.fechaHora).getTime() - new Date(b.fechaHora).getTime(),
         );
         // Para períodos ≥ 1M la API mezcla barras diarias con intradía en fechas recientes.
         // Deduplica a un punto por día (el último = precio más reciente del día).
@@ -151,7 +169,10 @@ export function PriceChart({ ticker, mercado }: Props) {
           </div>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={data} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
+            <AreaChart
+              data={data}
+              margin={{ top: 4, right: 4, left: 0, bottom: 0 }}
+            >
               <defs>
                 <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor={color} stopOpacity={0.2} />
