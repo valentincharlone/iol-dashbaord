@@ -2,10 +2,10 @@
 
 import { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { DashboardPosicion } from "@/lib/iol-types";
 import { fmtMoney, fmtPct } from "@/lib/fmt";
 import { getBadge, tipoLabel } from "@/lib/instrument";
-import { PosicionDrawer } from "./PosicionDrawer";
 
 interface Props {
   posiciones: DashboardPosicion[];
@@ -51,11 +51,11 @@ const DENSITY_PY: Record<Density, string> = {
 };
 
 export function HoldingsTable({ posiciones, totalValuacion, limit }: Props) {
+  const router = useRouter();
   const [density, setDensity] = useState<Density>("normal");
   const [sortBy, setSortBy] = useState<SortBy>("valuacion");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [hovRow, setHovRow] = useState<number | null>(null);
-  const [selectedPosicion, setSelectedPosicion] = useState<DashboardPosicion | null>(null);
   const [visibleCols, setVisibleCols] = useState<Set<ColKey>>(
     new Set<ColKey>([
       "cantidad",
@@ -169,10 +169,6 @@ export function HoldingsTable({ posiciones, totalValuacion, limit }: Props) {
 
   return (
     <>
-    <PosicionDrawer
-      posicion={selectedPosicion}
-      onClose={() => setSelectedPosicion(null)}
-    />
     <div className="bg-card rounded-card shadow-sm overflow-clip">
       {/* Toolbar */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-border-light flex-wrap gap-3">
@@ -260,7 +256,7 @@ export function HoldingsTable({ posiciones, totalValuacion, limit }: Props) {
                   key={p.ticker}
                   onMouseEnter={() => setHovRow(i)}
                   onMouseLeave={() => setHovRow(null)}
-                  onClick={() => setSelectedPosicion(p)}
+                  onClick={() => router.push(`/dashboard/holdings/${encodeURIComponent(p.ticker)}`)}
                   className={`cursor-pointer ${hovRow === i ? "bg-rowHover" : "bg-transparent"}`}
                 >
                   <td className={`${tdClsLeft} pl-5`}>
