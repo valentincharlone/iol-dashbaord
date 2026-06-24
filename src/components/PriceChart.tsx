@@ -136,6 +136,11 @@ export function PriceChart({ ticker, mercado }: Props) {
     ? Math.max(...data.map((d) => d.ultimoPrecio)) * 1.005
     : 100;
 
+  const Y_TICKS = 7;
+  const yTicks = Array.from({ length: Y_TICKS }, (_, i) =>
+    yMin + (yMax - yMin) * (i / (Y_TICKS - 1)),
+  );
+
   return (
     <div>
       {/* Selector de período */}
@@ -156,7 +161,7 @@ export function PriceChart({ ticker, mercado }: Props) {
       </div>
 
       {/* Gráfico */}
-      <div className="h-[220px]">
+      <div className="h-[300px]">
         {loading ? (
           <div className="h-full shimmer rounded-lg" />
         ) : error ? (
@@ -195,6 +200,7 @@ export function PriceChart({ ticker, mercado }: Props) {
               />
               <YAxis
                 domain={[yMin, yMax]}
+                ticks={yTicks}
                 tick={{ fontSize: 11, fill: "var(--text-3)" }}
                 axisLine={false}
                 tickLine={false}
