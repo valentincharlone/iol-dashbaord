@@ -99,11 +99,7 @@ export default function DashboardLoading() {
               <Sk w={100} h={16} />
               <Sk w={80} h={12} />
             </div>
-            <div className="flex gap-1.5">
-              {[36, 36, 36, 140].map((w, i) => (
-                <Sk key={i} w={w} h={28} />
-              ))}
-            </div>
+            <Sk w={72} h={14} />
           </div>
           <table className="w-full border-collapse">
             <thead>
@@ -126,7 +122,7 @@ export default function DashboardLoading() {
               </tr>
             </thead>
             <tbody>
-              {Array.from({ length: 8 }).map((_, i) => (
+              {Array.from({ length: 5 }).map((_, i) => (
                 <tr key={i}>
                   <td className="pl-5 pr-3 py-3 border-b border-border-light">
                     <Sk w={50} h={14} className="mb-1" />

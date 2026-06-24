@@ -39,7 +39,7 @@ export function AllocationChart({
     .sort((a, b) => b.value - a.value);
 
   return (
-    <div>
+    <>
       <div className="flex gap-1 mb-4">
         {(["donut", "bar"] as ChartType[]).map((t) => (
           <button
@@ -61,7 +61,7 @@ export function AllocationChart({
       ) : (
         <BarDistribution segments={segments} />
       )}
-    </div>
+    </>
   );
 }
 

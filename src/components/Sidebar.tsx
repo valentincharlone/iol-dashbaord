@@ -8,6 +8,7 @@ import {
   TrendingUp,
   Activity,
   BarChart2,
+  LayoutList,
   User,
   FileText,
   X,
@@ -18,6 +19,11 @@ import { ThemeToggle } from "./ThemeToggle";
 
 const NAV_MAIN = [
   { href: "/dashboard", label: "Portafolio", icon: <PieChart size={18} /> },
+  {
+    href: "/dashboard/holdings",
+    label: "Holdings",
+    icon: <LayoutList size={18} />,
+  },
   {
     href: "/dashboard/cotizaciones",
     label: "Cotizaciones",

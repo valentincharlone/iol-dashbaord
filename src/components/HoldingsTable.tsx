@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect } from "react";
+import Link from "next/link";
 import type { DashboardPosicion } from "@/lib/iol-types";
 import { fmtMoney, fmtPct } from "@/lib/fmt";
 import { getBadge, tipoLabel } from "@/lib/instrument";
@@ -9,6 +10,7 @@ import { PosicionDrawer } from "./PosicionDrawer";
 interface Props {
   posiciones: DashboardPosicion[];
   totalValuacion: number;
+  limit?: number;
 }
 
 type Density = "compact" | "normal" | "spacious";
@@ -48,7 +50,7 @@ const DENSITY_PY: Record<Density, string> = {
   spacious: "py-[18px]",
 };
 
-export function HoldingsTable({ posiciones, totalValuacion }: Props) {
+export function HoldingsTable({ posiciones, totalValuacion, limit }: Props) {
   const [density, setDensity] = useState<Density>("normal");
   const [sortBy, setSortBy] = useState<SortBy>("valuacion");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
@@ -123,6 +125,8 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
     return arr;
   }, [posiciones, sortBy, sortDir]);
 
+  const displayed = limit ? sorted.slice(0, limit) : sorted;
+
   const maxWeight =
     posiciones.length > 0
       ? Math.max(
@@ -178,45 +182,55 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
             {posiciones.length} posiciones
           </span>
         </div>
-        <div className="flex items-center gap-2.5">
-          <div className="flex gap-1">
-            {densityBtn("compact", "C")}
-            {densityBtn("normal", "N")}
-            {densityBtn("spacious", "S")}
-          </div>
 
-          {/* Columnas dropdown */}
-          <div ref={colsRef} className="relative">
-            <button
-              onClick={() => setColsOpen((o) => !o)}
-              className={`px-2.5 py-1 rounded text-[12px] font-medium border transition-colors ${
-                colsOpen
-                  ? "bg-brand-muted text-brand border-brand-border"
-                  : "bg-card text-text2 border-border hover:bg-surface2"
-              }`}
-            >
-              Columnas ▾
-            </button>
-            {colsOpen && (
-              <div className="absolute right-0 top-[calc(100%+6px)] z-50 bg-card border border-border rounded-[10px] shadow-[0_4px_16px_rgba(0,0,0,0.08)] py-2 px-1 min-w-[140px]">
-                {ALL_COLS.map(({ key, label }) => (
-                  <label
-                    key={key}
-                    className="flex items-center gap-2 px-3 py-1.5 cursor-pointer rounded-md text-[13px] text-text1 hover:bg-surface2"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={visibleCols.has(key)}
-                      onChange={() => toggleCol(key)}
-                      className="w-3.5 h-3.5 cursor-pointer accent-[#6366F1]"
-                    />
-                    {label}
-                  </label>
-                ))}
-              </div>
-            )}
+        {limit ? (
+          <Link
+            href="/dashboard/holdings"
+            className="text-[13px] font-medium text-brand hover:underline"
+          >
+            Ver todos →
+          </Link>
+        ) : (
+          <div className="flex items-center gap-2.5">
+            <div className="flex gap-1">
+              {densityBtn("compact", "C")}
+              {densityBtn("normal", "N")}
+              {densityBtn("spacious", "S")}
+            </div>
+
+            {/* Columnas dropdown */}
+            <div ref={colsRef} className="relative">
+              <button
+                onClick={() => setColsOpen((o) => !o)}
+                className={`px-2.5 py-1 rounded text-[12px] font-medium border transition-colors ${
+                  colsOpen
+                    ? "bg-brand-muted text-brand border-brand-border"
+                    : "bg-card text-text2 border-border hover:bg-surface2"
+                }`}
+              >
+                Columnas ▾
+              </button>
+              {colsOpen && (
+                <div className="absolute right-0 top-[calc(100%+6px)] z-50 bg-card border border-border rounded-[10px] shadow-[0_4px_16px_rgba(0,0,0,0.08)] py-2 px-1 min-w-[140px]">
+                  {ALL_COLS.map(({ key, label }) => (
+                    <label
+                      key={key}
+                      className="flex items-center gap-2 px-3 py-1.5 cursor-pointer rounded-md text-[13px] text-text1 hover:bg-surface2"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={visibleCols.has(key)}
+                        onChange={() => toggleCol(key)}
+                        className="w-3.5 h-3.5 cursor-pointer accent-[#6366F1]"
+                      />
+                      {label}
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Table */}
@@ -235,7 +249,7 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
             </tr>
           </thead>
           <tbody>
-            {sorted.map((p, i) => {
+            {displayed.map((p, i) => {
               const peso =
                 totalValuacion > 0 ? (p.valuacion / totalValuacion) * 100 : 0;
               const isPos = p.pnlPorcentaje >= 0;
@@ -336,6 +350,8 @@ export function HoldingsTable({ posiciones, totalValuacion }: Props) {
           </tbody>
         </table>
       </div>
+
+
     </div>
     </>
   );

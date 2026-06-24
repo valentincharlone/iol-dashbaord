@@ -111,6 +111,9 @@ export default async function GananciasPage({
         <p className="text-[13px] text-text3 mt-0.5">
           {fmtDate(fechaDesde)} — {fmtDate(fechaHasta)} · {items.length} ventas terminadas
         </p>
+        <p className="text-[12px] text-text3 mt-1.5">
+          Resultado de las ventas cerradas. El P&L es estimado según las compras del mismo período.
+        </p>
       </div>
 
       {/* KPI cards */}

@@ -20,6 +20,9 @@ export default async function MovimientosPage({
         <p className="text-[13px] text-text3 mt-0.5">
           Historial de operaciones · Argentina
         </p>
+        <p className="text-[12px] text-text3 mt-1.5">
+          Historial de operaciones ejecutadas. Filtrá por período para acotar la búsqueda.
+        </p>
       </div>
 
       <MovimientosTable

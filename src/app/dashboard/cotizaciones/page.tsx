@@ -14,6 +14,9 @@ export default async function CotizacionesPage() {
           <p className="text-[13px] text-text3 mt-0.5">
             Mercado en tiempo real · tus posiciones
           </p>
+          <p className="text-[12px] text-text3 mt-1.5">
+            Precios de mercado de tus instrumentos en tiempo real.
+          </p>
         </div>
         <span className="inline-flex items-center gap-1.5 text-profit text-[13px] font-semibold">
           <span className="w-2 h-2 rounded-full bg-profit-subtle inline-block shadow-[0_0_0_3px_rgba(16,185,129,0.2)] animate-[livePulse_2s_ease-in-out_infinite]" />
