@@ -1,7 +1,7 @@
 "use client";
 
 function isMarketOpen(): boolean {
-  // BYMA: lunes–viernes, 11:00–17:00 ART (UTC-3, sin horario de verano)
+  // BYMA: lunes–viernes, 10:00–17:00 ART (UTC-3, sin horario de verano)
   const now = new Date();
   const art = new Date(
     now.toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })
@@ -9,7 +9,7 @@ function isMarketOpen(): boolean {
   const day = art.getDay();
   const minutes = art.getHours() * 60 + art.getMinutes();
   if (day === 0 || day === 6) return false;
-  return minutes >= 11 * 60 && minutes < 17 * 60;
+  return minutes >= 10 * 60 + 30 && minutes < 17 * 60;
 }
 
 export function MarketStatusBadge() {
